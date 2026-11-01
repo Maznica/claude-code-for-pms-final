@@ -268,3 +268,43 @@ carry over, except Supply, which was tested.
   SQL score replay (there is **no score column** — it lives in `history.py`),
   and counterfactual replay. `support_tickets` has no push complaints after
   12 Aug, which is what mostly closed the delivery hypothesis.
+
+**Session 4 findings (Module 4).** Full write-up in `module4_code_research.md`.
+
+- Read the source itself. The whole routing service is 232 lines and contains
+  **four `if` statements, none of which looks at who the responder is** — the
+  code-side answer to Marcus's 14 Aug question. Nothing was grandfathered;
+  there is nowhere for a per-responder distinction to live.
+- **Exactly one line adds points** (`history.py:27`), gated on receiving a
+  ping. No reset, no decay, no timestamps — "recent acceptance" is not recent.
+  `NEUTRAL_SCORE` 0.5 is a default for unknown names, not a reset, so a
+  newcomer outranks a floored veteran and there is no path back to "unknown".
+- **The floor is a basin, not a pit.** The clamp makes the break-even yes-rate
+  vary by height: 0% at the floor, 50% at 0.08, **60% at 0.12+**. The four sit
+  at ~35–45%, so they bounce between 0.00 and 0.08 and cannot escape. **The
+  timeout fix will not recover them** — it stops new people falling in while
+  the headline metric recovers around them. Say this to Marcus *before* it
+  ships.
+- **The candidate list is usually one name.** 82 of 97 failed callouts died
+  after a single ping, and failures have *shorter* cascades than successes —
+  impossible if `offer.py:25` walks the whole list as it says. "Nobody came"
+  means *the one person we asked refused*, not that everyone did. Top question
+  for Wen Li, ahead of the score-reset one.
+- The "nobody came" doubling is **entirely misses** (refusal-driven failures
+  held at 5.1% → 5.0%). Out-of-area acceptance went **0 of 186 → 35.7%**, and
+  the headline drop is largely a **mix effect** — work moved into a bucket
+  converting at half the rate. Both provisional until Ravi confirms whether
+  `responders.area` is set or derived.
+- **Corrections:** there is no region gate and the 45-minute horizon removes
+  nobody (it sets proximity to 0.0; they stay on the list — `available_for` is
+  the only filter). Out-of-area pings were not cascade overflow: 172 of 186
+  were *first* pings. Every score figure in Modules 3 and 4 is
+  `recent_acceptance` only — **one of three inputs, weighted 0.25** — never a
+  rank; its full 0→1 range is worth ~19 minutes of equivalent travel time.
+- Two more instrumentation gaps: **no travel-time estimate** (largest input at
+  0.60, zero trace — makes whole classes of question unanswerable) and **no
+  availability history** (the only thing that can shorten the list). The whole
+  database is 19 columns across 5 tables.
+- Method: an empty function body (`...`) means the answer is elsewhere; a
+  parameter name is not a behaviour; **when the code and the data disagree,
+  that gap is the finding**.
