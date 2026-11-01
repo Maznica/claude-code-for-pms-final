@@ -209,3 +209,32 @@ at the root of this folder — read it first next session.
    from the release notes? Conversation with Helen.
 4. `pings` has **no delivery field and no time-to-accept** — both needed
    before this class of question can be answered again.
+
+**Session 2 findings (Module 2).** Full write-up in `module2_exercise.md`.
+
+- Sofia's four interviews and all 147 tickets independently reproduce the
+  Module 1 diagnosis. Three sources, one cause — the case is now triangulated,
+  not single-source.
+- Prevalence inverts ticket volume: "callout vanished" hits **11 of 12** ticket
+  handlers, "gone quiet" only **4**. Nadia's 2:1 split is right about volume
+  and backwards about how many people are affected.
+- Unreported anywhere: **out-of-area pings went 17% → 39%** — responders
+  travelling further, and it never shows in acceptance rate. The coverage-gap
+  rise lands in *healthy* responders' areas, not the suppressed ones'.
+- Second threshold: the four suppressed now **miss 53–64%** of the pings they
+  still get, against 10–18% for everyone else. Looks like disengagement, so
+  this gets harder to fix the longer it runs.
+- Third 4.2 defect, visible only in interviews and tickets: **filter
+  persistence reverts silently** (Ambrose plus 4 ticket handlers). The Supply
+  feedback-loop idea was tested and **not supported**. Correction: 16
+  responders across **15** areas — Eastgate has two.
+- Tickets and interviews name **completely different** suppressed responders,
+  with no overlap; neither source alone gives the right four. Halloran files
+  nothing either — three of the four interviewed handlers never file tickets.
+
+**Still open after Module 2.** Wen Li's question is now sharper: does any
+score-reset tool exist, and does restoring 90s help the four at all or are they
+stranded regardless? Plan is to ask her now but **not** hold the timeout
+decision for her answer, and to take all three fixes to Marcus together — the
+timeout alone makes the metric recover and buries the rest. Items 2–4 above
+carry over, except Supply, which was tested.

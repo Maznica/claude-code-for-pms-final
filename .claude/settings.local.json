@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__visualize__read_me",
+      "mcp__visualize__show_widget",
+      "Bash(bash \"C:\\\\Users\\\\michal.masika\\\\claude-code-for-pms-final\\\\.claude\\\\skills\\\\course-setup\\\\scripts\\\\checkup.sh\")",
+      "Bash(bash \"C:\\\\Users\\\\michal.masika\\\\claude-code-for-pms-final\\\\.claude\\\\skills\\\\course-setup\\\\scripts\\\\save.sh\" \"Module 1 wrap-up\")"
+    ]
+  }
+}
