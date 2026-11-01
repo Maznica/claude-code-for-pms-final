@@ -238,3 +238,33 @@ stranded regardless? Plan is to ask her now but **not** hold the timeout
 decision for her answer, and to take all three fixes to Marcus together — the
 timeout alone makes the metric recover and buries the rest. Items 2–4 above
 carry over, except Supply, which was tested.
+
+**Session 3 findings (Module 3).** Full write-up in `module3_data_research.md`.
+
+- **Marcus's 14 Aug question is answered.** With +0.08 credit against −0.12
+  penalty, the **break-even taken rate is exactly 60%** — above it you pin to
+  the ceiling, below it you hit the floor, no stable middle. To cross it on
+  refusals alone you'd have to refuse **40%** of pings; the roster record is
+  Meteor Mite's 28.6%. Refusals *cannot* sink anyone. Misses crossed it for
+  four people. The change never hit people who turn jobs down.
+- **All 16 responders reached the 1.00 ceiling before 4.2**, discarding 315
+  acceptance credits. Old refusal history wasn't outweighed, it was erased:
+  Meteor Mite refused the most on the roster (20) and sat at 1.00 on 11 Aug.
+- **Counterfactual:** replay with misses unpenalised and **nobody reaches the
+  floor (0 of 16)** — the four would sit at 0.76–0.84, still in rotation.
+- **Correction to Module 2 / earlier reading: Group B does not exist.**
+  Ashgrove and Halfmoon are **not** suppressed — demand-adjusted they are
+  **+14% and +16%**. Their areas (Northfield, Westbury) had the two biggest
+  incident drops (−32%, −30%). The damage is contained to four, not six.
+- **Proximity ruled out quantitatively.** Normalised against incidents in
+  their own area, the four are still **−59% to −72%**. Eastgate is the
+  control: Meteor Mite −59% vs The Gale +74%, same area, same handler.
+- **Ticket themes are sequential, not parallel** — "gone before I could
+  answer" starts **12 Aug**, "phone never goes off" starts **17 Aug**, five
+  days apart, independently reproducing the causal chain. Tickets also peak
+  two weeks *after* the miss rate does (24 Aug vs 10 Aug), so the metric
+  recovers while complaints rise.
+- Useful this session: `pings` + `callouts` + `responders` joined, recursive
+  SQL score replay (there is **no score column** — it lives in `history.py`),
+  and counterfactual replay. `support_tickets` has no push complaints after
+  12 Aug, which is what mostly closed the delivery hypothesis.
