@@ -1,0 +1,1420 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rook Dispatch — Handler Console</title>
+<style>
+  :root {
+    --plane:      #f9f9f7;
+    --surface:    #fcfcfb;
+    --raised:     #ffffff;
+    --ink:        #0b0b0b;
+    --ink-2:      #52514e;
+    --muted:      #898781;
+    --grid:       #e1e0d9;
+    --rule:       rgba(11,11,11,0.10);
+    --series:     #2a78d6;
+    --good:       #0ca30c;
+    --warning:    #fab219;
+    --serious:    #ec835a;
+    --critical:   #d03b3b;
+    --shadow:     0 1px 2px rgba(11,11,11,.06), 0 8px 24px rgba(11,11,11,.06);
+    color-scheme: light;
+  }
+  :root[data-theme="dark"] {
+    --plane:      #0d0d0d;
+    --surface:    #1a1a19;
+    --raised:     #212120;
+    --ink:        #f0efec;
+    --ink-2:      #c3c2b7;
+    --muted:      #898781;
+    --grid:       #2c2c2a;
+    --rule:       rgba(255,255,255,0.10);
+    --series:     #3987e5;
+    --shadow:     0 1px 2px rgba(0,0,0,.5), 0 8px 24px rgba(0,0,0,.4);
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--plane);
+    color: var(--ink);
+    font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 { margin: 0; font-weight: 600; letter-spacing: -0.01em; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+
+  /* ---------- top bar ---------- */
+  .topbar {
+    display: flex; align-items: center; gap: 16px;
+    padding: 0 20px; height: 52px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--rule);
+    position: sticky; top: 0; z-index: 30;
+  }
+  .logo { display: flex; align-items: center; gap: 9px; font-weight: 650; letter-spacing: -0.02em; }
+  .logo svg { display: block; }
+  .crumb { color: var(--muted); font-size: 13.5px; }
+  .crumb b { color: var(--ink-2); font-weight: 500; }
+  .spacer { flex: 1; }
+  .who {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13.5px; color: var(--ink-2);
+  }
+  .avatar {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--series); color: #fff;
+    display: grid; place-items: center;
+    font-size: 11.5px; font-weight: 650;
+  }
+  .icon-btn {
+    width: 32px; height: 32px; display: grid; place-items: center;
+    background: transparent; border: 1px solid var(--rule); border-radius: 8px;
+    color: var(--ink-2); transition: background .15s, color .15s;
+  }
+  .icon-btn:hover { background: var(--plane); color: var(--ink); }
+
+  /* ---------- prototype strip ---------- */
+  .strip {
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    padding: 12px 20px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--rule);
+    position: sticky; top: 52px; z-index: 29;
+  }
+  .strip-label {
+    font-size: 11px; font-weight: 650; letter-spacing: .09em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .seg {
+    display: inline-flex; padding: 3px; gap: 3px;
+    background: var(--plane); border: 1px solid var(--rule); border-radius: 10px;
+  }
+  .seg button {
+    border: 0; background: transparent; color: var(--ink-2);
+    padding: 6px 14px; border-radius: 7px; font-size: 13.5px; font-weight: 550;
+    transition: background .15s, color .15s;
+  }
+  .seg button:hover { color: var(--ink); }
+  .seg button[aria-pressed="true"] {
+    background: var(--raised); color: var(--ink); box-shadow: var(--shadow);
+  }
+  .strip-note { font-size: 13px; color: var(--muted); }
+
+  /* ---------- headline metrics ---------- */
+  .metrics {
+    display: flex; align-items: stretch; gap: 26px; flex-wrap: wrap;
+    max-width: 1240px; margin: 0 auto; padding: 18px 20px 0;
+  }
+  .metric { min-width: 160px; }
+  .mv {
+    font-size: 32px; font-weight: 600; letter-spacing: -0.025em; line-height: 1.05;
+    transition: color .3s;
+  }
+  .mv.good { color: var(--good); }
+  .mv.warn { color: var(--warning); }
+  .mv.bad  { color: var(--critical); }
+  .mk { font-size: 11.5px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); margin-top: 5px; }
+  .md { font-size: 12px; color: var(--muted); margin-top: 3px; }
+  .verdict {
+    flex: 1; min-width: 260px;
+    display: flex; align-items: center; gap: 10px;
+    border-radius: 10px; padding: 12px 14px; font-size: 13px; line-height: 1.5;
+    border: 1px solid var(--rule); color: var(--ink-2);
+  }
+  .verdict svg { flex: none; }
+  .verdict.warn {
+    border-color: color-mix(in srgb, var(--warning) 36%, transparent);
+    background: color-mix(in srgb, var(--warning) 9%, transparent);
+  }
+  .verdict.bad {
+    border-color: color-mix(in srgb, var(--critical) 36%, transparent);
+    background: color-mix(in srgb, var(--critical) 9%, transparent);
+  }
+  .verdict.ok {
+    border-color: color-mix(in srgb, var(--good) 36%, transparent);
+    background: color-mix(in srgb, var(--good) 9%, transparent);
+  }
+
+  /* ---------- layout ---------- */
+  .wrap {
+    display: grid; grid-template-columns: minmax(0,1fr) 300px;
+    gap: 22px; align-items: start;
+    max-width: 1240px; margin: 0 auto; padding: 22px 20px 60px;
+  }
+  /* ---------- the two panels: Kip's console, and everything he can't see ---------- */
+  .panel { border-radius: 16px; padding: 16px; }
+  .panel-console {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+  }
+  .panel-roster {
+    margin-top: 24px;
+    background: transparent;
+    border: 1px dashed color-mix(in srgb, var(--muted) 45%, transparent);
+  }
+  .panel-tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 10.5px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
+    padding: 3px 9px; border-radius: 999px; margin-bottom: 12px;
+  }
+  .panel-tag.live {
+    color: var(--series);
+    background: color-mix(in srgb, var(--series) 14%, transparent);
+  }
+  .panel-tag.off {
+    color: var(--muted);
+    background: color-mix(in srgb, var(--muted) 15%, transparent);
+  }
+  .panel-roster .card { background: transparent; }
+
+  .section-head {
+    display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px;
+  }
+  .section-head h2 { font-size: 13px; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); font-weight: 650; }
+  .section-head .sub { font-size: 13px; color: var(--muted); }
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  /* ---------- coverage card ---------- */
+  .card {
+    background: var(--surface); border: 1px solid var(--rule);
+    border-radius: 14px; padding: 18px; box-shadow: var(--shadow);
+    transition: border-color .2s;
+  }
+  .card.flash { animation: flash .9s ease; }
+  @keyframes flash {
+    0% { border-color: var(--good); box-shadow: 0 0 0 3px color-mix(in srgb, var(--good) 22%, transparent); }
+    100% { border-color: var(--rule); }
+  }
+  .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+  .name { font-size: 17px; font-weight: 650; letter-spacing: -0.015em; }
+  .area { font-size: 13px; color: var(--muted); margin-top: 2px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 11.5px; font-weight: 650; letter-spacing: .02em;
+    padding: 4px 9px; border-radius: 999px; white-space: nowrap;
+    border: 1px solid transparent;
+  }
+  .badge svg { display: block; flex: none; }
+  .badge.ok   { color: var(--good);     background: color-mix(in srgb, var(--good) 14%, transparent);     border-color: color-mix(in srgb, var(--good) 32%, transparent); }
+  .badge.bad  { color: var(--critical); background: color-mix(in srgb, var(--critical) 14%, transparent); border-color: color-mix(in srgb, var(--critical) 32%, transparent); }
+  .badge.warn { color: var(--warning);  background: color-mix(in srgb, var(--warning) 14%, transparent);  border-color: color-mix(in srgb, var(--warning) 34%, transparent); }
+
+  .stat-row { display: flex; gap: 26px; margin: 16px 0 4px; }
+  .stat .v { font-size: 27px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; }
+  .stat .k { font-size: 11.5px; color: var(--muted); margin-top: 3px; letter-spacing: .03em; }
+  .stat .v small { font-size: 14px; color: var(--muted); font-weight: 500; letter-spacing: 0; }
+
+  /* ---------- chart ---------- */
+  .chart { margin-top: 14px; }
+  .chart-cap {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-size: 11.5px; color: var(--muted); margin-bottom: 7px;
+  }
+  .plot {
+    position: relative; height: 68px;
+    display: flex; align-items: flex-end; gap: 2px;
+    border-bottom: 1px solid var(--grid);
+  }
+  .bar { position: relative; flex: 1; min-width: 0; display: flex; align-items: flex-end; height: 100%; }
+  .bar i {
+    display: block; width: 100%;
+    background: var(--series); border-radius: 4px 4px 0 0;
+    transition: height .45s cubic-bezier(.3,.8,.4,1);
+  }
+  .bar.ghost i {
+    background: repeating-linear-gradient(135deg,
+      color-mix(in srgb, var(--good) 55%, transparent) 0 3px,
+      transparent 3px 6px);
+    border: 1px solid color-mix(in srgb, var(--good) 55%, transparent);
+    border-bottom: 0;
+  }
+  .bar:hover i { filter: brightness(1.18); }
+  .bar[data-tip]:hover::after {
+    content: attr(data-tip);
+    position: absolute; bottom: calc(100% + 7px); left: 50%; transform: translateX(-50%);
+    background: var(--ink); color: var(--surface);
+    font-size: 11.5px; line-height: 1.35; font-weight: 500;
+    padding: 6px 9px; border-radius: 7px; white-space: nowrap; z-index: 10;
+    pointer-events: none; box-shadow: var(--shadow);
+  }
+  .marker {
+    position: absolute; top: -4px; bottom: 0; width: 1px;
+    background: var(--muted); opacity: .55;
+  }
+  .marker span {
+    position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
+    font-size: 10px; font-weight: 650; letter-spacing: .04em;
+    color: var(--muted); background: var(--surface); padding: 0 4px; white-space: nowrap;
+  }
+  .axis { display: flex; justify-content: space-between; font-size: 10.5px; color: var(--muted); margin-top: 6px; }
+
+  /* ---------- the explanation panel (the thing we'd build) ---------- */
+  .slot { margin-top: 16px; min-height: 92px; }
+  .absent {
+    border: 1px dashed var(--rule); border-radius: 10px;
+    padding: 16px; text-align: center;
+    font-size: 12.5px; color: var(--muted); font-style: italic;
+  }
+  .explain {
+    border: 1px solid color-mix(in srgb, var(--warning) 34%, transparent);
+    background: color-mix(in srgb, var(--warning) 9%, transparent);
+    border-radius: 10px; padding: 13px 14px;
+    animation: rise .3s ease;
+  }
+  .explain.done {
+    border-color: color-mix(in srgb, var(--good) 34%, transparent);
+    background: color-mix(in srgb, var(--good) 9%, transparent);
+  }
+  @keyframes rise { from { opacity: 0; transform: translateY(5px); } }
+  .explain h3 { font-size: 13px; margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
+  .explain p { margin: 0; font-size: 13px; line-height: 1.5; color: var(--ink-2); }
+  .explain p + p { margin-top: 7px; }
+  .link {
+    margin-top: 10px; background: transparent; border: 1px solid var(--rule);
+    border-radius: 8px; padding: 6px 11px; font-size: 12.5px; font-weight: 600;
+    transition: background .15s;
+  }
+  .link:hover { background: var(--raised); }
+
+  /* ---------- phone ---------- */
+  .phone-col { position: sticky; top: 128px; }
+  .phone {
+    background: var(--surface); border: 1px solid var(--rule);
+    border-radius: 26px; padding: 11px; box-shadow: var(--shadow);
+  }
+  .screen {
+    background: linear-gradient(170deg, #11223d 0%, #1d1b2e 55%, #241a26 100%);
+    border-radius: 18px; min-height: 420px; padding: 16px 13px;
+    color: #f0efec; display: flex; flex-direction: column; gap: 12px;
+  }
+  .screen .clock { text-align: center; padding: 10px 0 4px; }
+  .screen .clock b { display: block; font-size: 38px; font-weight: 300; letter-spacing: -0.02em; }
+  .screen .clock span { font-size: 12px; opacity: .72; }
+  .notif {
+    background: rgba(255,255,255,.13); backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,.16);
+    border-radius: 13px; padding: 11px 12px;
+    animation: rise .35s ease;
+  }
+  .notif .app {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 10.5px; font-weight: 650; letter-spacing: .05em;
+    text-transform: uppercase; opacity: .78; margin-bottom: 6px;
+  }
+  .dot { width: 13px; height: 13px; border-radius: 4px; background: var(--series); flex: none; }
+  .notif p { margin: 0; font-size: 13px; line-height: 1.45; }
+  .notif .tap {
+    margin-top: 10px; width: 100%; background: rgba(255,255,255,.17);
+    border: 1px solid rgba(255,255,255,.22); color: #fff;
+    border-radius: 9px; padding: 8px; font-size: 12.5px; font-weight: 600;
+    transition: background .15s;
+  }
+  .notif .tap:hover { background: rgba(255,255,255,.27); }
+  .notif .tap:disabled { opacity: .6; cursor: default; }
+  .cd-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-size: 11.5px; opacity: .85; margin-top: 11px;
+  }
+  .cd-row b { font-size: 19px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .countdown {
+    height: 5px; border-radius: 3px; margin-top: 5px; overflow: hidden;
+    background: rgba(255,255,255,.17);
+  }
+  .countdown i {
+    display: block; height: 100%; border-radius: 3px;
+    background: #4ec07a; transition: width .1s linear, background .3s;
+  }
+  .countdown i.low  { background: #fab219; }
+  .countdown i.crit { background: #e8604f; }
+  .ping-btn { display: inline-block; margin-top: 12px; }
+  .quiet {
+    flex: 1; display: grid; place-items: center; text-align: center;
+    font-size: 12.5px; opacity: .5; line-height: 1.6; padding: 0 14px;
+  }
+  .phone-cap { font-size: 11.5px; color: var(--muted); text-align: center; margin-top: 9px; line-height: 1.5; }
+
+  /* ---------- drawer ---------- */
+  .scrim {
+    position: fixed; inset: 0; background: rgba(0,0,0,.5);
+    opacity: 0; pointer-events: none; transition: opacity .25s; z-index: 40;
+  }
+  .scrim.open { opacity: 1; pointer-events: auto; }
+  .drawer {
+    position: fixed; top: 0; right: 0; bottom: 0; width: min(430px, 100%);
+    background: var(--surface); border-left: 1px solid var(--rule);
+    z-index: 41; transform: translateX(100%); transition: transform .28s cubic-bezier(.3,.8,.4,1);
+    display: flex; flex-direction: column;
+  }
+  .drawer.open { transform: none; }
+  .drawer-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 18px; border-bottom: 1px solid var(--rule);
+  }
+  .drawer-body { padding: 18px; overflow-y: auto; flex: 1; }
+  .drawer-body h3 { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin: 20px 0 9px; }
+  .drawer-body h3:first-child { margin-top: 0; }
+  .drawer-body p { font-size: 13.5px; line-height: 1.55; color: var(--ink-2); margin: 0 0 10px; }
+
+  .track { position: relative; height: 7px; background: var(--grid); border-radius: 4px; margin: 16px 0 8px; }
+  .track i {
+    position: absolute; inset: 0 auto 0 0; border-radius: 4px;
+    background: var(--critical); transition: width .6s cubic-bezier(.3,.8,.4,1), background .4s;
+  }
+  .track.ok i { background: var(--good); }
+  .track-ends { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); }
+
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  th { text-align: left; font-weight: 600; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .05em; padding: 0 0 7px; }
+  td { padding: 6px 0; border-top: 1px solid var(--rule); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+  td.o { text-align: right; font-weight: 600; }
+  td.o.miss { color: var(--critical); }
+  td.o.took { color: var(--good); }
+  td.o.no   { color: var(--muted); }
+
+  .act {
+    width: 100%; margin-top: 8px; padding: 11px;
+    background: var(--good); color: #fff; border: 0; border-radius: 10px;
+    font-size: 14px; font-weight: 650;
+    transition: filter .15s;
+  }
+  .act:hover { filter: brightness(1.1); }
+  .act:disabled { background: var(--grid); color: var(--muted); cursor: default; filter: none; }
+  .act-note { font-size: 11.5px; color: var(--muted); margin-top: 8px; line-height: 1.5; }
+
+  /* ---------- toast ---------- */
+  .toast {
+    position: fixed; left: 50%; bottom: 26px; transform: translate(-50%, 70px);
+    background: var(--ink); color: var(--plane);
+    padding: 12px 18px; border-radius: 11px; font-size: 13.5px; font-weight: 550;
+    box-shadow: var(--shadow); z-index: 60; opacity: 0;
+    transition: transform .3s cubic-bezier(.3,.8,.4,1), opacity .3s;
+    display: flex; align-items: center; gap: 9px;
+  }
+  .toast.show { transform: translate(-50%, 0); opacity: 1; }
+
+  footer {
+    max-width: 1240px; margin: 0 auto; padding: 0 20px 50px;
+    font-size: 12.5px; color: var(--muted); line-height: 1.65;
+  }
+  footer hr { border: 0; border-top: 1px solid var(--rule); margin: 0 0 16px; }
+  footer b { color: var(--ink-2); font-weight: 600; }
+
+  @media (max-width: 940px) {
+    .wrap { grid-template-columns: minmax(0,1fr); }
+    .cards { grid-template-columns: 1fr; }
+    .phone-col { position: static; max-width: 300px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">
+    <svg width="17" height="17" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path d="M3 2h2v2h2V2h2v2h2V2h2v5l-1.5 1.5V14h-7V8.5L3 7V2z"/>
+    </svg>
+    Rook Dispatch
+  </div>
+  <div class="crumb">Console · <b>Coverage</b> · Eastgate</div>
+  <div class="spacer"></div>
+  <div class="who"><span class="avatar">K</span> Kip</div>
+  <button class="icon-btn" id="theme" title="Dark mode — Kip's standing request" aria-label="Toggle dark mode">
+    <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path d="M13.5 9.5A6 6 0 0 1 6.5 2.5a6 6 0 1 0 7 7z"/>
+    </svg>
+  </button>
+</div>
+
+<div class="strip">
+  <span class="strip-label">Prototype</span>
+  <div class="seg" role="group" aria-label="Compare versions">
+    <button id="btn-today" aria-pressed="true">Today &middot; 4.2</button>
+    <button id="btn-fixed" aria-pressed="false">With the fix</button>
+  </div>
+  <span class="strip-note" id="mode-note">Kip's console as it ships today. Both cards, same area, same week.</span>
+  <span class="strip-label" style="margin-left:6px">Ping wait</span>
+  <div class="seg" role="group" aria-label="Ping wait">
+    <button id="t-60" aria-pressed="true">60s &middot; today</button>
+    <button id="t-90" aria-pressed="false">90s</button>
+  </div>
+  <span class="spacer"></span>
+  <button class="link" id="reset" style="margin:0">Reset</button>
+</div>
+
+<div class="metrics">
+  <div class="metric">
+    <div class="mv" id="m-accept">64%</div>
+    <div class="mk">Callout acceptance rate</div>
+    <div class="md" id="m-accept-d">down from 77% before 4.2</div>
+  </div>
+  <div class="metric">
+    <div class="mv" id="m-stuck">4</div>
+    <div class="mk">Responders getting no work</div>
+    <div class="md" id="m-stuck-d">Meteor Mite, Vesper, Farlight, The Undertow</div>
+  </div>
+  <div class="verdict" id="verdict"></div>
+</div>
+
+<div class="wrap">
+  <div>
+   <div class="panel panel-console">
+    <span class="panel-tag live">
+      <svg width="9" height="9" viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="6"/></svg>
+      Kip's console — what Kip actually sees
+    </span>
+    <div class="section-head">
+      <h2>Coverage</h2>
+      <span class="sub">Week commencing 31 August · 2 responders</span>
+    </div>
+    <div class="cards">
+
+      <!-- ============ Meteor Mite ============ -->
+      <div class="card" id="card-mite">
+        <div class="card-top">
+          <div>
+            <div class="name">Meteor Mite</div>
+            <div class="area">Eastgate · flight, structural-entry</div>
+          </div>
+          <span class="badge bad" id="mite-badge">
+            <svg width="11" height="11" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 1l7 13H1L8 1zm0 5v4.2M8 11.6v1.1"stroke="currentColor" stroke-width="1.6" fill="none"/></svg>
+            No activity
+          </span>
+        </div>
+
+        <div class="stat-row">
+          <div class="stat"><div class="v" id="mite-week">0</div><div class="k">OFFERS THIS WEEK</div></div>
+          <div class="stat"><div class="v" id="mite-avg">1 <small>/ 10 avg</small></div><div class="k">LAST 7 DAYS</div></div>
+        </div>
+        <button class="link ping-btn" data-who="mite">Send test ping</button>
+
+        <div class="chart">
+          <div class="chart-cap"><span>Callouts offered per week</span><span>Available · on duty</span></div>
+          <div class="plot" id="plot-mite"></div>
+          <div class="axis"><span>29 Jun</span><span>31 Aug</span></div>
+        </div>
+
+        <div class="slot" id="mite-slot"></div>
+      </div>
+
+      <!-- ============ The Gale ============ -->
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <div class="name">The Gale</div>
+            <div class="area">Eastgate · flight, crowd-management</div>
+          </div>
+          <span class="badge ok" id="gale-badge">
+            <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg>
+            Normal
+          </span>
+        </div>
+
+        <div class="stat-row">
+          <div class="stat"><div class="v" id="gale-week">21</div><div class="k">OFFERS THIS WEEK</div></div>
+          <div class="stat"><div class="v" id="gale-taken">16 <small>taken</small></div><div class="k">LAST 7 DAYS</div></div>
+        </div>
+        <button class="link ping-btn" data-who="gale">Send test ping</button>
+
+        <div class="chart">
+          <div class="chart-cap"><span>Callouts offered per week</span><span>Available · on duty</span></div>
+          <div class="plot" id="plot-gale"></div>
+          <div class="axis"><span>29 Jun</span><span>31 Aug</span></div>
+        </div>
+
+        <div class="slot" id="gale-slot"></div>
+      </div>
+
+    </div>
+
+   </div>
+
+   <div class="panel panel-roster">
+    <span class="panel-tag off">
+      <svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8s2.5-4.5 6-4.5S14 8 14 8s-2.5 4.5-6 4.5S2 8 2 8z"/><path d="M3 13L13 3"/></svg>
+      Not in any console — product view only
+    </span>
+    <div class="section-head">
+      <h2>Elsewhere on the roster</h2>
+      <span class="sub">Other handlers' responders. Kip cannot see these, and neither can they see each other's.</span>
+    </div>
+    <div class="cards">
+
+      <!-- ============ Vesper ============ -->
+      <div class="card" id="card-vesper">
+        <div class="card-top">
+          <div>
+            <div class="name">Vesper</div>
+            <div class="area">Old Town · handler Aunt Dot</div>
+          </div>
+          <span class="badge bad" id="vesper-badge"></span>
+        </div>
+
+        <div class="stat-row">
+          <div class="stat"><div class="v" id="vesper-week">0</div><div class="k">OFFERS THIS WEEK</div></div>
+          <div class="stat"><div class="v" id="vesper-avg">1 <small>/ 14 avg</small></div><div class="k">LAST 7 DAYS</div></div>
+        </div>
+        <button class="link ping-btn" data-who="vesper">Send test ping</button>
+
+        <div class="chart">
+          <div class="chart-cap"><span>Callouts offered per week</span><span>Available · on duty</span></div>
+          <div class="plot" id="plot-vesper"></div>
+          <div class="axis"><span>29 Jun</span><span>31 Aug</span></div>
+        </div>
+
+        <div class="slot" id="vesper-slot"></div>
+      </div>
+
+      <!-- ============ Nightwell ============ -->
+      <div class="card">
+        <div class="card-top">
+          <div>
+            <div class="name">Nightwell</div>
+            <div class="area">Midtown · handler Marjorie Sung</div>
+          </div>
+          <span class="badge ok" id="night-badge"></span>
+        </div>
+
+        <div class="stat-row">
+          <div class="stat"><div class="v" id="night-week">21</div><div class="k">OFFERS THIS WEEK</div></div>
+          <div class="stat"><div class="v" id="night-away">12 <small>/ 21 away</small></div><div class="k">OUTSIDE MIDTOWN</div></div>
+        </div>
+        <button class="link ping-btn" data-who="night">Send test ping</button>
+
+        <div class="chart">
+          <div class="chart-cap"><span>Callouts offered per week</span><span>Available · on duty</span></div>
+          <div class="plot" id="plot-night"></div>
+          <div class="axis"><span>29 Jun</span><span>31 Aug</span></div>
+        </div>
+
+        <div class="slot" id="night-slot"></div>
+      </div>
+
+    </div>
+   </div>
+  </div>
+
+  <!-- ============ phone ============ -->
+  <div class="phone-col">
+    <div class="section-head" style="margin-bottom:8px">
+      <h2 id="phone-who">Meteor Mite's phone</h2>
+    </div>
+    <div class="seg" style="padding:2px;margin-bottom:12px">
+      <button id="ph-mite" aria-pressed="true" style="padding:4px 9px;font-size:12px">Meteor Mite</button>
+      <button id="ph-gale" aria-pressed="false" style="padding:4px 9px;font-size:12px">The Gale</button>
+    </div>
+    <div class="phone">
+      <div class="screen">
+        <div class="clock"><b>11:04</b><span>Saturday 5 September</span></div>
+        <div id="phone-body"></div>
+      </div>
+    </div>
+    <div class="phone-cap" id="phone-cap">Nothing has reached this device since 5 September.</div>
+  </div>
+</div>
+
+<footer>
+  <hr>
+  <b>Prototype — Rook Dispatch, Module 5.</b> Real figures throughout: ping counts, outcomes,
+  weekly volumes and out-of-area shares are the August–September record for all four
+  responders shown. Eastgate is Kip's own console. The second row is a product view —
+  Vesper and Nightwell belong to other handlers, who would not see each other's cards.
+  Out-of-area is recorded nowhere at Rook today, which is why it only appears in the
+  <b>With the fix</b> view. That view is proposed, not built. Dark mode is here because Kip
+  has asked for it in every research call — it is not part of this proposal.
+</footer>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-hidden="true" aria-label="Why is it quiet?">
+  <div class="drawer-head">
+    <h2 style="font-size:16px">Why is it quiet?</h2>
+    <button class="icon-btn" id="drawer-close" aria-label="Close">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3l10 10M13 3L3 13"/></svg>
+    </button>
+  </div>
+  <div class="drawer-body">
+    <h3>Recent acceptance</h3>
+    <div class="track" id="track"><i id="track-fill" style="width:0%"></i></div>
+    <div class="track-ends"><span>0.00</span><span id="track-now">Meteor Mite &mdash; 0.00</span><span>1.00</span></div>
+    <p style="margin-top:12px" id="drawer-lead">
+      Every responder carries a score for how often they take the callouts we send.
+      It is one of three things that decide who gets offered a job first.
+      Meteor Mite is at the bottom of the range.
+    </p>
+
+    <h3>What happened</h3>
+    <table>
+      <thead><tr><th>Date</th><th>Offers</th><th style="text-align:right">Outcome</th></tr></thead>
+      <tbody>
+        <tr><td>12 Aug</td><td>1</td><td class="o no">turned down</td></tr>
+        <tr><td>13 Aug</td><td>2</td><td class="o miss">both missed</td></tr>
+        <tr><td>14 Aug</td><td>1</td><td class="o miss">missed</td></tr>
+        <tr><td>15 Aug</td><td>2</td><td class="o took">both taken</td></tr>
+        <tr><td>16 Aug</td><td>1</td><td class="o miss">missed</td></tr>
+        <tr><td>20 Aug</td><td>1</td><td class="o miss">missed</td></tr>
+        <tr><td>5 Sep</td><td>1</td><td class="o miss">missed</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:12px">
+      A missed ping currently costs the same as a refusal &mdash; 0.12 either way, against
+      0.08 for a yes. The ping wait dropped from 90 seconds to 60 on 12 August, so a phone
+      in a pocket at 11pm now runs out before it is reached. Each silence lowered the score,
+      a lower score meant fewer offers, and fewer offers meant fewer chances to earn it back.
+    </p>
+    <p>
+      Meteor Mite turned down more callouts than anyone on the roster and was still at the
+      top of the range on 11 August. Saying no did not do this.
+    </p>
+
+    <h3>Put it right</h3>
+    <button class="act" id="restore">Fix A &mdash; restore standing to 0.80</button>
+    <button class="act" id="restore-b" style="background:transparent;border:1px solid var(--rule);color:var(--ink)">Fix B &mdash; floor only, leave standing at 0.00</button>
+    <p class="act-note" id="act-note">
+      Returns Meteor Mite to mid-roster &mdash; where the replay says they would have been
+      had misses never been penalised. Adds a floor of 3 offers a week for four weeks as a
+      backstop. Logged against your name, visible to the responder.
+    </p>
+  </div>
+</aside>
+
+<div class="toast" id="toast">
+  <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8.5l3.5 3.5L13 5"/></svg>
+  <span id="toast-text"></span>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  // Real weekly offer counts, 29 Jun – 31 Aug 2026.
+  var WEEKS = ["29 Jun","6 Jul","13 Jul","20 Jul","27 Jul","3 Aug","10 Aug","17 Aug","24 Aug","31 Aug"];
+  var MITE  = [11,12,10,11,12,11,10,4,2,1];
+  var MITE_TAKEN = [7,9,6,7,9,8,4,1,0,0];
+  var GALE  = [13,12,13,14,13,13,15,17,20,21];
+  var GALE_TAKEN = [10,9,10,11,11,10,9,12,14,16];
+  var VESPER      = [14,13,15,14,13,14,12,5,2,1];
+  var VESPER_TAKEN= [11,10,13,11,11,12,6,1,0,0];
+  var NIGHT       = [15,14,15,16,15,15,16,18,20,21];
+  var NIGHT_TAKEN = [11,10,12,12,11,12,9,14,13,15];
+  var NIGHT_AWAY  = [3,3,2,3,4,3,6,7,8,12];   // callouts outside Midtown
+
+  // Fix A — standing restored to 0.80 plus a floor. Fix B — floor only, no restore.
+  var PROJECTED      = [3,4,6,8];          // A: ranks back up, so offers grow past the floor
+  var PROJECTED_B    = [3,3,3,3];          // B: still bottom-ranked, so the floor is all they get
+  var GALE_PROJECTED   = [18,15,13,13];
+  var GALE_PROJECTED_B = [20,19,18,17];    // B: relief arrives slowly, if at all
+  var NIGHT_PROJECTED   = [19,17,15,15];
+  var NIGHT_PROJECTED_B = [20,19,18,17];
+  var SCALE = 22;                          // shared y-max across both cards
+  var RELEASE_INDEX = 6;                   // week 4.2 shipped
+
+  var state = { mode: "today", restored: false, variant: null, phone: "mite", timer: 60, ping: null };
+
+  var $ = function (id) { return document.getElementById(id); };
+
+  /* ---------- charts ---------- */
+  function drawPlot(el, data, taken, opts) {
+    opts = opts || {};
+    el.innerHTML = "";
+    data.forEach(function (v, i) {
+      var bar = document.createElement("div");
+      bar.className = "bar";
+      bar.setAttribute("data-tip", "w/c " + WEEKS[i] + " · " + v + " offered · " + taken[i] + " taken" +
+        (opts.away ? " · " + opts.away[i] + " out of area" : ""));
+      var fill = document.createElement("i");
+      fill.style.height = (v / SCALE * 100) + "%";
+      bar.appendChild(fill);
+      el.appendChild(bar);
+    });
+    if (opts.projected) {
+      opts.projected.forEach(function (v, i) {
+        var bar = document.createElement("div");
+        bar.className = "bar ghost";
+        bar.setAttribute("data-tip", "projected · " + v + " offers guaranteed");
+        var fill = document.createElement("i");
+        fill.style.height = (v / SCALE * 100) + "%";
+        bar.appendChild(fill);
+        el.appendChild(bar);
+      });
+    }
+    if (opts.marker) {
+      var total = data.length + (opts.projected ? opts.projected.length : 0);
+      var m = document.createElement("div");
+      m.className = "marker";
+      m.style.left = (RELEASE_INDEX / total * 100) + "%";
+      m.innerHTML = "<span>4.2</span>";
+      el.appendChild(m);
+    }
+  }
+
+  /* ---------- the card slot: what Kip sees ---------- */
+  function renderSlot() {
+    var slot = $("mite-slot");
+    var badge = $("mite-badge");
+
+    if (state.mode === "today") {
+      slot.innerHTML = '<div class="absent">No explanation available.<br>' +
+                       'The console does not know why this card is quiet.</div>';
+      badge.className = "badge bad";
+      badge.innerHTML = '<svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 2l6.5 12h-13L8 2zM8 6.5v3.2M8 11.4v1"/></svg> No activity';
+      return;
+    }
+
+    if (state.restored) {
+      if (state.variant === "B") {
+        slot.innerHTML =
+          '<div class="explain">' +
+            '<h3><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 2l6.5 12h-13L8 2zM8 6.5v3.2M8 11.4v1"/></svg> Floor in place &mdash; standing unchanged</h3>' +
+            '<p>Meteor Mite now gets <b>3 offers a week</b> but is still at <b>0.00</b>, so nothing else reaches them. The climb back is theirs to make.</p>' +
+            '<p>At their pre-August take rate that is about <b>13 weeks</b>. At the rate they are answering now, they take as many as they refuse &mdash; below break-even, so they never climb.</p>' +
+          '</div>';
+        badge.className = "badge warn";
+        badge.innerHTML = '<svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 2l6.5 12h-13L8 2zM8 6.5v3.2M8 11.4v1"/></svg> Floor only';
+        return;
+      }
+      slot.innerHTML =
+        '<div class="explain done">' +
+          '<h3><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8.5l3.5 3.5L13 5"/></svg> Standing restored</h3>' +
+          '<p>Meteor Mite is back at <b>0.80</b> and in rotation. A floor of 3 offers a week is in place for four weeks.</p>' +
+          '<p>Restored by you, 5 Sept. Meteor Mite has been told.</p>' +
+        '</div>';
+      badge.className = "badge ok";
+      badge.innerHTML = '<svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8.5l3.5 3.5L13 5"/></svg> Recovering';
+      return;
+    }
+
+    slot.innerHTML =
+      '<div class="explain">' +
+        '<h3><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 2l6.5 12h-13L8 2zM8 6.5v3.2M8 11.4v1"/></svg> Ranking low on recent acceptance</h3>' +
+        '<p><b>4 pings missed 13&ndash;20 Aug.</b> Standing is 0.00 of 1.00, the bottom of the range, so Meteor Mite is being offered callouts last.</p>' +
+        '<p>This will not recover on its own.</p>' +
+        '<button class="link" id="why">Why is it quiet? &rarr;</button>' +
+      '</div>';
+    badge.className = "badge warn";
+    badge.innerHTML = '<svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 2l6.5 12h-13L8 2zM8 6.5v3.2M8 11.4v1"/></svg> Ranking low';
+    $("why").addEventListener("click", openDrawer);
+  }
+
+  /* ---------- The Gale's card: the cost of carrying Eastgate alone ---------- */
+  function renderGaleSlot() {
+    var slot = $("gale-slot");
+    var badge = $("gale-badge");
+    var ok = '<svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8.5l3.5 3.5L13 5"/></svg>';
+    var warn = '<svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 2l6.5 12h-13L8 2zM8 6.5v3.2M8 11.4v1"/></svg>';
+
+    if (state.mode === "today") {
+      slot.innerHTML = '<div class="absent" style="border-style:solid;opacity:.75">' +
+                       'Carrying Eastgate on their own since mid-August.</div>';
+      badge.className = "badge ok";
+      badge.innerHTML = ok + " Normal";
+      return;
+    }
+
+    if (state.restored) {
+      if (state.variant === "B") {
+        slot.innerHTML =
+          '<div class="explain">' +
+            '<h3>' + warn + ' Still carrying most of it</h3>' +
+            '<p>Meteor Mite is getting 3 callouts a week and nothing more, so The Gale keeps ' +
+            'the rest. Expect <b>17&ndash;20 a week</b> for months rather than 13.</p>' +
+            '<p>A refusal still ends the callout on most nights.</p>' +
+          '</div>';
+        badge.className = "badge warn";
+        badge.innerHTML = warn + " Carrying alone";
+        return;
+      }
+      slot.innerHTML =
+        '<div class="explain done">' +
+          '<h3>' + ok + ' Load coming back down</h3>' +
+          '<p>Meteor Mite is back in rotation. Expect about <b>13 offers a week</b> here, ' +
+          'down from 21 &mdash; the Eastgate normal before August.</p>' +
+          '<p>Turning one down now passes it on instead of ending it.</p>' +
+        '</div>';
+      badge.className = "badge ok";
+      badge.innerHTML = ok + " Normal";
+      return;
+    }
+
+    slot.innerHTML =
+      '<div class="explain">' +
+        '<h3>' + warn + ' Carrying Eastgate alone</h3>' +
+        '<p><b>70% of Eastgate callouts now go to The Gale and nobody else</b>, up from 39% ' +
+        'before August. Offers are up 62%; take rate is down from 78% to 70%.</p>' +
+        '<p><b>4 incidents went unattended in three weeks</b> because The Gale could not take ' +
+        'it and there was no second name.</p>' +
+      '</div>';
+    badge.className = "badge warn";
+    badge.innerHTML = warn + " Carrying alone";
+  }
+
+  /* ---------- Vesper: the same thing, another area, another handler ---------- */
+  function renderVesperSlot() {
+    var slot = $("vesper-slot");
+    var badge = $("vesper-badge");
+    var ok = '<svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8.5l3.5 3.5L13 5"/></svg>';
+    var warn = '<svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 2l6.5 12h-13L8 2zM8 6.5v3.2M8 11.4v1"/></svg>';
+
+    if (state.mode === "today") {
+      slot.innerHTML = '<div class="absent">No explanation available.<br>' +
+                       'Aunt Dot has filed no tickets. Nobody at Rook knows.</div>';
+      badge.className = "badge bad";
+      badge.innerHTML = warn + " No activity";
+      return;
+    }
+
+    if (state.restored) {
+      if (state.variant === "B") {
+        slot.innerHTML =
+          '<div class="explain">' +
+            '<h3>' + warn + ' Floor in place &mdash; standing unchanged</h3>' +
+            '<p>3 offers a week in Old Town, standing still <b>0.00</b>. Vesper took 70 and ' +
+            'refused 13 before August, the best ratio on the roster &mdash; so of the four, ' +
+            'Vesper is the most likely to climb out unaided.</p>' +
+          '</div>';
+        badge.className = "badge warn";
+        badge.innerHTML = warn + " Floor only";
+        return;
+      }
+      slot.innerHTML =
+        '<div class="explain done">' +
+          '<h3>' + ok + ' Standing restored</h3>' +
+          '<p>Vesper is back at <b>0.80</b> and in rotation in Old Town, with a floor of 3 ' +
+          'offers a week for four weeks.</p>' +
+        '</div>';
+      badge.className = "badge ok";
+      badge.innerHTML = ok + " Recovering";
+      return;
+    }
+
+    slot.innerHTML =
+      '<div class="explain">' +
+        '<h3>' + warn + ' Ranking low on recent acceptance</h3>' +
+        '<p><b>Standing 0.00 of 1.00.</b> Old Town callouts now go to Nightwell, ' +
+        'Captain Vantage and The Longcast &mdash; 52 between them &mdash; while Vesper, ' +
+        'who lives there, got 10.</p>' +
+        '<button class="link" id="restore-vesper">Fix A &mdash; restore to 0.80</button> ' +
+        '<button class="link" id="restore-vesper-b" style="margin-left:4px">Fix B &mdash; floor only</button>' +
+      '</div>';
+    badge.className = "badge warn";
+    badge.innerHTML = warn + " Ranking low";
+    $("restore-vesper").addEventListener("click", function () { applyFix("A"); });
+    $("restore-vesper-b").addEventListener("click", function () { applyFix("B"); });
+  }
+
+  /* ---------- Nightwell: overloaded, and in the wrong part of the city ---------- */
+  function renderNightSlot() {
+    var slot = $("night-slot");
+    var badge = $("night-badge");
+    var ok = '<svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8.5l3.5 3.5L13 5"/></svg>';
+    var warn = '<svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 2l6.5 12h-13L8 2zM8 6.5v3.2M8 11.4v1"/></svg>';
+
+    if (state.mode === "today") {
+      slot.innerHTML = '<div class="absent" style="border-style:solid;opacity:.75">' +
+                       'Busiest responder on the roster. Nothing flags the travel.</div>';
+      badge.className = "badge ok";
+      badge.innerHTML = ok + " Normal";
+      // Out-of-area is recorded nowhere at Rook today, so the console cannot show it.
+      $("night-away").innerHTML = '15 <small>taken</small>';
+      $("night-away").parentNode.querySelector(".k").textContent = "LAST 7 DAYS";
+      return;
+    }
+    $("night-away").parentNode.querySelector(".k").textContent = "OUTSIDE MIDTOWN";
+
+    if (state.restored) {
+      if (state.variant === "B") {
+        $("night-away").innerHTML = '10 <small>/ 20 away</small>';
+        slot.innerHTML =
+          '<div class="explain">' +
+            '<h3>' + warn + ' Still covering Old Town</h3>' +
+            '<p>Vesper is only reachable 3 times a week, so the other Old Town callouts ' +
+            'still come to Midtown. Out-of-area eases from 12 to about 10 and stays there ' +
+            'until Vesper climbs back.</p>' +
+          '</div>';
+        badge.className = "badge warn";
+        badge.innerHTML = warn + " Covering elsewhere";
+        return;
+      }
+      $("night-away").innerHTML = '3 <small>/ 15 away</small>';
+      slot.innerHTML =
+        '<div class="explain done">' +
+          '<h3>' + ok + ' Coming home</h3>' +
+          '<p>Vesper is covering Old Town again. Out-of-area callouts should fall back ' +
+          'to around <b>3 a week</b>, and the load to about 15.</p>' +
+        '</div>';
+      badge.className = "badge ok";
+      badge.innerHTML = ok + " Normal";
+      return;
+    }
+
+    slot.innerHTML =
+      '<div class="explain">' +
+        '<h3>' + warn + ' Covering Old Town</h3>' +
+        '<p><b>12 of 21 callouts last week were outside Midtown</b>, up from 3 a week ' +
+        'before August. Nightwell is driving across the city to cover for a responder ' +
+        'who is available and not being asked.</p>' +
+        '<p>This never shows in acceptance rate. A ping taken 40 minutes away counts ' +
+        'exactly the same as one next door.</p>' +
+      '</div>';
+    badge.className = "badge warn";
+    badge.innerHTML = warn + " Covering elsewhere";
+    $("night-away").innerHTML = '12 <small>/ 21 away</small>';
+  }
+
+  /* ---------- test ping, with a live countdown ---------- */
+  var NAMES = { mite: "Meteor Mite", gale: "The Gale", vesper: "Vesper", night: "Nightwell" };
+  var AREAS = { mite: "Eastgate", gale: "Eastgate", vesper: "Old Town", night: "Midtown" };
+  var pingTimer = null;
+
+  function sendTestPing(who) {
+    clearInterval(pingTimer);
+    state.phone = who;
+    state.ping = { who: who, total: state.timer, left: state.timer, outcome: null };
+    syncPhoneTabs();
+    renderPhone();
+    pingTimer = setInterval(function () {
+      if (!state.ping || state.ping.outcome) { clearInterval(pingTimer); return; }
+      state.ping.left = Math.max(0, state.ping.left - 0.1);
+      if (state.ping.left === 0) {
+        clearInterval(pingTimer);
+        resolvePing("missed");
+      } else {
+        paintCountdown();
+      }
+    }, 100);
+  }
+
+  function paintCountdown() {
+    var bar = $("cd-bar"), num = $("cd-num");
+    if (!bar || !state.ping) return;
+    var frac = state.ping.left / state.ping.total;
+    bar.style.width = (frac * 100) + "%";
+    bar.className = frac < 0.17 ? "crit" : frac < 0.4 ? "low" : "";
+    num.textContent = Math.ceil(state.ping.left);
+  }
+
+  function resolvePing(outcome) {
+    clearInterval(pingTimer);
+    if (!state.ping) return;
+    state.ping.outcome = outcome;
+    var fixed = state.mode !== "today";
+    var name = NAMES[state.ping.who];
+    if (outcome === "missed") {
+      toast(fixed
+        ? name + " missed the test ping — no penalty, a miss is not a refusal"
+        : name + " missed the test ping — standing −0.12, same as a refusal");
+    } else if (outcome === "taken") {
+      toast(name + " took the test ping — standing +0.08");
+    } else {
+      toast(name + " turned the test ping down — standing −0.12");
+    }
+    renderPhone();
+  }
+
+  function clearPing() {
+    clearInterval(pingTimer);
+    state.ping = null;
+  }
+
+  function renderTestPing() {
+    var body = $("phone-body"), cap = $("phone-cap");
+    var p = state.ping, who = p.who, fixed = state.mode !== "today";
+    var suppressed = who === "mite" || who === "vesper";
+
+    if (p.outcome) {
+      var head = { taken: "Taken.", "turned down": "Turned down.", missed: "Missed." }[p.outcome];
+      var tail = p.outcome === "taken"
+        ? "Standing <b>+0.08</b>."
+        : p.outcome === "turned down"
+          ? "Standing <b>&minus;0.12</b> &mdash; a decision they made."
+          : fixed
+            ? "<b>No penalty.</b> A miss is not a refusal."
+            : "Standing <b>&minus;0.12</b> &mdash; exactly the same as a refusal.";
+      body.innerHTML =
+        '<div class="notif">' +
+          '<div class="app"><span class="dot"></span> Test callout &middot; ' + AREAS[who] + '</div>' +
+          '<p><b>' + head + '</b> ' + tail + '</p>' +
+          '<button class="tap" id="p-again">Send another</button>' +
+        '</div>';
+      cap.textContent = p.outcome === "missed" && !fixed
+        ? "This is the line that emptied four people's phones."
+        : "Test pings are logged separately and never affect a real callout.";
+      $("p-again").addEventListener("click", function () { sendTestPing(who); });
+      return;
+    }
+
+    body.innerHTML =
+      '<div class="notif">' +
+        '<div class="app"><span class="dot"></span> Test callout &middot; ' + AREAS[who] + '</div>' +
+        '<p><b>Test ping</b> from Kip. Answer it the way you would a real one.</p>' +
+        '<div class="cd-row"><span>Time to answer</span><b id="cd-num">' + p.total + '</b></div>' +
+        '<div class="countdown"><i id="cd-bar" style="width:100%"></i></div>' +
+        '<button class="tap" id="p-take" style="background:rgba(80,200,120,.3);border-color:rgba(80,200,120,.45)">Take it</button>' +
+        '<button class="tap" id="p-no" style="margin-top:6px">Can&rsquo;t take this one</button>' +
+      '</div>';
+    cap.textContent = suppressed && !fixed
+      ? "A test ping bypasses ranking. It is the only way a callout reaches " +
+        NAMES[who] + " today."
+      : "Letting it run out shows what a missed ping costs.";
+    paintCountdown();
+    $("p-take").addEventListener("click", function () { resolvePing("taken"); });
+    $("p-no").addEventListener("click", function () { resolvePing("turned down"); });
+  }
+
+  /* ---------- the phones ---------- */
+  function renderPhone() {
+    $("phone-who").textContent = NAMES[state.phone] + "'s phone";
+    if (state.ping) { renderTestPing(); return; }
+    if (state.phone === "gale") { renderGalePhone(); return; }
+    if (state.phone === "vesper" || state.phone === "night") { renderIdlePhone(); return; }
+    renderMitePhone();
+  }
+
+  function renderIdlePhone() {
+    var body = $("phone-body"), cap = $("phone-cap");
+    var quiet = state.phone === "vesper";
+    body.innerHTML = '<div class="quiet">' +
+      (quiet ? "No callouts.<br>Nothing since 4 September."
+             : "3 callouts waiting.<br>Two of them in Old Town.") + "</div>";
+    cap.textContent = quiet
+      ? "Vesper's handler, Aunt Dot, has never filed a ticket about this."
+      : "Nightwell is busy, and more than half of it is somebody else's area.";
+  }
+
+  function renderGalePhone() {
+    var body = $("phone-body");
+    var cap = $("phone-cap");
+    var fixed = state.mode !== "today" && state.restored;
+
+    body.innerHTML =
+      '<div class="notif">' +
+        '<div class="app"><span class="dot"></span> Callout &middot; Eastgate</div>' +
+        '<p>A marching band has jammed every radio in the market.</p>' +
+        '<p style="opacity:.72;font-size:11.5px;margin-top:6px">' +
+          state.timer + ' seconds to answer' +
+          (fixed ? ' &middot; next: Meteor Mite' : '') +
+        '</p>' +
+        '<button class="tap" id="take" style="background:rgba(80,200,120,.3);border-color:rgba(80,200,120,.45)">Take it</button>' +
+        '<button class="tap" id="decline" style="margin-top:6px">Can&rsquo;t take this one</button>' +
+      '</div>';
+
+    cap.textContent = fixed
+      ? "Declining passes the callout on. The Gale can say no again."
+      : "The Gale is the only name on this callout. Declining ends it.";
+
+    $("take").addEventListener("click", function () {
+      body.querySelector(".notif").innerHTML =
+        '<div class="app"><span class="dot"></span> Callout &middot; Eastgate</div>' +
+        '<p><b>Taken.</b> On your way.</p>';
+      toast("The Gale took callout 41293");
+    });
+
+    $("decline").addEventListener("click", function () {
+      if (fixed) {
+        body.querySelector(".notif").innerHTML =
+          '<div class="app"><span class="dot"></span> Callout &middot; Eastgate</div>' +
+          '<p><b>Passed to Meteor Mite.</b> Someone else is going.</p>';
+        toast("Callout 41293 passed to Meteor Mite");
+      } else {
+        body.querySelector(".notif").innerHTML =
+          '<div class="app"><span class="dot"></span> Callout &middot; Eastgate</div>' +
+          '<p><b>Nobody came.</b> No other responder was available for this callout.</p>';
+        toast("Callout 41293 — nobody came. This happened 4 times in three weeks.");
+      }
+    });
+  }
+
+  function renderMitePhone() {
+    var body = $("phone-body");
+    var cap = $("phone-cap");
+
+    if (state.mode === "today") {
+      body.innerHTML = '<div class="quiet">No callouts.<br>Nothing since 5 September.</div>';
+      cap.textContent = "Meteor Mite is never told anything. They texted Kip to ask if it was broken.";
+      return;
+    }
+
+    if (state.restored) {
+      if (state.variant === "B") {
+        body.innerHTML =
+          '<div class="notif">' +
+            '<div class="app"><span class="dot"></span> Rook Dispatch</div>' +
+            '<p><b>You&rsquo;ll get at least 3 callouts a week from now on.</b> Your standing ' +
+            'is still low, so taking these is what brings it back up.</p>' +
+          '</div>';
+        cap.textContent = "Honest, but it asks the responder to dig themselves out.";
+        return;
+      }
+      body.innerHTML =
+        '<div class="notif">' +
+          '<div class="app"><span class="dot"></span> Rook Dispatch</div>' +
+          '<p><b>You&rsquo;re back in rotation.</b> Your standing has been restored by Kip. ' +
+          'Callouts will start reaching you again from tonight.</p>' +
+        '</div>';
+      cap.textContent = "The responder is told what changed, and by whom.";
+      return;
+    }
+
+    body.innerHTML =
+      '<div class="notif">' +
+        '<div class="app"><span class="dot"></span> Rook Dispatch</div>' +
+        '<p>You&rsquo;ve missed <b>3 of your last 5</b> pings. That&rsquo;s moving you down the order ' +
+        'for new callouts. Take the next one and it comes back.</p>' +
+        '<button class="tap" id="unavail">I&rsquo;m not available tonight</button>' +
+      '</div>';
+    cap.textContent = "Sent on day two, while there is still something they can do about it.";
+    $("unavail").addEventListener("click", function () {
+      this.textContent = "Marked unavailable until 08:00";
+      this.disabled = true;
+      toast("Availability updated — tonight's pings won't count against Meteor Mite");
+    });
+  }
+
+  /* ---------- drawer ---------- */
+  function openDrawer() {
+    $("drawer").classList.add("open");
+    $("drawer").setAttribute("aria-hidden", "false");
+    $("scrim").classList.add("open");
+    setTimeout(function () {
+      $("track-fill").style.width = state.variant === "A" ? "80%" : "2%";
+    }, 60);
+  }
+  function closeDrawer() {
+    $("drawer").classList.remove("open");
+    $("drawer").setAttribute("aria-hidden", "true");
+    $("scrim").classList.remove("open");
+  }
+
+  /* ---------- toast ---------- */
+  var toastTimer;
+  function toast(msg) {
+    $("toast-text").textContent = msg;
+    $("toast").classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { $("toast").classList.remove("show"); }, 3800);
+  }
+
+  /* ---------- apply a fix: A = restore to 0.80 + floor, B = floor only ---------- */
+  function applyFix(variant) {
+    var A = variant === "A";
+    state.restored = true;
+    state.variant = variant;
+
+    $("track-fill").style.width = A ? "80%" : "2%";
+    $("track").classList.toggle("ok", A);
+    $("track-now").innerHTML = "Meteor Mite &mdash; " + (A ? "0.80" : "0.00");
+    $("drawer-lead").innerHTML = A
+      ? "Standing restored to <b>0.80</b>, mid-roster. Meteor Mite now ranks against The Gale " +
+        "on proximity, which is what should decide it."
+      : "Standing left at <b>0.00</b>. Meteor Mite is reachable 3 times a week and ranks last " +
+        "for everything else, so recovery depends entirely on them taking those three.";
+
+    $("restore").textContent = A ? "Restored to 0.80" : "Fix B applied";
+    $("restore").disabled = true;
+    $("restore-b").disabled = true;
+    $("act-note").innerHTML = A
+      ? "Applied 5 Sept. Floor of 3 offers a week runs to 3 October. Meteor Mite has been notified."
+      : "Applied 5 Sept. No live record was edited. Break-even is 1.5 taken for every 1 refused; " +
+        "pre-August the four ran 2.4 to 5.4, but since 4.2 they are running about 1.0.";
+
+    $("mite-week").textContent = "3";
+    $("mite-avg").innerHTML = 'guaranteed <small>/ wk</small>';
+    $("vesper-week").textContent = "3";
+    $("vesper-avg").innerHTML = 'guaranteed <small>/ wk</small>';
+    $("gale-week").textContent = A ? "13" : "18";
+    $("gale-taken").innerHTML = 'projected <small>/ wk</small>';
+    $("night-week").textContent = A ? "15" : "20";
+
+    drawPlot($("plot-mite"), MITE, MITE_TAKEN, { marker: true, projected: A ? PROJECTED : PROJECTED_B });
+    drawPlot($("plot-vesper"), VESPER, VESPER_TAKEN, { marker: true, projected: A ? PROJECTED : PROJECTED_B });
+    drawPlot($("plot-gale"), GALE, GALE_TAKEN, { marker: true, projected: A ? GALE_PROJECTED : GALE_PROJECTED_B });
+    drawPlot($("plot-night"), NIGHT, NIGHT_TAKEN, { marker: true, away: NIGHT_AWAY, projected: A ? NIGHT_PROJECTED : NIGHT_PROJECTED_B });
+
+    $("card-mite").classList.add("flash");
+    $("card-vesper").classList.add("flash");
+    setTimeout(function () {
+      $("card-mite").classList.remove("flash");
+      $("card-vesper").classList.remove("flash");
+    }, 950);
+
+    renderMetrics();
+    renderSlot();
+    renderGaleSlot();
+    renderVesperSlot();
+    renderNightSlot();
+    renderPhone();
+    toast(A ? "Fix A — all four restored to 0.80, back in rotation"
+            : "Fix B — floor of 3 a week applied, standing untouched");
+    setTimeout(closeDrawer, 900);
+  }
+
+  /* ---------- reset, so the walkthrough can be run again ---------- */
+  function resetDemo() {
+    clearPing();
+    state.restored = false;
+    state.variant = null;
+    $("restore").innerHTML = "Fix A &mdash; restore standing to 0.80";
+    $("restore").disabled = false;
+    $("restore-b").disabled = false;
+    $("act-note").innerHTML =
+      "<b>Fix A</b> returns the four to mid-roster &mdash; where the replay says they would " +
+      "have been had misses never been penalised &mdash; and adds a floor of 3 offers a week " +
+      "as a backstop. <b>Fix B</b> adds the floor only and edits no live record, leaving them " +
+      "to climb back on their own.";
+    $("track-fill").style.width = "0%";
+    $("track").classList.remove("ok");
+    $("track-now").innerHTML = "Meteor Mite &mdash; 0.00";
+    $("drawer-lead").innerHTML =
+      "Every responder carries a score for how often they take the callouts we send. " +
+      "It is one of three things that decide who gets offered a job first. " +
+      "Meteor Mite is at the bottom of the range.";
+    $("mite-week").textContent = "0";
+    $("mite-avg").innerHTML = '1 <small>/ 10 avg</small>';
+    $("gale-week").textContent = "21";
+    $("gale-taken").innerHTML = '16 <small>taken</small>';
+    $("vesper-week").textContent = "0";
+    $("vesper-avg").innerHTML = '1 <small>/ 14 avg</small>';
+    $("night-week").textContent = "21";
+    $("night-away").innerHTML = '12 <small>/ 21 away</small>';
+    drawPlot($("plot-mite"), MITE, MITE_TAKEN, { marker: true });
+    drawPlot($("plot-gale"), GALE, GALE_TAKEN, { marker: true });
+    drawPlot($("plot-vesper"), VESPER, VESPER_TAKEN, { marker: true });
+    drawPlot($("plot-night"), NIGHT, NIGHT_TAKEN, { marker: true, away: NIGHT_AWAY });
+    closeDrawer();
+    setPhone("mite");
+    setTimer(60);
+    setMode("today");
+  }
+
+  /* ---------- headline metrics: the two numbers that disagree ---------- */
+  function renderMetrics() {
+    var long = state.timer === 90;
+    var warnIcon = '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 2l6.5 12h-13L8 2zM8 6.5v3.2M8 11.4v1"/></svg>';
+    var okIcon = '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8.5l3.5 3.5L13 5"/></svg>';
+
+    $("m-accept").textContent = long ? "76%" : "64%";
+    $("m-accept").className = "mv " + (long ? "good" : "bad");
+    $("m-accept-d").textContent = long
+      ? "recovered — misses back to 2.3%"
+      : "down from 77% before 4.2 — misses at 18%";
+
+    var A = state.variant === "A", B = state.variant === "B";
+    $("m-stuck").textContent = A ? "0" : "4";
+    $("m-stuck").className = "mv " + (A ? "good" : B ? "warn" : "bad");
+    $("m-stuck-d").textContent = A
+      ? "all four back in rotation"
+      : B
+        ? "still at 0.00 — reachable 3× a week, climbing on their own"
+        : "Meteor Mite, Vesper, Farlight, The Undertow";
+
+    var v = $("verdict");
+    if (B) {
+      v.className = "verdict warn";
+      v.innerHTML = warnIcon + "<span><b>Fix B &mdash; the floor on its own.</b> No live record " +
+        "edited, which avoids an approval path we do not have. But break-even is 1.5 taken for " +
+        "every 1 refused: the four ran 2.4&ndash;5.4 before August and about <b>1.0</b> since. " +
+        "At their old rate this takes <b>roughly 13 weeks</b>; at their current rate Meteor Mite " +
+        "and Farlight never climb out. The Gale and Nightwell keep most of the extra load " +
+        "throughout." + (long ? "" : " The 60-second wait is still open underneath.") + "</span>";
+      return;
+    }
+    if (long && !state.restored) {
+      v.className = "verdict warn";
+      v.innerHTML = warnIcon + "<span><b>The metric recovered. The four did not.</b> " +
+        "Restoring the ping wait stops new people falling in. It does nothing for anyone " +
+        "already at the bottom &mdash; they are not being offered the callouts they would " +
+        "now have time to answer. This is what shipping the timer alone looks like.</span>";
+    } else if (!long && state.restored) {
+      v.className = "verdict warn";
+      v.innerHTML = warnIcon + "<span><b>The four are back, but the trap is still open.</b> " +
+        "At 60 seconds misses stay near 18%, so the next responder to have a bad fortnight " +
+        "goes the same way.</span>";
+    } else if (long && state.restored) {
+      v.className = "verdict ok";
+      v.innerHTML = okIcon + "<span><b>Both halves done.</b> Misses back to 2.3%, nobody at " +
+        "the bottom, and the way back exists for whoever needs it next.</span>";
+    } else {
+      v.className = "verdict bad";
+      v.innerHTML = warnIcon + "<span><b>Where we are today.</b> Misses are running at 18%, " +
+        "up from 2.3% before 4.2, and four responders are stuck at the bottom with nothing " +
+        "in the code that will ever lift them off it.</span>";
+    }
+  }
+
+  function setTimer(seconds) {
+    clearPing();
+    state.timer = seconds;
+    $("t-60").setAttribute("aria-pressed", String(seconds === 60));
+    $("t-90").setAttribute("aria-pressed", String(seconds === 90));
+    renderMetrics();
+    renderPhone();
+  }
+
+  /* ---------- mode ---------- */
+  function setMode(mode) {
+    clearPing();
+    state.mode = mode;
+    $("btn-today").setAttribute("aria-pressed", String(mode === "today"));
+    $("btn-fixed").setAttribute("aria-pressed", String(mode === "fixed"));
+    $("mode-note").textContent = mode === "today"
+      ? "Kip's console as it ships today. Both cards, same area, same week."
+      : "Proposed. The card explains itself, and the responder is told.";
+    if (mode === "today") closeDrawer();
+    renderMetrics();
+    renderSlot();
+    renderGaleSlot();
+    renderVesperSlot();
+    renderNightSlot();
+    renderPhone();
+  }
+
+  function syncPhoneTabs() {
+    $("ph-mite").setAttribute("aria-pressed", String(state.phone === "mite"));
+    $("ph-gale").setAttribute("aria-pressed", String(state.phone === "gale"));
+  }
+
+  function setPhone(who) {
+    clearPing();
+    state.phone = who;
+    syncPhoneTabs();
+    renderPhone();
+  }
+
+  /* ---------- wire up ---------- */
+  drawPlot($("plot-mite"), MITE, MITE_TAKEN, { marker: true });
+  drawPlot($("plot-gale"), GALE, GALE_TAKEN, { marker: true });
+  drawPlot($("plot-vesper"), VESPER, VESPER_TAKEN, { marker: true });
+  drawPlot($("plot-night"), NIGHT, NIGHT_TAKEN, { marker: true, away: NIGHT_AWAY });
+  renderMetrics();
+  renderSlot();
+  renderGaleSlot();
+  renderVesperSlot();
+  renderNightSlot();
+  renderPhone();
+
+  $("btn-today").addEventListener("click", function () { setMode("today"); });
+  $("btn-fixed").addEventListener("click", function () { setMode("fixed"); });
+  $("t-60").addEventListener("click", function () { setTimer(60); });
+  $("t-90").addEventListener("click", function () { setTimer(90); });
+  $("ph-mite").addEventListener("click", function () { setPhone("mite"); });
+  $("ph-gale").addEventListener("click", function () { setPhone("gale"); });
+  Array.prototype.forEach.call(document.querySelectorAll(".ping-btn"), function (b) {
+    b.addEventListener("click", function () { sendTestPing(b.getAttribute("data-who")); });
+  });
+  $("drawer-close").addEventListener("click", closeDrawer);
+  $("scrim").addEventListener("click", closeDrawer);
+  $("restore").addEventListener("click", function () { applyFix("A"); });
+  $("restore-b").addEventListener("click", function () { applyFix("B"); });
+  $("reset").addEventListener("click", resetDemo);
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeDrawer(); });
+
+  $("theme").addEventListener("click", function () {
+    var root = document.documentElement;
+    root.setAttribute("data-theme", root.getAttribute("data-theme") === "dark" ? "light" : "dark");
+  });
+})();
+</script>
+</body>
+</html>

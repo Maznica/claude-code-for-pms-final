@@ -308,3 +308,43 @@ carry over, except Supply, which was tested.
 - Method: an empty function body (`...`) means the answer is elsewhere; a
   parameter name is not a behaviour; **when the code and the data disagree,
   that gap is the finding**.
+
+**Session 5 findings (Module 5).** Brief in `05-super-speed/brief.md`,
+clickable prototype in `05-super-speed/prototype.html`.
+
+- **Current standing, replayed for all 16:** twelve sit between 0.72 and 1.00,
+  the four sit at exactly 0.00. A cliff, not a distribution. So 0.5
+  (`NEUTRAL_SCORE`) is the wrong rescue value — it would leave them below
+  everyone. **0.8 is right**: the counterfactual resting place *and* mid-roster
+  today. Agreed plan is **0.8 plus a floor of ~3 offers a week**, the floor
+  being a backstop and a detector, not the rescue.
+- **Volume baseline:** ~132 callouts/week, 16 responders, **~10 offers per
+  responder per week**, 1.29 pings per callout.
+- **`offer.py` does walk the whole ranked list** — so single-ping failures mean
+  the *list* had one name on it. Short cascades are an **availability**
+  problem, not a ranking one. Wen Li is no longer a blocker; the only genuinely
+  open question is where `_scores` persists (it is an in-memory dict).
+- **Eastgate coverage failure:** callouts offered to The Gale *and nobody else*
+  went 39% → 70%; "nobody came" doubled to 10.5%; **four incidents unattended**
+  (20, 24, 25, 31 Aug) because The Gale declined and there was no second name.
+- **Two different harms.** Eastgate *concentrated* onto one person. Old Town
+  and Uptown *exported* — Vesper 72 → 10 pings while outsiders took 52;
+  Nightwell's out-of-area went 3/wk → **12 of 21**. Invisible in acceptance
+  rate: a ping taken 40 minutes away counts the same as one next door.
+- **Break-even is 1.5 taken per refusal.** The four ran 2.4–5.4 before August,
+  about **1.0 now** — so a floor-only fix (prototype "Fix B") may never recover
+  Meteor Mite or Farlight, and delays relief for The Gale and Nightwell too.
+- **Acceptance rate, measured:** 76.6% → 64.0%; misses 2.3% → 18.0%. Restoring
+  90s puts it back to ~76% **while the four stay at zero** — the prototype
+  shows both numbers side by side deliberately.
+- Agreed order (timer last, on purpose): miss ≠ refusal → un-stick the four →
+  record delivery/time-to-accept → check Supply's gear scheduling → tell the
+  handler → then decide the timer.
+- **Still open:** ease-back rate unchosen; Security Policy 4.1 unread; Sofia
+  hasn't seen the design; no channel to responders at all; not on the Q3
+  roadmap; Availability Confidence conversation with Helen still hasn't
+  happened; and the availability finding (most callouts have one candidate)
+  needs following.
+- **Caveat carried forward:** the ping data stops **6 September** and it is now
+  November. Everything above is two months stale — ask Ravi Menon for current
+  numbers before acting.
