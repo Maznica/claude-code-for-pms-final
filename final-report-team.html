@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The PM Who Read the Code</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#111; --paper:#fff8e7; --yellow:#ffd60a; --red:#e63946; --blue:#1d4ed8; --sky:#5ec8ff; --green:#22a559; --pink:#ff5fa2; --orange:#ff8c1a;
+  --hero:"Bangers","Impact","Arial Black",sans-serif;
+  --body:"Comic Neue","Comic Sans MS","Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.5;overflow-x:hidden;
+  background-color:var(--paper);
+  background-image:radial-gradient(rgba(230,57,70,.16) 1.6px,transparent 1.8px);background-size:14px 14px}
+.page{max-width:1140px;margin:0 auto;padding:60px 22px}
+.hero-font,h1,h2,h3,.btn,.burst text,.cap,.badge{font-family:var(--hero);letter-spacing:.04em;font-weight:400}
+h1{font-size:clamp(54px,10vw,128px);line-height:.9;margin:0}
+h2{font-size:clamp(40px,6vw,72px);line-height:.95;margin:0 0 16px}
+h3{font-size:30px;line-height:1;margin:0 0 8px}
+p{margin:0 0 12px}
+b{font-weight:700}
+
+/* panels */
+.panel{background:#fff;border:4px solid var(--ink);box-shadow:8px 8px 0 var(--ink);padding:22px;position:relative}
+.panel.y{background:var(--yellow)}.panel.b{background:var(--sky)}.panel.r{background:var(--red);color:#fff}.panel.k{background:var(--ink);color:#fff}
+.panel.dots{background-image:radial-gradient(rgba(0,0,0,.13) 1.4px,transparent 1.6px);background-size:9px 9px}
+.tiltL{transform:rotate(-1.2deg)}.tiltR{transform:rotate(1.1deg)}
+.grid{display:grid;gap:26px}
+.g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:900px){.g2,.g3,.g4{grid-template-columns:1fr}.tiltL,.tiltR{transform:none}}
+
+.cap{display:inline-block;background:var(--yellow);border:3px solid var(--ink);padding:5px 12px 3px;font-size:20px;box-shadow:4px 4px 0 var(--ink);margin-bottom:14px}
+.cap.w{background:#fff}.cap.r{background:var(--red);color:#fff}.cap.b{background:var(--blue);color:#fff}
+
+/* speech bubbles */
+.bubble{position:relative;background:#fff;border:3px solid var(--ink);border-radius:26px;padding:14px 18px;font-weight:700;font-size:17px;margin-bottom:26px}
+.bubble::after{content:"";position:absolute;left:34px;bottom:-22px;width:0;height:0;border:12px solid transparent;border-top:20px solid var(--ink);border-bottom:0}
+.bubble::before{content:"";position:absolute;left:37px;bottom:-15px;width:0;height:0;border:9px solid transparent;border-top:16px solid #fff;border-bottom:0;z-index:1}
+.bubble.right::after{left:auto;right:34px}.bubble.right::before{left:auto;right:37px}
+.think{position:relative;background:#fff;border:3px solid var(--ink);border-radius:40px;padding:14px 20px;font-style:italic;font-size:16.5px;margin-bottom:30px}
+.think::after{content:"";position:absolute;left:30px;bottom:-18px;width:16px;height:16px;border-radius:50%;background:#fff;border:3px solid var(--ink)}
+.think::before{content:"";position:absolute;left:20px;bottom:-30px;width:9px;height:9px;border-radius:50%;background:#fff;border:3px solid var(--ink)}
+.who{font-family:var(--hero);font-size:18px;letter-spacing:.06em}
+
+/* burst */
+.burst{position:absolute;width:150px;height:150px;z-index:3;pointer-events:none}
+.burst svg{width:100%;height:100%;overflow:visible}
+.wob{animation:wob 2.4s ease-in-out infinite}
+@keyframes wob{0%,100%{transform:rotate(-6deg) scale(1)}50%{transform:rotate(5deg) scale(1.07)}}
+
+/* reveal */
+.pop{opacity:0;transform:scale(.86) rotate(-2deg);transition:opacity .45s ease,transform .55s cubic-bezier(.3,1.6,.5,1)}
+.pop.in{opacity:1;transform:none}
+.pop.in.tiltL{transform:rotate(-1.2deg)}.pop.in.tiltR{transform:rotate(1.1deg)}
+.gx,.gy{transform-box:fill-box;transition:transform 1s cubic-bezier(.3,1.4,.5,1)}
+.gx{transform-origin:left center;transform:scaleX(0)}.gy{transform-origin:center bottom;transform:scaleY(0)}
+.in .gx,.in .gy{transform:none}
+.d1{transition-delay:.2s!important}.d2{transition-delay:.4s!important}.d3{transition-delay:.6s!important}.d4{transition-delay:.8s!important}
+
+/* cover */
+.cover{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;border-bottom:6px solid var(--ink);
+  background:conic-gradient(from 0deg at 72% 45%,#ffd60a 0 10deg,#ffe766 10deg 20deg,#ffd60a 20deg 30deg,#ffe766 30deg 40deg,#ffd60a 40deg 50deg,#ffe766 50deg 60deg,#ffd60a 60deg 70deg,#ffe766 70deg 80deg,#ffd60a 80deg 90deg,#ffe766 90deg 100deg,#ffd60a 100deg 110deg,#ffe766 110deg 120deg,#ffd60a 120deg 130deg,#ffe766 130deg 140deg,#ffd60a 140deg 150deg,#ffe766 150deg 160deg,#ffd60a 160deg 170deg,#ffe766 170deg 180deg,#ffd60a 180deg 190deg,#ffe766 190deg 200deg,#ffd60a 200deg 210deg,#ffe766 210deg 220deg,#ffd60a 220deg 230deg,#ffe766 230deg 240deg,#ffd60a 240deg 250deg,#ffe766 250deg 260deg,#ffd60a 260deg 270deg,#ffe766 270deg 280deg,#ffd60a 280deg 290deg,#ffe766 290deg 300deg,#ffd60a 300deg 310deg,#ffe766 310deg 320deg,#ffd60a 320deg 330deg,#ffe766 330deg 340deg,#ffd60a 340deg 350deg,#ffe766 350deg 360deg)}
+.cover .page{position:relative;z-index:2;width:100%}
+.issue{display:flex;justify-content:space-between;align-items:center;border:4px solid var(--ink);background:#fff;padding:6px 14px;box-shadow:6px 6px 0 var(--ink);
+  font-family:var(--hero);font-size:22px;letter-spacing:.06em;margin-bottom:26px;max-width:620px}
+.issue span:last-child{background:var(--red);color:#fff;padding:2px 10px;border:3px solid var(--ink)}
+.cover h1{color:#fff;-webkit-text-stroke:3px var(--ink);text-shadow:7px 7px 0 var(--ink)}
+.cover h1 .r{color:var(--red)}
+.cover .sub{font-size:clamp(19px,2.2vw,25px);font-weight:700;max-width:30ch;margin:22px 0 0;background:#fff;border:3px solid var(--ink);padding:12px 16px;box-shadow:5px 5px 0 var(--ink);display:inline-block}
+.coverart{position:absolute;right:3%;top:50%;transform:translateY(-50%);width:min(42vw,480px);z-index:1}
+@media(max-width:900px){.coverart{position:relative;transform:none;right:auto;top:auto;width:100%;margin-top:30px}.cover{display:block;padding-top:20px}}
+
+.btn{display:inline-block;font-size:24px;padding:10px 22px 6px;border:4px solid var(--ink);background:var(--red);color:#fff;text-decoration:none;box-shadow:5px 5px 0 var(--ink);cursor:pointer;transition:transform .12s,box-shadow .12s}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--ink)}
+.btn:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--ink)}
+.btn.y{background:var(--yellow);color:var(--ink)}.btn.b{background:var(--blue)}.btn.w{background:#fff;color:var(--ink)}
+
+/* power cards */
+.power{background:#fff;border:4px solid var(--ink);box-shadow:8px 8px 0 var(--ink);position:relative;overflow:hidden}
+.power .top{padding:14px 18px 10px;border-bottom:4px solid var(--ink);display:flex;justify-content:space-between;align-items:center}
+.power .top h3{margin:0;font-size:32px}
+.power .num{font-family:var(--hero);font-size:22px;background:var(--ink);color:#fff;padding:2px 9px}
+.power .bd{padding:16px 18px 18px}
+.power .lesson{margin-top:12px;border-top:3px dashed var(--ink);padding-top:10px;font-weight:700}
+.power .lesson::before{content:"LESSON \2192  ";font-family:var(--hero);letter-spacing:.06em;color:var(--red)}
+.power .tool{display:inline-block;font-size:13px;font-weight:700;background:var(--paper);border:2px solid var(--ink);padding:2px 8px;margin:2px 4px 2px 0;border-radius:4px}
+.c1 .top{background:var(--yellow)}.c2 .top{background:var(--sky)}.c3 .top{background:var(--pink)}.c4 .top{background:var(--green);color:#fff}.c5 .top{background:var(--orange)}.c6 .top{background:var(--blue);color:#fff}
+
+svg{display:block;width:100%;height:auto;overflow:visible}
+.ct{font-family:var(--hero);letter-spacing:.05em;font-size:18px}
+.cs{font-family:var(--body);font-weight:700;font-size:13px}
+
+/* villain */
+.wanted{background:#f4e2b8;border:5px solid var(--ink);box-shadow:10px 10px 0 var(--ink);padding:22px;text-align:center;position:relative}
+.wanted h3{font-size:56px;margin:0}
+.wanted .face{font-size:84px;line-height:1;margin:6px 0;filter:grayscale(.2)}
+
+/* rules */
+.rule{display:flex;gap:14px;align-items:flex-start;background:#fff;border:3px solid var(--ink);box-shadow:5px 5px 0 var(--ink);padding:14px 16px}
+.rule .n{font-family:var(--hero);font-size:40px;line-height:.9;color:var(--red);-webkit-text-stroke:1px var(--ink);min-width:36px}
+.rule h3{font-size:24px;margin:0 0 4px}
+.rule p{margin:0;font-size:16px}
+
+.prompt{background:var(--ink);color:#fff8e7;font-family:ui-monospace,Consolas,monospace;font-size:13.5px;line-height:1.55;padding:14px 16px;border-radius:6px;white-space:pre-wrap;margin:10px 0}
+.steps{counter-reset:s}
+.step{position:relative;padding-left:66px;margin-bottom:22px}
+.step::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:-4px;width:50px;height:50px;border-radius:50%;background:var(--yellow);border:4px solid var(--ink);
+  font-family:var(--hero);font-size:30px;display:grid;place-items:center;box-shadow:3px 3px 0 var(--ink)}
+.step h3{font-size:26px}
+
+.end{background:var(--ink);color:#fff;border-top:6px solid var(--ink);text-align:center}
+.end h2{color:var(--yellow);-webkit-text-stroke:2px var(--ink);text-shadow:5px 5px 0 var(--red);font-size:clamp(52px,9vw,110px)}
+.fine{font-size:13px;opacity:.75;margin-top:30px}
+.toggle{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.toggle .btn{font-size:20px;padding:7px 16px 4px}
+.toggle .btn.off{background:#fff;color:var(--ink)}
+@media (prefers-reduced-motion:reduce){.pop,.gx,.gy{transition:none!important;opacity:1;transform:none}.wob{animation:none}}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<section class="cover">
+  <div class="page">
+    <div class="issue"><span>PRODUCT TEAM COMICS &middot; ISSUE #4.2</span><span>SPECIAL EDITION</span></div>
+    <h1>THE PM WHO<br><span class="r">READ THE CODE</span></h1>
+    <div class="sub">How I cracked a bad release with an AI sidekick, and why every one of you should learn this too.</div>
+    <div style="margin-top:30px;display:flex;gap:14px;flex-wrap:wrap">
+      <a class="btn" href="#villain">START READING!</a>
+      <a class="btn y" href="#join">SKIP TO: HOW YOU START</a>
+    </div>
+  </div>
+  <div class="coverart">
+    <svg viewBox="0 0 400 420" role="img" aria-label="Comic illustration: a product manager with a magnifying glass over a laptop, with a POW burst">
+      <polygon points="200,10 232,120 350,70 270,160 395,210 268,240 330,360 220,280 200,410 170,285 60,360 128,240 5,210 128,165 50,70 165,120" fill="#e63946" stroke="#111" stroke-width="5" class="wob" style="transform-origin:200px 210px"/>
+      <rect x="95" y="215" width="210" height="130" rx="10" fill="#fff" stroke="#111" stroke-width="5"/>
+      <rect x="110" y="230" width="180" height="96" fill="#1d4ed8" stroke="#111" stroke-width="3"/>
+      <g fill="#5ec8ff"><rect x="122" y="245" width="90" height="8"/><rect x="122" y="262" width="130" height="8"/><rect x="138" y="279" width="100" height="8" fill="#ffd60a"/><rect x="122" y="296" width="70" height="8"/></g>
+      <rect x="70" y="345" width="260" height="18" rx="6" fill="#ddd" stroke="#111" stroke-width="5"/>
+      <circle cx="285" cy="150" r="52" fill="#fff" fill-opacity=".55" stroke="#111" stroke-width="8"/>
+      <line x1="322" y1="187" x2="372" y2="237" stroke="#111" stroke-width="16" stroke-linecap="round"/>
+      <text x="285" y="160" text-anchor="middle" class="ct" style="font-size:30px">60s?!</text>
+      <g transform="translate(40,40) rotate(-10)">
+        <rect x="0" y="0" width="130" height="58" fill="#ffd60a" stroke="#111" stroke-width="4"/>
+        <text x="65" y="40" text-anchor="middle" class="ct" style="font-size:34px">POW!</text>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<!-- VILLAIN -->
+<section class="page" id="villain">
+  <span class="cap pop">MEANWHILE, AT ROOK DISPATCH&hellip;</span>
+  <h2 class="pop">A release goes bad. Everyone already knows why. <span style="color:var(--red)">Everyone is wrong.</span></h2>
+  <div class="grid g3" style="margin-top:26px;align-items:start">
+    <div class="panel tiltL pop">
+      <span class="cap w">PANEL 1</span>
+      <div class="bubble">"Acceptance is down, tickets are 3&times; normal, and a handler emailed support directly!"</div>
+      <p class="who">&mdash; THE SUPPORT LEAD</p>
+      <p>Release 4.2 shipped two changes on the same day: a new ranking weight <b>and</b> a shorter ping timer (90s &rarr; 60s).</p>
+    </div>
+    <div class="panel y dots pop d1">
+      <span class="cap w">PANEL 2</span>
+      <div class="bubble right">"August is always soft. It's seasonal. Do <u>not</u> reopen 4.2."</div>
+      <p class="who" style="text-align:right">&mdash; THE HANDOVER NOTE</p>
+      <div class="think">Hmm. The whole room agrees. That's exactly when I should check&hellip;</div>
+      <p class="who">&mdash; ME, NEW PM</p>
+    </div>
+    <div class="wanted tiltR pop d2">
+      <div class="cap r">WANTED</div>
+      <h3>THE SILENT TIMER</h3>
+      <div class="face">&#9201;&#65039;</div>
+      <p><b>Crime:</b> cut 30 seconds from every ping.<br><b>Accomplice:</b> a scoring rule that treats <i>"didn't hear it"</i> exactly like <i>"said no"</i>.</p>
+      <p style="margin:0"><b>Victims:</b> 4 responders, quietly dropped to zero work.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SIX POWERS -->
+<section class="page" id="powers">
+  <span class="cap b pop">SIX SESSIONS. SIX SUPERPOWERS.</span>
+  <h2 class="pop">What my AI sidekick let me do, as a PM</h2>
+  <p class="pop" style="max-width:62ch;font-size:19px">Each session gave me a new power. None needed an engineer's time or a data request in a queue. All needed <b>me to ask the right question</b> and check the answer.</p>
+  <div class="grid g3" style="margin-top:26px">
+    <div class="power c1 pop">
+      <div class="top"><h3>ORIGIN STORY</h3><span class="num">#1</span></div>
+      <div class="bd">
+        <p>Asked: <i>"What's contradictory or missing across the wiki, the database and the repo?"</i> Found the real villain in session one: <b>the timer, not the weighting.</b></p>
+        <span class="tool">wiki connector</span><span class="tool">database connector</span><span class="tool">CLAUDE.md memory</span>
+        <div class="lesson">Ask for the gaps, not a summary.</div>
+      </div>
+    </div>
+    <div class="power c2 pop d1">
+      <div class="top"><h3>SUPER HEARING</h3><span class="num">#2</span></div>
+      <div class="bd">
+        <p>Synthesised <b>147 tickets + 4 interviews</b> in one sitting. The quieter complaint hit <b>11 of 12</b> handlers; the loud one only 4.</p>
+        <span class="tool">research synthesis</span><span class="tool">pushing back</span>
+        <div class="lesson">Volume isn't prevalence. Argue with the first grouping.</div>
+      </div>
+    </div>
+    <div class="power c3 pop d2">
+      <div class="top"><h3>REWIND</h3><span class="num">#3</span></div>
+      <div class="bd">
+        <p>Replayed a score the database <b>never stored</b>, then replayed it again with one rule changed: <b>0 of 16</b> people stranded.</p>
+        <span class="tool">SQL I didn't write by hand</span><span class="tool">counterfactual</span>
+        <div class="lesson">Size the fix before you propose it.</div>
+      </div>
+    </div>
+    <div class="power c4 pop">
+      <div class="top"><h3>X-RAY VISION</h3><span class="num">#4</span></div>
+      <div class="bd">
+        <p>Read all <b>232 lines</b> of the routing service. Found the one line that adds points, and why the "obvious" fix wouldn't rescue anyone.</p>
+        <span class="tool">code reading</span><span class="tool">plain-English explanations</span>
+        <div class="lesson">When code and data disagree, that gap is the finding.</div>
+      </div>
+    </div>
+    <div class="power c5 pop d1">
+      <div class="top"><h3>SUPER SPEED</h3><span class="num">#5</span></div>
+      <div class="bd">
+        <p>Went from diagnosis to a <b>written brief + clickable prototype</b> of the console and phone, before/after, with a live timer.</p>
+        <span class="tool">brief drafting</span><span class="tool">HTML prototype</span>
+        <div class="lesson">Show the trade-off; don't just argue it.</div>
+      </div>
+    </div>
+    <div class="power c6 pop d2">
+      <div class="top"><h3>SIDEKICKS</h3><span class="num">#6</span></div>
+      <div class="bd">
+        <p>Built a <b>reusable skill</b> that grades every brief on 5 criteria, scheduled every Monday. First run: <b>9 flags</b> on 4 briefs.</p>
+        <span class="tool">custom skill</span><span class="tool">scheduled run</span>
+        <div class="lesson">Turn a lesson into a system the whole team gets.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLOT TWIST -->
+<section class="page" id="twist">
+  <span class="cap r pop">PLOT TWIST!</span>
+  <h2 class="pop">One query unmasked the villain</h2>
+  <div class="grid g2" style="margin-top:20px;align-items:start">
+    <div class="panel pop tiltL">
+      <div class="burst" style="right:-34px;top:-44px;width:120px;height:120px"><svg viewBox="0 0 120 120"><polygon class="wob" style="transform-origin:60px 60px" points="60,2 72,38 110,22 86,54 118,70 80,76 92,114 60,88 28,114 40,76 2,70 34,54 10,22 48,38" fill="#ffd60a" stroke="#111" stroke-width="4"/><text x="60" y="68" text-anchor="middle" class="ct" style="font-size:22px">ZAP!</text></svg></div>
+      <h3>Seconds between pings</h3>
+      <p style="font-size:15.5px">If someone says no, the gap shouldn't change. If nobody answers, it should move by exactly what the timer moved.</p>
+      <svg viewBox="0 0 440 250" role="img" aria-label="Gap between pings: 92 seconds before and 62 after when nobody answered; 22 seconds both times when someone said no">
+        <line x1="20" y1="210" x2="430" y2="210" stroke="#111" stroke-width="4"/>
+        <rect class="gy d1" x="40" y="41" width="78" height="169" fill="#e63946" stroke="#111" stroke-width="4"/>
+        <rect class="gy d2" x="128" y="96" width="78" height="114" fill="#ff8a94" stroke="#111" stroke-width="4"/>
+        <rect class="gy d3" x="250" y="170" width="78" height="40" fill="#1d4ed8" stroke="#111" stroke-width="4"/>
+        <rect class="gy d4" x="338" y="170" width="78" height="40" fill="#8fb0ff" stroke="#111" stroke-width="4"/>
+        <text x="79" y="32" text-anchor="middle" class="ct" style="font-size:26px">92s</text><text x="167" y="87" text-anchor="middle" class="ct" style="font-size:26px">62s</text>
+        <text x="289" y="161" text-anchor="middle" class="ct" style="font-size:26px">22s</text><text x="377" y="161" text-anchor="middle" class="ct" style="font-size:26px">22s</text>
+        <text x="123" y="236" text-anchor="middle" class="cs">nobody answered (before / after)</text>
+        <text x="333" y="236" text-anchor="middle" class="cs">someone said no (before / after)</text>
+      </svg>
+      <div class="bubble" style="margin:14px 0 0;font-size:15.5px">Exactly 30 seconds less, and only when nobody answered. Case closed!</div>
+    </div>
+    <div class="panel b dots pop tiltR d1">
+      <h3>So the drop was misses, not refusals</h3>
+      <svg viewBox="0 0 440 260" role="img" aria-label="Missed pings rose from 2.3 to 18.0 percent; refusals fell from 21.1 to 18.0 percent">
+        <rect x="0" y="0" width="440" height="260" fill="#fff" stroke="#111" stroke-width="4"/>
+        <text x="20" y="38" class="ct" style="font-size:22px">MISSED</text>
+        <rect class="gx d1" x="140" y="18" width="16" height="30" fill="#e63946" stroke="#111" stroke-width="3"/><text x="164" y="40" class="cs">2.3% before</text>
+        <rect class="gx d2" x="140" y="56" width="216" height="30" fill="#e63946" stroke="#111" stroke-width="3"/><text x="364" y="78" class="ct" style="font-size:22px">18%!</text>
+        <text x="20" y="152" class="ct" style="font-size:22px">SAID NO</text>
+        <rect class="gx d3" x="140" y="132" width="253" height="30" fill="#1d4ed8" stroke="#111" stroke-width="3"/><text x="146" y="153" class="cs" style="fill:#fff">21.1% before</text>
+        <rect class="gx d4" x="140" y="170" width="216" height="30" fill="#8fb0ff" stroke="#111" stroke-width="3"/><text x="146" y="191" class="cs">18.0% after: it went DOWN</text>
+        <text x="220" y="240" text-anchor="middle" class="cs">Nobody was "ignoring us". Phones just stopped ringing long enough.</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="panel pop" style="margin-top:34px">
+    <span class="cap">THE CLIFF</span>
+    <h3>Every responder's score, replayed. Press the button!</h3>
+    <div class="toggle">
+      <button class="btn" id="bNow" type="button">WHAT HAPPENED</button>
+      <button class="btn off" id="bFix" type="button">KA-CHUNK! APPLY THE 1-LINE FIX</button>
+    </div>
+    <svg viewBox="0 0 900 200" role="img" aria-label="Twelve responders between 0.72 and 1.00; four at zero, moving to 0.76 to 0.84 with the fix">
+      <rect x="40" y="150" width="840" height="12" fill="#ffd60a" stroke="#111" stroke-width="3"/>
+      <g class="cs"><text x="40" y="186" text-anchor="middle">0.0</text><text x="460" y="186" text-anchor="middle">0.5</text><text x="880" y="186" text-anchor="middle">1.0</text></g>
+      <g id="others"></g><g id="four"></g>
+    </svg>
+    <div class="bubble" id="cliffSay" style="margin:16px 0 0;font-size:16px"></div>
+  </div>
+</section>
+
+<!-- WHAT I LEARNT -->
+<section class="page" id="rules">
+  <span class="cap pop">THE HERO'S CODE</span>
+  <h2 class="pop">Six rules I learnt the hard way</h2>
+  <div class="grid g2" style="margin-top:22px">
+    <div class="rule pop"><div class="n">1</div><div><h3>CONSENSUS IS A HYPOTHESIS</h3><p>Three senior people agreed on the cause. One chart showed they were all wrong. Ask what would prove us wrong.</p></div></div>
+    <div class="rule pop d1"><div class="n">2</div><div><h3>THE AI CAN BE WRONG. SO CAN I.</h3><p>I changed my mind four times on the record, once by pushing back on the AI's reading of the code. I was right.</p></div></div>
+    <div class="rule pop"><div class="n">3</div><div><h3>A METRIC CAN LIE NICELY</h3><p>Putting the timer back brings acceptance back to ~76% while four people stay at zero. Pair every KPI with who it hides.</p></div></div>
+    <div class="rule pop d1"><div class="n">4</div><div><h3>READ THE CODE. REALLY.</h3><p>232 lines. Not scary with a sidekick explaining them. It settled a question engineering had open for three weeks.</p></div></div>
+    <div class="rule pop"><div class="n">5</div><div><h3>WRITE IT DOWN EVERY SESSION</h3><p>Each session ended by saving what we found to <b>CLAUDE.md</b>. Session six could still cite, and correct, session one.</p></div></div>
+    <div class="rule pop d1"><div class="n">6</div><div><h3>CHECK THE AUTOMATION</h3><p>A sample report claimed 4 flags. The real run found 9, and the sample was older than the folder it described.</p></div></div>
+  </div>
+</section>
+
+<!-- POWER MOVES -->
+<section class="page" id="moves">
+  <span class="cap b pop">POWER MOVES</span>
+  <h2 class="pop">Three prompts you can steal tomorrow</h2>
+  <div class="grid g3" style="margin-top:22px;align-items:start">
+    <div class="panel y pop tiltL">
+      <h3>THE GAP FINDER</h3>
+      <div class="prompt">What's contradictory or missing across the wiki, the database and the files in my repo?</div>
+      <p style="font-size:15.5px;margin:0">Finds where sources disagree. That's usually where the answer is.</p>
+    </div>
+    <div class="panel pop d1">
+      <h3>THE EITHER/OR</h3>
+      <div class="prompt">Is the decline caused by users ignoring notifications, or by notifications failing to reach them?</div>
+      <p style="font-size:15.5px;margin:0">Two mechanisms, no room for a story. A question that can be answered <i>wrong</i> is worth asking.</p>
+    </div>
+    <div class="panel b pop tiltR d2">
+      <h3>THE PUSHBACK</h3>
+      <div class="prompt">I disagree with you that [X]. From what I've seen, [Y]. What am I missing?</div>
+      <p style="font-size:15.5px;margin:0">Treat it like a sharp colleague: one who can be wrong, and who has to show you.</p>
+    </div>
+  </div>
+</section>
+
+<!-- JOIN -->
+<section class="page" id="join">
+  <span class="cap r pop">YOUR ORIGIN STORY STARTS HERE</span>
+  <h2 class="pop">How you start: no coding needed</h2>
+  <div class="grid g2" style="margin-top:22px;align-items:start">
+    <div class="panel pop steps">
+      <div class="step"><h3>PICK ONE REAL QUESTION</h3><p>Not a demo. A metric that moved, a ticket theme you can't explain, a brief you don't trust.</p></div>
+      <div class="step"><h3>GIVE IT A WORKING CONTEXT</h3><p>A <b>CLAUDE.md</b> file with what you know, who owns what and what's still open. It's the sidekick's memory between sessions.</p></div>
+      <div class="step"><h3>CONNECT YOUR SOURCES</h3><p>Wiki, database, tickets, code. Most of the answer came from <i>combining</i> them.</p></div>
+      <div class="step"><h3>CHECK EVERY ANSWER</h3><p>Ask for the query, the line of code, the source. If it can't show you, it doesn't count.</p></div>
+      <div class="step" style="margin-bottom:0"><h3>MAKE IT REPEATABLE</h3><p>If you do it twice, turn it into a skill the whole team can run.</p></div>
+    </div>
+    <div>
+      <div class="panel k pop tiltR" style="margin-bottom:28px">
+        <div class="burst" style="right:-30px;top:-50px;width:130px;height:130px"><svg viewBox="0 0 120 120"><polygon class="wob" style="transform-origin:60px 60px" points="60,2 72,38 110,22 86,54 118,70 80,76 92,114 60,88 28,114 40,76 2,70 34,54 10,22 48,38" fill="#e63946" stroke="#111" stroke-width="4"/><text x="60" y="68" text-anchor="middle" class="ct" style="font-size:20px;fill:#fff">YOU!</text></svg></div>
+        <h3 style="color:var(--yellow);font-size:38px">THE 30-DAY CHALLENGE</h3>
+        <p>My proposal for our team:</p>
+        <p><b style="color:var(--yellow)">Week 1:</b> everyone picks one open question from their area.<br>
+          <b style="color:var(--yellow)">Week 2:</b> run it with an AI sidekick, and save the prompts.<br>
+          <b style="color:var(--yellow)">Week 3:</b> show-and-tell. What did it get wrong, and how did you catch it?<br>
+          <b style="color:var(--yellow)">Week 4:</b> one person turns their best workflow into a team skill.</p>
+        <p style="margin:0">Best catch of the month wins the <b style="color:var(--yellow)">X-Ray Vision award</b>.</p>
+      </div>
+      <div class="panel y dots pop d1">
+        <div class="bubble" style="font-size:17px">"I didn't learn this to replace anyone. I learnt it so our questions get answered in hours, by the people who own them."</div>
+        <p class="who" style="margin:0">&mdash; YOUR VP PRODUCT</p>
+      </div>
+      <div class="pop d2" style="margin-top:26px;display:flex;gap:12px;flex-wrap:wrap">
+        <a class="btn b" href="05-super-speed/prototype.html" target="_blank" rel="noopener">SEE THE PROTOTYPE &#8599;</a>
+        <a class="btn w" href="final-report.html" target="_blank" rel="noopener">FULL CASE FILE &#8599;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- END -->
+<section class="end">
+  <div class="page">
+    <h2 class="pop">TO BE CONTINUED&hellip;</h2>
+    <p class="pop" style="font-size:22px;max-width:40ch;margin:10px auto 0">&hellip;in <b style="color:var(--yellow)">your</b> next sprint. Bring one question to our next team meeting.</p>
+    <p class="fine">Based on my work in Product School's <i>Claude Code for PMs</i> certification (cohort ccpm-2026.1). "Rook Industries" is a fictional
+      teaching scenario. The analysis, prototype and skill are real work done on its data and code.</p>
+  </div>
+</section>
+
+<script>
+(function(){
+  var NS='http://www.w3.org/2000/svg';
+  function el(t,a,p,x){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);if(x!=null)e.textContent=x;if(p)p.appendChild(e);return e;}
+  function px(v){return 40+v*840;}
+  var others=[0.74,0.78,0.81,0.84,0.86,0.89,0.91,0.93,0.95,0.97,0.99,1.00], four=[0.84,0.80,0.78,0.76];
+  var gO=document.getElementById('others'), gF=document.getElementById('four');
+  others.forEach(function(v,i){
+    var g=el('g',{transform:'translate('+px(v)+','+(60+(i%4)*20)+')'},gO);
+    el('circle',{r:12,fill:'#22a559',stroke:'#111','stroke-width':3},g);
+    el('path',{d:'M-5 2 Q0 7 5 2',stroke:'#111','stroke-width':2.4,fill:'none'},g);
+  });
+  var heads=four.map(function(v,i){
+    var g=el('g',{style:'transition:transform .9s cubic-bezier(.3,1.5,.5,1)'},gF);
+    el('circle',{r:13,fill:'#e63946',stroke:'#111','stroke-width':3},g);
+    var m=el('path',{d:'M-5 5 Q0 0 5 5',stroke:'#111','stroke-width':2.4,fill:'none'},g);
+    g._m=m; g._y=60+i*20; return g;
+  });
+  var bN=document.getElementById('bNow'), bF=document.getElementById('bFix'), say=document.getElementById('cliffSay');
+  function render(fix){
+    heads.forEach(function(g,i){
+      g.style.transform='translate('+px(fix?four[i]:0)+'px,'+g._y+'px)';
+      g.firstChild.setAttribute('fill',fix?'#ff8c1a':'#e63946');
+      g._m.setAttribute('d',fix?'M-5 2 Q0 7 5 2':'M-5 5 Q0 0 5 5');
+    });
+    bN.classList.toggle('off',fix); bF.classList.toggle('off',!fix);
+    say.innerHTML=fix?'<b>KA-CHUNK!</b> Same month, one rule changed: a miss no longer counts as a "no". <b>0 of 16</b> hit the floor. All four are back in rotation.'
+                    :'<b>Twelve happy, four at exactly zero.</b> A cliff, not a curve. And nothing in the system would ever lift them back.';
+  }
+  bN.addEventListener('click',function(){render(false);}); bF.addEventListener('click',function(){render(true);}); render(false);
+
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.15});
+  document.querySelectorAll('.pop').forEach(function(x){io.observe(x);});
+})();
+</script>
+</body>
+</html>
