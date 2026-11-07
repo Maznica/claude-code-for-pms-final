@@ -348,3 +348,30 @@ clickable prototype in `05-super-speed/prototype.html`.
 - **Caveat carried forward:** the ping data stops **6 September** and it is now
   November. Everything above is two months stale — ask Ravi Menon for current
   numbers before acting.
+
+**Session 6 findings (Module 6).** Built `review-checklist` as a project skill
+(`.claude/skills/review-checklist/SKILL.md`) and put it on a Monday 09:06
+schedule. Run reports go to `06-sidekicks/review-checklist-runs/`.
+
+- **Graded all four of Priya's wiki briefs. Nine flags, not four.** Every one
+  of them fails on evidence: **not a single figure between them.** The case for
+  each rests on one anecdote — "Halloran's asked more than once", "Aunt Dot
+  asked for", "the support lead's team has hit this more than once".
+- **Requisition Approval Chains** (14 Jul) is the worst. Says "That's the whole
+  ask", then adds four things in the next sentence: 48-hour route-around, a
+  cross-site pending dashboard, handler-visible status, and replacing
+  Halloran's gear-cage spreadsheet. Ships-together-or-phased is "TBD".
+- **Routing Override Audit Log** (5 Mar) still reads "ready to build" and
+  "once profile redesign wraps" — but 4.0 (7 Apr) shipped *both* profile
+  redesign and a routing override audit log. It may have been describing
+  finished work for seven months. **Check the 4.0 release notes before acting
+  on it.**
+- **Handler Phone App** (8 Sep) opens with the app, not the problem, and the
+  build is explicitly "not yet staffed". Bulk Callout (12 Jan) has no owner at
+  all — "nobody's picked it up yet".
+- **`06-sidekicks/scheduled-run-output.txt` is course-supplied fiction.** Dated
+  13 Oct, eleven days before this repo's first commit, for a skill and a briefs
+  folder that didn't exist. It also undercounts: one flag per brief where the
+  real count is two or three. Never treat it as a result.
+- Module 5 brief re-graded at 1 flag of 5 — no owner named. Step 4 of its plan,
+  "Check the gear", has nobody on the Supply side attached to it.

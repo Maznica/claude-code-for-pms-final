@@ -1,0 +1,10 @@
+review-checklist - manual run (smoke test)
+Started: 2026-11-07 18:18 UTC
+Source: 06-sidekicks/briefs/ (0 brief files)
+
+Folder present. It holds one file, README.md, which is the folder's own
+documentation and not a brief, so it was not checked.
+
+No briefs to check. Nothing flagged.
+
+0 briefs checked, 0 flagged, 0 flags.

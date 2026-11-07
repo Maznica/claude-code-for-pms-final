@@ -1,0 +1,114 @@
+review-checklist - manual run (three named briefs, Rook wiki)
+Started: 2026-11-07 18:39 UTC
+Source: Rook wiki > Product briefs (3 briefs)
+
+Handler Phone App - "One-pager, Product, Dispatch, 8 September 2026"
+  owner named .................... NO - flagged
+  success measure ................ yes
+  scope stays bounded ............ yes
+  problem stated before fix ...... NO - flagged
+  evidence present and current ... NO - flagged
+  -> 3 flags.
+
+     1. No owner named for the work proposed. There is an Owner
+        section, but it reads "The product designer, exploring for Q4
+        alongside the console work. Not yet staffed for a build." A
+        role is identified, no person or team is named, and the build
+        - which is what this brief asks for - is explicitly unstaffed.
+        Exploration has an owner; the proposal does not.
+
+     2. Solution before problem. The brief opens "## Proposal - We
+        should build a phone app for handlers," and describes
+        notifications, status view and one-tap contact before saying
+        what is wrong. The problem appears in the second section,
+        "What this solves," and even there it arrives as a feature
+        request rather than a problem: Aunt Dot asking for "something
+        that tells me too."
+
+     3. Evidence: the whole case rests on one anecdote. A single
+        interview quote from one handler, "a handler in the interview
+        pile," with no figures of any kind - not how often handlers
+        miss a status change, not how many handlers are affected, not
+        how long the gap lasts. The brief says so itself: "No baseline
+        number yet." It is the most recent of the four briefs (two
+        months old), so age is not the problem here; absence is.
+
+Requisition Approval Chains - "One-pager, Product, Supply, 14 July 2026"
+  owner named .................... yes
+  success measure ................ yes
+  scope stays bounded ............ NO - flagged
+  problem stated before fix ...... yes
+  evidence present and current ... NO - flagged
+  -> 2 flags.
+
+     1. Scope grows mid-document, and the brief draws the line itself
+        before crossing it. The Proposal states the ask and closes it:
+        "Add a second approval step for requisitions over $2,000...
+        That's the whole ask." The very next sentence picks up four
+        more things - route around a slow approver after 48 hours, a
+        dashboard of every pending approval across all three sites,
+        handler-visible requisition status, and replacing "the weekly
+        gear-cage spreadsheet Halloran keeps by hand." The Open
+        questions section confirms it is unresolved: "How much of the
+        above ships together versus in phases - TBD."
+
+        Note: the success measure passes, but it measures only the
+        original ask - requisitions over $2,000 shipping without a
+        second sign-off. None of the four additions has a measure.
+        The ask grew; the measure did not.
+
+     2. Evidence: no figures behind the problem. The $2,000 threshold
+        is a policy parameter the brief proposes, not evidence for it.
+        Nothing says how many requisitions exceed $2,000, how often,
+        or whether a single-approval purchase has ever gone wrong.
+        The case rests on one anecdote - "Halloran's asked more than
+        once for a second set of eyes."
+
+Routing Override Audit Log - "One-pager, Product, Dispatch, 5 March 2026"
+  owner named .................... yes
+  success measure ................ NO - flagged
+  scope stays bounded ............ yes
+  problem stated before fix ...... yes
+  evidence present and current ... NO - flagged
+  -> 2 flags.
+
+     1. No success measure. The brief has no such section. The
+        Proposal says what gets recorded - "who made it, when, which
+        responder they picked instead of the recommended one, and a
+        short reason if they typed one" - and where it appears, the
+        console's existing activity view. That is a description of
+        what gets built and surfaced, which the criterion explicitly
+        does not accept. Nothing says how anyone would know it was
+        working: not how often overrides happen, not whether the
+        support lead's team can close a complaint faster, not
+        anything checkable.
+
+     2. Evidence: no figures, and eight months elapsed. Dated 5 March,
+        read 7 November. The case rests on "The support lead's team
+        has hit this more than once" - no count of complaints, no
+        count of overrides, nothing a reader can re-run today.
+
+     Note on the owner, which passes: "The engineering manager's team
+     builds it" names a role rather than a person, but it assigns the
+     proposed work to one specific, identifiable team with a start
+     condition ("once profile redesign wraps"). That is the line this
+     run drew between this brief and Handler Phone App, where the role
+     named is exploring and the build is unstaffed. The test is
+     whether the work the brief proposes has somebody on the hook, not
+     whether a proper noun appears.
+
+OUTSIDE THE CHECKLIST - the five criteria do not cover this, and it is
+recorded here rather than as a flag.
+
+  Routing Override Audit Log describes itself as "ready to build" and
+  says the work "can pick this up once profile redesign wraps." Rook's
+  release history has profile redesign AND a routing override audit
+  log both shipping in 4.0 on 7 April 2026. If that is the same work,
+  this brief has been describing finished work for seven months, and
+  every flag above is a flag on a historical document.
+
+  The checklist cannot see this. It grades briefs as documents and has
+  no criterion for whether the work already happened. Worth confirming
+  against the 4.0 release notes before anyone acts on the two flags.
+
+3 briefs checked, 3 flagged, 7 flags.

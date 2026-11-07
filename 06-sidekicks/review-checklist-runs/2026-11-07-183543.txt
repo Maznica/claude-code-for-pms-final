@@ -1,0 +1,53 @@
+review-checklist - manual run (named brief, Rook wiki)
+Started: 2026-11-07 18:35 UTC
+Source: Rook wiki > Product briefs > Bulk Callout (1 brief)
+
+Bulk Callout - "One-pager, Product, Dispatch, 12 January 2026"
+  owner named .................. NO - flagged
+  success measure .............. yes
+  scope stays bounded .......... yes
+  problem stated before fix .... yes
+  evidence dated and current ... NO - flagged
+  -> 2 flags.
+
+     1. No owner named. The brief says so itself: "nobody's picked it
+        up yet," and "Flagging this for whoever picks it up next
+        quarter." The two parties it does mention are roles, not
+        people - "the product designer" and "engineering" - and naming
+        a function is not assigning responsibility. Nobody is on the
+        hook for this brief.
+
+     2. No evidence, and ten months elapsed. The brief is dated 12
+        January 2026; it is now 7 November. Its entire evidentiary
+        basis is one undated anecdote, "Halloran mentioned it too, on
+        the Supply side," and it carries no figures at all - not how
+        often multi-responder incidents happen, not how long the
+        sequential flow takes, not how many handlers hit it. The one
+        proposed metric is explicitly un-baselined: "we don't have a
+        clean baseline for it yet." Ten months on, nothing in the
+        brief lets a reader judge whether the problem is still live or
+        how big it ever was.
+
+        Criterion note: criterion 5 is written for figures that are
+        undated or stale. It does not cleanly cover a brief that rests
+        on no figures at all. Judged against the criterion's purpose -
+        can a reader tell whether the evidence supports acting now -
+        this is a miss, and a brief resting on nothing is weaker than
+        one resting on dated evidence. The criterion's wording should
+        be amended to say so explicitly.
+
+     Note on the success measure, which passes: it is the weakest pass
+     here. "Fewer support tickets mentioning a handler who 'just
+     started calling people directly'" is a named, countable change in
+     behaviour, and "time-to-full-coverage ... should drop" names a
+     real metric. Neither carries a target, and the brief admits the
+     baseline is missing - but it says what to measure and flags the
+     gap, which is what the criterion asks for.
+
+     Note on scope, which passes well: the Problem section raises
+     Halloran's Supply-side version of the same need, and the Scope
+     section then rules it out by name - "no bulk requisitions." A
+     neighbouring need raised and explicitly excluded is bounded
+     handling, not creep.
+
+1 brief checked, 1 flagged, 2 flags.

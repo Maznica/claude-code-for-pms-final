@@ -1,0 +1,26 @@
+review-checklist - manual run (named file, five criteria)
+Started: 2026-11-07 18:30 UTC
+Source: 05-super-speed/brief.md (1 brief file)
+
+brief.md - "A way back"
+  owner named .................. NO - flagged
+  success measure .............. yes
+  scope stays bounded .......... yes
+  problem stated before fix .... yes
+  evidence dated and current ... yes
+  -> 1 flag: no owner named. Names consultees and decision-makers
+     throughout - Wen Li, Ravi Menon, Sofia Marino, "a decision with
+     Marcus and Helen" - but never says whose team builds any of the
+     six steps. Step 4, "Check the gear," is explicitly unowned:
+     "Nobody has looked, and it isn't answerable from the Dispatch
+     side" (line 403), with nobody named on the Supply side.
+
+  Note on criterion 5: passes, and deliberately. The brief's evidence
+  is two months old - ping data stops 6 September, today is 7 November
+  - but it says so in terms at line 422 ("The caveat, and it is a real
+  one") and attaches a remedy: step 1 travels with a request to Ravi
+  Menon for current numbers. Dated and owned staleness is a pass. Had
+  the same numbers appeared undated, this would be the brief's second
+  flag and the more serious one.
+
+1 brief checked, 1 flagged, 1 flag.

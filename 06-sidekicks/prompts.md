@@ -15,6 +15,17 @@ prompt library built from your own questions.
 
 ### 1.
 
+Imagine it's Monday morning
+review-checklist flagged four gaps overnight, on four briefs in Rook's wiki that nobody in this room has read yet. You don't know yet what they mean. But you already know exactly where to look, without doing any of the digging yourself. What I should write as a prompt to test the skill in this scenario? What should I write as a prompt to test it on the brief created in module 5
+
 ### 2.
 
+Do we have access to someone else brief so that we can test the skill?
+
 ### 3.
+
+/review-checklist on Bulk Callout in rook wiki
+
+### 4.
+
+/review-checklist on remaining three briefs in rook wiki
