@@ -1,0 +1,729 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Release 4.2</title>
+<style>
+:root{
+  --bg:#0a0d14; --bg2:#10141e; --panel:#141926; --line:#242c3d;
+  --ink:#e9ecf3; --mut:#8e9ab3; --dim:#5f6b83;
+  --amber:#f5b544; --amber2:#ffd27a;
+  --red:#ef5f5f; --green:#4cc38a; --blue:#6aa9ff; --violet:#a98bff;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+  font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(900px 500px at 12% -10%,rgba(245,181,68,.10),transparent 60%),
+    radial-gradient(800px 500px at 100% 0%,rgba(106,169,255,.08),transparent 60%),
+    radial-gradient(900px 600px at 50% 110%,rgba(169,139,255,.07),transparent 60%);
+}
+#prog{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
+  background:linear-gradient(90deg,var(--amber),var(--amber2));box-shadow:0 0 14px rgba(245,181,68,.6)}
+nav#dots{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:40;
+  display:flex;flex-direction:column;gap:11px}
+nav#dots a{width:9px;height:9px;border-radius:50%;background:#2b3448;display:block;
+  transition:.25s;position:relative;cursor:pointer}
+nav#dots a:hover{background:var(--dim);transform:scale(1.3)}
+nav#dots a.on{background:var(--amber);box-shadow:0 0 0 4px rgba(245,181,68,.15)}
+nav#dots a span{position:absolute;right:18px;top:50%;transform:translateY(-50%);
+  white-space:nowrap;font-size:11px;color:var(--mut);background:var(--panel);
+  border:1px solid var(--line);padding:3px 8px;border-radius:5px;opacity:0;
+  pointer-events:none;transition:.2s}
+nav#dots a:hover span{opacity:1}
+
+section{position:relative;z-index:1;min-height:100vh;padding:72px 28px;
+  display:flex;flex-direction:column;justify-content:center;align-items:center}
+.wrap{width:100%;max-width:1060px}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.kicker::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
+h1{font-size:clamp(38px,7vw,76px);line-height:1.03;margin:0 0 18px;letter-spacing:-.03em;font-weight:800}
+h2{font-size:clamp(26px,3.6vw,42px);line-height:1.12;margin:0 0 16px;letter-spacing:-.02em;font-weight:750}
+h3{font-size:19px;margin:0 0 10px;letter-spacing:-.01em}
+p{margin:0 0 14px;color:#cfd5e2;max-width:72ch}
+.lead{font-size:clamp(18px,2.1vw,23px);color:#d8dde8;line-height:1.5}
+.mut{color:var(--mut)}
+b,strong{color:#fff;font-weight:650}
+.amber{color:var(--amber)}.red{color:var(--red)}.green{color:var(--green)}.blue{color:var(--blue)}
+code,.m{font-family:var(--mono);font-size:.88em;background:#1a2030;border:1px solid var(--line);
+  padding:1px 6px;border-radius:5px;color:var(--amber2)}
+
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.3,1)}
+.reveal.in{opacity:1;transform:none}
+.reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}
+.reveal.d3{transition-delay:.24s}.reveal.d4{transition-delay:.32s}
+
+.panel{background:linear-gradient(180deg,rgba(20,25,38,.9),rgba(16,20,30,.9));
+  border:1px solid var(--line);border-radius:16px;padding:24px}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:860px){.g2,.g3,.g4{grid-template-columns:1fr}nav#dots{display:none}}
+
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;
+  position:relative;overflow:hidden}
+.stat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--amber)}
+.stat.r::before{background:var(--red)}.stat.g::before{background:var(--green)}.stat.b::before{background:var(--blue)}
+.stat .n{font-family:var(--mono);font-size:clamp(19px,2.3vw,27px);font-weight:700;letter-spacing:-.03em;line-height:1.15}
+.stat .l{font-size:12.5px;color:var(--mut);margin-top:8px;line-height:1.4}
+
+.chain{display:flex;flex-wrap:wrap;align-items:stretch}
+.step{flex:1 1 150px;min-width:150px;background:var(--panel);border:1px solid var(--line);
+  border-radius:12px;padding:14px 15px;margin:6px;position:relative}
+.step .i{font-family:var(--mono);font-size:11px;color:var(--amber);letter-spacing:.1em}
+.step .t{font-weight:650;margin:6px 0 4px;font-size:15px}
+.step .s{font-size:12.5px;color:var(--mut);line-height:1.4}
+.step.end{border-color:rgba(239,95,95,.5);background:linear-gradient(180deg,rgba(239,95,95,.10),rgba(20,25,38,.9))}
+.step.end .i{color:var(--red)}
+.arrow{align-self:center;color:var(--dim);font-size:18px}
+
+.promptbox{background:#0d1119;border:1px solid var(--line);border-left:3px solid var(--violet);
+  border-radius:0 12px 12px 0;padding:16px 18px;font-family:var(--mono);font-size:12.5px;
+  line-height:1.6;color:#c6cee0;white-space:pre-wrap;max-height:300px;overflow:auto}
+.promptbox::-webkit-scrollbar{width:8px}
+.promptbox::-webkit-scrollbar-thumb{background:#2a3347;border-radius:8px}
+.tag{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--mut);margin-bottom:9px}
+.tag i{width:6px;height:6px;border-radius:50%;background:var(--violet);font-style:normal}
+.tag.f i{background:var(--amber)}.tag.t i{background:var(--green)}
+
+.modcard{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+@media(max-width:860px){.modcard{grid-template-columns:1fr}}
+.take{background:linear-gradient(135deg,rgba(76,195,138,.10),rgba(16,20,30,.6));
+  border:1px solid rgba(76,195,138,.28);border-radius:12px;padding:16px 18px}
+.take p{margin:0;color:#dbe4ec;font-size:15.5px}
+.mnum{font-family:var(--mono);font-size:12px;color:var(--dim);letter-spacing:.14em}
+
+table{width:100%;border-collapse:collapse;font-size:14.5px}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line)}
+th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);font-weight:500}
+td.n{font-family:var(--mono);text-align:right}
+
+.btn{display:inline-flex;align-items:center;gap:8px;background:#1a2132;border:1px solid var(--line);
+  color:var(--ink);padding:9px 16px;border-radius:9px;font-size:14px;cursor:pointer;
+  font-family:var(--sans);transition:.2s;text-decoration:none}
+.btn:hover{border-color:var(--amber);color:var(--amber)}
+.btn.on{background:rgba(245,181,68,.14);border-color:var(--amber);color:var(--amber)}
+
+svg{display:block;width:100%;height:auto;overflow:visible}
+.ax{stroke:var(--line);stroke-width:1}
+.axt{fill:var(--mut);font-family:var(--mono);font-size:11px}
+.lbl{fill:var(--ink);font-family:var(--sans);font-size:13px}
+.vl{fill:#fff;font-family:var(--mono);font-size:13px;font-weight:600}
+.leg{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--mut);margin-top:12px}
+.leg i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px;font-style:normal}
+
+.note{font-size:13px;color:var(--dim);border-left:2px solid var(--line);padding-left:12px;margin-top:14px}
+footer{position:relative;z-index:1;padding:48px 28px 60px;border-top:1px solid var(--line);
+  text-align:center;color:var(--dim);font-size:13px}
+.hint{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:40;
+  font-family:var(--mono);font-size:11px;color:var(--dim);background:rgba(10,13,20,.8);
+  border:1px solid var(--line);padding:6px 12px;border-radius:20px;transition:.4s}
+.hint.gone{opacity:0}
+</style>
+</head>
+<body>
+<div id="prog"></div>
+<nav id="dots"></nav>
+<div class="hint" id="hint">&#8593; &#8595; or scroll</div>
+
+<!-- 1 TITLE -->
+<section data-t="Release 4.2">
+  <div class="wrap">
+    <div class="kicker reveal">Rook Dispatch &middot; post-release review &middot; 7 November 2026</div>
+    <h1 class="reveal d1">Release 4.2 cut a timer<br>by thirty seconds<br><span class="amber">and four responders<br>stopped getting work.</span></h1>
+    <p class="lead reveal d2" style="max-width:62ch">Six sessions, four independent sources, one prototype and one skill.
+      This is what happened, how it was found, and what keeps it from happening again.</p>
+    <div class="grid g4 reveal d3" style="margin-top:34px">
+      <div class="stat r"><div class="n">2.3 &rarr; 18.0%</div><div class="l">Pings missed, before and after 12 August</div></div>
+      <div class="stat b"><div class="n">21.1 &rarr; 18.0%</div><div class="l">Pings turned down &mdash; refusals actually <b>fell</b></div></div>
+      <div class="stat r"><div class="n">4 of 16</div><div class="l">Responders driven to a score of exactly 0.00</div></div>
+      <div class="stat g"><div class="n">1 line</div><div class="l">The change that fixes it: stop counting silence as a refusal</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 THE ANSWER -->
+<section data-t="What happened">
+  <div class="wrap">
+    <div class="kicker reveal">The plain version</div>
+    <h2 class="reveal d1">It was the timer. Not the weighting everybody blamed.</h2>
+    <p class="lead reveal d1">4.2 shipped two routing changes on the same day. The team's read &mdash; and my predecessor's &mdash; was that
+      re-weighting proximity against acceptance history had pushed responders down the list. It hadn't.
+      <b class="amber">The ping wait went from 90 seconds to 60</b>, people started missing calls they used to catch, and the code
+      scores a miss exactly like a refusal.</p>
+    <div class="chain reveal d2" style="margin-top:26px">
+      <div class="step"><div class="i">01</div><div class="t">Timer cut</div><div class="s"><code>config.py:9</code> &mdash; 90s to 60s</div></div>
+      <div class="arrow">&rarr;</div>
+      <div class="step"><div class="i">02</div><div class="t">Pings missed</div><div class="s">Phone in the next room. 2.3% to 18.0%</div></div>
+      <div class="arrow">&rarr;</div>
+      <div class="step"><div class="i">03</div><div class="t">Miss = refusal</div><div class="s"><code>offer.py:30</code> + <code>history.py:35</code>, &minus;0.12 either way</div></div>
+      <div class="arrow">&rarr;</div>
+      <div class="step"><div class="i">04</div><div class="t">Score falls</div><div class="s">+0.08 credit never catches &minus;0.12. No decay, no reset</div></div>
+      <div class="arrow">&rarr;</div>
+      <div class="step end"><div class="i">05</div><div class="t">Fewer offers, then none</div><div class="s">The only line that adds points needs a ping to arrive</div></div>
+    </div>
+    <p class="reveal d3" style="margin-top:26px">The trap is the last arrow. Points are only earned by answering a ping, so a responder who has
+      stopped receiving pings has <b>no mechanism to recover</b>. Nothing in 232 lines of routing code ever raises a score on its own.
+      <span class="mut">The weight change (proximity 0.45&rarr;0.60, acceptance 0.40&rarr;0.25) arithmetically <i>softens</i> that spiral &mdash; it is the innocent half of the release.</span></p>
+  </div>
+</section>
+
+<!-- 3 PROOF -->
+<section data-t="The proof">
+  <div class="wrap">
+    <div class="kicker reveal">The decisive query</div>
+    <h2 class="reveal d1">Measure the gap between pings and the timer confesses.</h2>
+    <p class="reveal d1">The <code>pings</code> table has no delivery field and no time-to-accept. But when a callout moves on to the next
+      responder, the gap between consecutive pings <i>is</i> the wait. If somebody tapped no, the gap is unchanged. If nobody answered, it moves by exactly what the config moved.</p>
+    <div class="grid g2" style="margin-top:22px">
+      <div class="panel reveal d2">
+        <h3>Seconds between one ping and the next</h3>
+        <svg viewBox="0 0 500 250" role="img" aria-label="Gap between pings: 92 seconds before and 62 after when nobody answered; 22 seconds in both periods when someone refused">
+          <line class="ax" x1="46" y1="200" x2="490" y2="200"/>
+          <line class="ax" x1="46" y1="30" x2="46" y2="200"/>
+          <text class="axt" x="38" y="204" text-anchor="end">0</text>
+          <text class="axt" x="38" y="124" text-anchor="end">50</text>
+          <text class="axt" x="38" y="44" text-anchor="end">100</text>
+          <line class="ax" x1="46" y1="120" x2="490" y2="120" stroke-dasharray="3 5" opacity=".5"/>
+          <rect x="80"  y="53"  width="60" height="147" rx="4" fill="#ef5f5f" opacity=".9"/>
+          <rect x="152" y="101" width="60" height="99"  rx="4" fill="#ef5f5f" opacity=".45"/>
+          <rect x="300" y="165" width="60" height="35"  rx="4" fill="#6aa9ff" opacity=".9"/>
+          <rect x="372" y="165" width="60" height="35"  rx="4" fill="#6aa9ff" opacity=".45"/>
+          <text class="vl" x="110" y="45"  text-anchor="middle">92s</text>
+          <text class="vl" x="182" y="93"  text-anchor="middle">62s</text>
+          <text class="vl" x="330" y="157" text-anchor="middle">22s</text>
+          <text class="vl" x="402" y="157" text-anchor="middle">22s</text>
+          <text class="axt" x="110" y="218" text-anchor="middle">before</text>
+          <text class="axt" x="182" y="218" text-anchor="middle">after</text>
+          <text class="axt" x="330" y="218" text-anchor="middle">before</text>
+          <text class="axt" x="402" y="218" text-anchor="middle">after</text>
+          <text class="lbl" x="146" y="241" text-anchor="middle">Nobody answered</text>
+          <text class="lbl" x="366" y="241" text-anchor="middle">Someone tapped no</text>
+        </svg>
+        <div class="note">A thirty-second cut in the config, showing up as a thirty-second cut in the data &mdash; and only on the branch where the timer runs.</div>
+      </div>
+      <div class="panel reveal d3">
+        <h3>What happened to the headline metric</h3>
+        <svg viewBox="0 0 510 250" role="img" aria-label="Outcome mix: taken fell from 76.6 to 64.0 percent, turned down from 21.1 to 18.0, missed rose from 2.3 to 18.0 percent">
+          <text class="axt" x="0" y="54">BEFORE &middot; 76.6% TAKEN</text>
+          <g transform="translate(0,62)">
+            <rect x="0"   y="0" width="383" height="46" rx="4" fill="#4cc38a"/>
+            <rect x="385" y="0" width="105" height="46" fill="#6aa9ff"/>
+            <rect x="492" y="0" width="12"  height="46" fill="#ef5f5f"/>
+            <text class="vl" x="14" y="29">taken</text>
+            <text class="vl" x="437" y="29" text-anchor="middle">21.1%</text>
+          </g>
+          <text class="axt" x="0" y="150">AFTER &middot; 64.0% TAKEN</text>
+          <g transform="translate(0,158)">
+            <rect x="0"   y="0" width="320" height="46" rx="4" fill="#4cc38a" opacity=".8"/>
+            <rect x="322" y="0" width="90"  height="46" fill="#6aa9ff" opacity=".8"/>
+            <rect x="414" y="0" width="90"  height="46" rx="4" fill="#ef5f5f"/>
+            <text class="vl" x="14" y="29">taken</text>
+            <text class="vl" x="367" y="29" text-anchor="middle">18.0%</text>
+            <text class="vl" x="459" y="29" text-anchor="middle">18.0%</text>
+          </g>
+        </svg>
+        <div class="leg"><span><i style="background:#4cc38a"></i>taken</span><span><i style="background:#6aa9ff"></i>turned down</span><span><i style="background:#ef5f5f"></i>missed</span></div>
+        <div class="note">Refusals went <b>down</b>. The whole drop is misses &mdash; which is why "responders are ignoring us" was never the story.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 THE CLIFF -->
+<section data-t="The cliff">
+  <div class="wrap">
+    <div class="kicker reveal">Replayed score, all sixteen responders</div>
+    <h2 class="reveal d1">A cliff, not a distribution.</h2>
+    <p class="reveal d1">There is no score column anywhere in the database &mdash; the score lives only in <code>history.py</code>. Replaying it from
+      the ping record puts twelve responders between 0.72 and 1.00, and four at exactly zero. Nobody is in between.
+      Press the second button to replay the same month with one line changed.</p>
+
+    <div class="panel reveal d2" style="margin-top:20px">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
+        <button class="btn on" id="bActual" type="button">What actually happened</button>
+        <button class="btn" id="bCf" type="button">If a miss weren't a refusal</button>
+      </div>
+      <svg viewBox="0 0 900 230" role="img" aria-label="Score line from zero to one, showing four responders at zero and twelve between 0.72 and 1.00">
+        <line class="ax" x1="60" y1="170" x2="860" y2="170"/>
+        <g class="axt">
+          <text x="60" y="192" text-anchor="middle">0.00</text>
+          <text x="260" y="192" text-anchor="middle">0.25</text>
+          <text x="460" y="192" text-anchor="middle">0.50</text>
+          <text x="660" y="192" text-anchor="middle">0.75</text>
+          <text x="860" y="192" text-anchor="middle">1.00</text>
+        </g>
+        <line class="ax" x1="460" y1="66" x2="460" y2="170" stroke-dasharray="4 5" opacity=".6"/>
+        <text class="axt" x="460" y="56" text-anchor="middle">NEUTRAL_SCORE 0.5 &mdash; a default for unknown names, not a reset</text>
+        <rect id="band" x="636" y="96" width="228" height="62" rx="8" fill="rgba(76,195,138,.10)" stroke="rgba(76,195,138,.30)"/>
+        <g id="dotsOthers"></g>
+        <g id="dotsFour"></g>
+        <g id="fourLabels"></g>
+      </svg>
+      <div class="leg">
+        <span><i style="background:#ef5f5f"></i>Vesper, Farlight, The Undertow, Meteor Mite</span>
+        <span><i style="background:#4cc38a"></i>the other twelve &mdash; positions inside the stated band are illustrative</span>
+      </div>
+      <div class="note" id="cfNote">Four responders sit on the floor. The threshold was exact: <b>four or more misses in the first five days and you are gone; three or fewer and you are fine</b>, no exceptions.</div>
+    </div>
+
+    <div class="grid g3 reveal d3" style="margin-top:16px">
+      <div class="stat r"><div class="n">0&ndash;1 pings</div><div class="l">What the four got across 1&ndash;6 September, down from 70&ndash;86 before</div></div>
+      <div class="stat"><div class="n">60%</div><div class="l">Break-even taken rate. To cross it on refusals alone you would have to refuse 40% &mdash; the roster record is 28.6%</div></div>
+      <div class="stat g"><div class="n">0 of 16</div><div class="l">Reach the floor in the counterfactual. The four would sit at 0.76&ndash;0.84, still in rotation</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 HOW IT WAS FOUND -->
+<section data-t="How it was found">
+  <div class="wrap">
+    <div class="kicker reveal">Six sessions</div>
+    <h2 class="reveal d1">How it was found.</h2>
+    <p class="lead reveal d1">One finding per module, the exact prompt that produced it, and what I took away.
+      No single source gave the answer. Four did, and two of them corrected the other two.</p>
+    <div class="grid g3 reveal d2" style="margin-top:28px">
+      <div class="stat b"><div class="n">147</div><div class="l">Support tickets read &mdash; every one filed by a handler, none by a responder</div></div>
+      <div class="stat"><div class="n">232</div><div class="l">Lines in the whole routing service, containing four <code>if</code> statements</div></div>
+      <div class="stat g"><div class="n">19</div><div class="l">Columns across five tables. That is the entire instrument</div></div>
+    </div>
+    <div class="note reveal d3" style="margin-top:24px">Modules 1&ndash;6 follow: Origin Story, Super Hearing, Rewind, X-Ray Vision, Super Speed, Sidekicks.</div>
+  </div>
+</section>
+
+<!-- M1 -->
+<section data-t="M1 Origin Story">
+  <div class="wrap">
+    <div class="mnum reveal">MODULE 01</div>
+    <h2 class="reveal d1">Origin Story &mdash; the consensus was wrong</h2>
+    <div class="modcard">
+      <div>
+        <div class="panel reveal d2">
+          <div class="tag f"><i></i>The finding</div>
+          <p style="margin-bottom:10px">The cause is the <b class="amber">timeout cut</b>, not the weight change everyone blamed.
+          <code>config.py:9</code> went 90s to 60s. Misses jumped 2.3% to 18.0% on 12 August; refusals <i>fell</i> from 21.1% to 18.0%.</p>
+          <p style="margin:0">The amplifier: <code>offer.py:30</code> and <code>history.py:35</code> penalise a miss identically to a refusal
+          (&minus;0.12 against +0.08 credit), and the score never decays &mdash; a <code>TODO</code> dated 2019.
+          Four responders floored out. Written up in <code>overview_questions.md</code>.</p>
+        </div>
+        <div class="take reveal d3" style="margin-top:16px">
+          <div class="tag t"><i></i>Takeaway</div>
+          <p>Ask what is <i>missing and contradictory across sources</i>, not what the story is. The room had a theory,
+          my predecessor had a theory, and both named the wrong half of the release. Asking the question in a form the
+          documents could fail to answer is what broke it open.</p>
+        </div>
+      </div>
+      <div class="reveal d2">
+        <div class="tag"><i></i>The prompt I wrote</div>
+        <div class="promptbox">I will ask now three questions. Please answer them separately as detailed as possible:
+
+1. What's contradictory or missing, not just in the company documents, but across Rook's wiki, its database and the files in my repo?
+2. How exactly does the dispatch algorithm determine which responder gets contacted first, and how did that logic change in Release 4.2?
+3. Is the decline in response rate caused by responders ignoring notifications, or by notifications failing to reach them?</div>
+        <div class="note">Question 3 is the one that mattered. It forces a choice between two mechanisms instead of
+        inviting a narrative, and the gap-between-pings query is what settled it.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- M2 -->
+<section data-t="M2 Super Hearing">
+  <div class="wrap">
+    <div class="mnum reveal">MODULE 02</div>
+    <h2 class="reveal d1">Super Hearing &mdash; volume is not prevalence</h2>
+    <div class="modcard">
+      <div>
+        <div class="panel reveal d2">
+          <div class="tag f"><i></i>The finding</div>
+          <p>Our support lead read the tickets as two thirds "my phone never goes off" and one third "it buzzes and it's gone".
+          By <b>volume</b> she was right. By <b>how many people are affected</b> it inverts:</p>
+          <svg viewBox="0 0 460 120" role="img" aria-label="Callout vanished affects 11 of 12 ticket handlers; gone quiet affects 4 of 12">
+            <text class="axt" x="0" y="20">"CALLOUT VANISHED BEFORE I COULD ANSWER"</text>
+            <g transform="translate(0,28)">
+              <rect x="0" y="0" width="420" height="22" rx="4" fill="#20283a"/>
+              <rect x="0" y="0" width="385" height="22" rx="4" fill="#ef5f5f"/>
+              <text class="vl" x="430" y="16">11 / 12</text>
+            </g>
+            <text class="axt" x="0" y="82">"PHONE HAS GONE QUIET"</text>
+            <g transform="translate(0,90)">
+              <rect x="0" y="0" width="420" height="22" rx="4" fill="#20283a"/>
+              <rect x="0" y="0" width="140" height="22" rx="4" fill="#6aa9ff"/>
+              <text class="vl" x="430" y="16">4 / 12</text>
+            </g>
+          </svg>
+          <p style="margin:14px 0 0">Also unreported anywhere: out-of-area pings went <b>17% to 39%</b> &mdash; responders travelling
+          further, invisible in acceptance rate. And tickets and interviews name <b>completely different</b> suppressed responders,
+          with no overlap. Neither source alone gives the right four.</p>
+        </div>
+        <div class="take reveal d3" style="margin-top:16px">
+          <div class="tag t"><i></i>Takeaway</div>
+          <p>Disagreeing with the model is the work. I pushed back on its grouping twice, and the structure that survived
+          &mdash; three defects, ranked by urgency &mdash; is the one that went into the brief. A tidy synthesis I had not argued with
+          would have kept the support lead's split intact and buried the bigger problem.</p>
+        </div>
+      </div>
+      <div class="reveal d2">
+        <div class="tag"><i></i>The prompt I wrote</div>
+        <div class="promptbox">I both agree and disagree with you. I think the observable differences are caused basically by the fact that different handlers are in both samples. In addition, I observe there pretty similar story although different handlers are in both samples. We observe very similar phings: callout vanishing, phone gone quiet, some problems with filters in the console - these are three main problems with the release. The console design issues where observable also in both piles. Knowing both these cases can you group the issues, visualize them and add to them some urgency statement (what should we look at first)? Would your response from module 1 and lab A change or is still similar? Finally, would be the procedure from module 1 - ask first engineer .... decide about timeout hold?</div>
+        <div class="note">Three sources now reproduce the same diagnosis independently: code, tickets, interviews.
+        The case stopped being single-source here.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- M3 -->
+<section data-t="M3 Rewind">
+  <div class="wrap">
+    <div class="mnum reveal">MODULE 03</div>
+    <h2 class="reveal d1">Rewind &mdash; refusals cannot sink anyone</h2>
+    <div class="modcard">
+      <div>
+        <div class="panel reveal d2">
+          <div class="tag f"><i></i>The finding</div>
+          <p>This answers the question our engineering manager asked on 14 August and nobody had answered since:
+          was the change meant to apply to responders who turn jobs down?</p>
+          <p>With +0.08 credit against &minus;0.12 penalty, the <b class="amber">break-even taken rate is exactly 60%</b>.
+          To cross it on refusals alone you would have to refuse 40% of your pings. The roster record is Meteor Mite's 28.6%.
+          <b>Refusals cannot sink anybody.</b> Misses crossed it for four people.</p>
+          <p style="margin:0">And a correction to my own earlier reading: <b>Group B does not exist.</b> Two responders I had
+          counted as suppressed are, demand-adjusted, <b class="green">+14% and +16%</b> &mdash; their areas simply had the two
+          biggest incident drops. The damage is contained to four, not six.</p>
+        </div>
+        <div class="take reveal d3" style="margin-top:16px">
+          <div class="tag t"><i></i>Takeaway</div>
+          <p>Normalise before you accuse. Raw ping counts said six people were being starved; incidents-in-their-own-area
+          said four. Eastgate is the control that proves it &mdash; Meteor Mite &minus;59% and The Gale +74%, same area, same handler.</p>
+        </div>
+      </div>
+      <div class="reveal d2">
+        <div class="tag"><i></i>The prompt I wrote</div>
+        <div class="promptbox">Use 3 examples and visualize it to back up following hypothesis:
+"The change applies to everyone's existing score. But before 4.2, people's turn-downs had been wiped out by the 1.0 ceiling, so old history made almost no difference. After 4.2, turning jobs down didn't sink anyone either. What decided it was missed pings, because the code counts a miss as a turn-down. So the change didn't hit people who turn jobs down, old or new. It hit people who didn't answer within 60 seconds."</div>
+        <div class="panel" style="margin-top:16px">
+          <h3 style="font-size:16px">Why old history didn't matter</h3>
+          <p style="font-size:14.5px;margin:0">All 16 responders had hit the 1.00 ceiling before 4.2, discarding
+          <b>315 acceptance credits</b>. Old refusal history wasn't outweighed &mdash; it was erased. The responder who refused
+          most on the roster sat at a perfect 1.00 on 11 August.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- M4 -->
+<section data-t="M4 X-Ray Vision">
+  <div class="wrap">
+    <div class="mnum reveal">MODULE 04</div>
+    <h2 class="reveal d1">X-Ray Vision &mdash; the floor is a basin</h2>
+    <div class="modcard">
+      <div>
+        <div class="panel reveal d2">
+          <div class="tag f"><i></i>The finding</div>
+          <p>The whole routing service is 232 lines and contains <b>four <code>if</code> statements, none of which looks at
+          who the responder is.</b> Nothing was grandfathered; there is nowhere for a per-responder distinction to live.
+          Exactly one line adds points &mdash; <code>history.py:27</code>, gated on receiving a ping.</p>
+          <p style="margin:0">And the thing that changes the plan: the clamp makes the break-even yes-rate vary by height.
+          0% at the floor, 50% at 0.08, 60% at 0.12 and above. The four sit at roughly 35&ndash;45%, so they bounce between
+          0.00 and 0.08 and cannot climb out. <b class="red">Restoring the timer will not recover them.</b> It stops new
+          people falling in while the headline metric recovers around them.</p>
+        </div>
+        <div class="take reveal d3" style="margin-top:16px">
+          <div class="tag t"><i></i>Takeaway</div>
+          <p>When the code and the data disagree, that gap is the finding. An empty function body means the answer is
+          elsewhere, and a parameter name is not a behaviour. <code>offer.py:25</code> says it walks the whole ranked list &mdash;
+          but 82 of 97 failed callouts died after a single ping. "Nobody came" turned out to mean
+          <i>the one person we asked said no</i>.</p>
+        </div>
+      </div>
+      <div class="reveal d2">
+        <div class="tag"><i></i>The prompt I wrote</div>
+        <div class="promptbox">Before we add this, let's elaborate on this even more? Can you find something in the data or code why the ranking list is so short in nobody came cases. The only thing I can think off is that someone sets me as not available. I disagree with you that you are excluded from the list when your expected travel time is larger than 45 minutes. From all the discussions, I understood that if this is the case your proximity score is zero but you still are part of the list. What I miss here?</div>
+        <div class="note">That disagreement was right and produced a correction: there is no region gate, and the
+        45-minute horizon removes nobody &mdash; it sets proximity to 0.0 and they stay on the list. Availability is
+        the only filter.</div>
+        <div class="panel" style="margin-top:16px">
+          <h3 style="font-size:16px">Two instrumentation gaps</h3>
+          <p style="font-size:14.5px;margin:0">No travel-time estimate is stored &mdash; the largest input, weighted 0.60, leaves
+          zero trace. And no availability history, the only thing that can shorten the candidate list. Both make whole
+          classes of question unanswerable.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- M5 FIX -->
+<section data-t="M5 The fix">
+  <div class="wrap">
+    <div class="mnum reveal">MODULE 05</div>
+    <h2 class="reveal d1">Super Speed &mdash; the fix, and a prototype of it</h2>
+    <div class="modcard">
+      <div>
+        <div class="panel reveal d2">
+          <div class="tag f"><i></i>The artifact</div>
+          <p>A brief for the director (<a href="05-super-speed/brief.md" style="color:inherit"><code>05-super-speed/brief.md</code></a>) and a clickable prototype
+          (<a href="05-super-speed/prototype.html" style="color:inherit"><code>05-super-speed/prototype.html</code></a>) showing the handler console and the responder's phone,
+          before and after, with a live timer and a test ping.</p>
+          <p style="margin:0">The rescue value is <b class="amber">0.8</b>, not <code>NEUTRAL_SCORE</code> 0.5 &mdash; 0.5 would leave the
+          four below everyone else. 0.8 is both the counterfactual resting place and mid-roster today.
+          Plus a floor of about three offers a week, as a backstop and a detector, against a baseline of
+          roughly ten offers per responder per week.</p>
+        </div>
+        <div class="take reveal d3" style="margin-top:16px">
+          <div class="tag t"><i></i>Takeaway</div>
+          <p>Build the thing that shows the trade-off, not the thing that wins the argument. The prototype puts both
+          numbers on screen at once on purpose: restoring 90 seconds takes acceptance back to about 76%
+          <i>while the four stay at zero</i>. That is why the timer decision comes <b>last</b> in the plan, not first.</p>
+        </div>
+      </div>
+      <div class="reveal d2">
+        <div class="tag"><i></i>The prompt I wrote</div>
+        <div class="promptbox">We very likely know the answers from previous modules and therefore it is not necessary to ask wen li. Moreover, maybe Don't count miss as a refusal is most important thing. Then somehow un-stick the four - either manually or as you suggested garantee some calls during the week but it must be more than one. How many callouts a week in average are there. After that record the ring, check the gear and maybe let's know handler what's going on and lastly the decision about the timer. What do you think? Can you use it in the brief and write the brief also in the chat</div>
+        <div class="panel" style="margin-top:16px">
+          <h3 style="font-size:16px">Two different harms, not one</h3>
+          <table>
+            <tr><th>Area</th><th>What happened</th></tr>
+            <tr><td><b>Eastgate</b></td><td>Concentrated. Callouts offered to one person and nobody else went 39% to 70%. <b class="red">Four incidents unattended</b> in August because he declined and there was no second name.</td></tr>
+            <tr><td><b>Old Town<br>&amp; Uptown</b></td><td>Exported. Vesper went 72 to 10 pings while outsiders took 52. Invisible in acceptance rate &mdash; a ping taken forty minutes away counts the same as one next door.</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="panel reveal d4" style="margin-top:18px">
+      <div class="tag f"><i></i>Agreed order &mdash; timer last, on purpose</div>
+      <div class="chain" style="margin:0 -6px">
+        <div class="step"><div class="i">1</div><div class="t">Miss &ne; refusal</div><div class="s">The one change everything follows from</div></div>
+        <div class="step"><div class="i">2</div><div class="t">Un-stick the four</div><div class="s">Set to 0.8, plus an offer floor</div></div>
+        <div class="step"><div class="i">3</div><div class="t">Record the ring</div><div class="s">Delivery and time-to-accept</div></div>
+        <div class="step"><div class="i">4</div><div class="t">Check the gear</div><div class="s">Supply reads the availability record</div></div>
+        <div class="step"><div class="i">5</div><div class="t">Tell the handlers</div><div class="s">They filed 147 tickets and got no answer</div></div>
+        <div class="step end"><div class="i">6</div><div class="t">Then the timer</div><div class="s">It fixes the metric, not the people</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- M6 SKILL -->
+<section data-t="M6 The skill">
+  <div class="wrap">
+    <div class="mnum reveal">MODULE 06</div>
+    <h2 class="reveal d1">Sidekicks &mdash; so it doesn't happen again</h2>
+    <p class="lead reveal d1">4.2 was not a coding mistake. It was a decision that shipped without anyone writing down how
+      we would know it had worked. <code>review-checklist</code> is a project skill that grades every brief against five
+      criteria before it becomes a release.</p>
+    <div class="grid g2 reveal d2" style="margin-top:22px">
+      <div class="panel">
+        <div class="tag f"><i></i>The five criteria</div>
+        <table>
+          <tr><td>Owner named</td><td class="mut">a person or team, not a role with nobody in it</td></tr>
+          <tr><td>Success measure</td><td class="mut">how anyone would know it worked, checkably</td></tr>
+          <tr><td>Scope stays bounded</td><td class="mut">the ask at the end is the ask at the start</td></tr>
+          <tr><td>Problem before fix</td><td class="mut">opens with who hurts, not what to build</td></tr>
+          <tr><td>Evidence present and current</td><td class="mut">figures a reader can re-run, with a date</td></tr>
+        </table>
+        <div class="note">It reads and reports. It never edits a brief and never files anything. Defined in
+        <a href=".claude/skills/review-checklist/SKILL.md" style="color:inherit"><code>.claude/skills/review-checklist/SKILL.md</code></a>,
+        scheduled Monday 09:06; runs land in <code>06-sidekicks/review-checklist-runs/</code>.</div>
+      </div>
+      <div class="panel">
+        <div class="tag f"><i></i>First real run: four of Priya's wiki briefs</div>
+        <svg viewBox="0 0 460 180" role="img" aria-label="Flags per brief: Handler Phone App 3, Requisition Approval Chains 2, Routing Override Audit Log 2, Bulk Callout 2">
+          <g font-family="var(--sans)">
+            <text class="lbl" x="0" y="20">Handler Phone App</text>
+            <rect x="250" y="7" width="60" height="16" rx="3" fill="#ef5f5f"/><text class="vl" x="320" y="20">3 flags</text>
+            <text class="lbl" x="0" y="60">Requisition Approval Chains</text>
+            <rect x="250" y="47" width="40" height="16" rx="3" fill="#f5b544"/><text class="vl" x="320" y="60">2 flags</text>
+            <text class="lbl" x="0" y="100">Routing Override Audit Log</text>
+            <rect x="250" y="87" width="40" height="16" rx="3" fill="#f5b544"/><text class="vl" x="320" y="100">2 flags</text>
+            <text class="lbl" x="0" y="140">Bulk Callout</text>
+            <rect x="250" y="127" width="40" height="16" rx="3" fill="#f5b544"/><text class="vl" x="320" y="140">2 flags</text>
+            <line class="ax" x1="0" y1="158" x2="460" y2="158"/>
+            <text class="axt" x="0" y="176">4 briefs checked &middot; 4 flagged &middot; 9 flags</text>
+          </g>
+        </svg>
+        <p style="margin:14px 0 0;font-size:15px"><b>Every one of them fails on evidence. Not a single figure between
+        them.</b> Each case rests on one anecdote: "Halloran's asked more than once", "Aunt Dot asked for".</p>
+      </div>
+    </div>
+    <div class="modcard" style="margin-top:18px">
+      <div class="reveal d3">
+        <div class="tag"><i></i>The prompt I wrote</div>
+        <div class="promptbox">Imagine it's Monday morning
+review-checklist flagged four gaps overnight, on four briefs in Rook's wiki that nobody in this room has read yet. You don't know yet what they mean. But you already know exactly where to look, without doing any of the digging yourself. What I should write as a prompt to test the skill in this scenario? What should I write as a prompt to test it on the brief created in module 5</div>
+      </div>
+      <div class="take reveal d3">
+        <div class="tag t"><i></i>Takeaway</div>
+        <p>Automation earns trust by being checked, not by running. The course-supplied sample output claimed one flag
+        per brief; the real run found nine, and the sample was dated eleven days before this repository's first commit &mdash;
+        for a skill and a folder that did not exist. The skill now tells itself to ignore it. It also graded
+        <b>my own Module 5 brief</b>: 1 flag of 5, no owner named on the Supply step.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSE -->
+<section data-t="What I would do">
+  <div class="wrap">
+    <div class="kicker reveal">Where it stands</div>
+    <h2 class="reveal d1">One small change, and three things we should have been recording.</h2>
+    <div class="grid g2 reveal d2" style="margin-top:8px">
+      <div class="panel">
+        <h3>The ask</h3>
+        <p style="margin:0">Stop counting silence as a refusal. One line. Everything else in the brief follows from it &mdash;
+        and without it, restoring the timer makes the weekly number look healthy while four people stay at zero and
+        Eastgate keeps dropping incidents.</p>
+      </div>
+      <div class="panel" style="border-color:rgba(245,181,68,.4)">
+        <h3 class="amber">The honest caveat</h3>
+        <p style="margin:0">The ping data stops <b>6 September</b> and it is now November. Everything here is two months
+        stale. First action is to ask our analyst for current numbers before anyone acts on it &mdash; which is exactly the
+        criterion my own skill would flag me on.</p>
+      </div>
+    </div>
+    <div class="grid g3 reveal d3" style="margin-top:16px">
+      <div class="stat b"><div class="n">No delivery field</div><div class="l">We cannot tell a phone that never rang from a phone nobody answered</div></div>
+      <div class="stat b"><div class="n">No time-to-accept</div><div class="l">A headline metric we report weekly and cannot reconstruct</div></div>
+      <div class="stat b"><div class="n">No channel to responders</div><div class="l">All 147 tickets came from handlers. The two handlers of the worst-hit filed none</div></div>
+    </div>
+    <p class="lead reveal d4" style="margin-top:26px">The responders who were hurt most are the ones we never heard from.
+      That is the part a dashboard was never going to tell us.</p>
+  </div>
+</section>
+
+<footer>
+  Rook Dispatch &middot; Release 4.2 review &middot; built across six sessions of Claude Code for PMs &middot; cohort ccpm-2026.1<br>
+  <span style="color:#3f485c">Fictional teaching scenario. Rook Industries is not a real company.</span>
+</footer>
+
+<script>
+(function(){
+  var secs = Array.prototype.slice.call(document.querySelectorAll('section'));
+  var dots = document.getElementById('dots');
+  secs.forEach(function(s,i){
+    s.id = 's'+i;
+    var a = document.createElement('a');
+    a.href = '#s'+i;
+    a.innerHTML = '<span>'+(s.dataset.t||'')+'</span>';
+    dots.appendChild(a);
+  });
+  var links = Array.prototype.slice.call(dots.children);
+  var prog = document.getElementById('prog');
+  var hint = document.getElementById('hint');
+
+  function onScroll(){
+    var h = document.documentElement;
+    var pct = h.scrollTop / Math.max(1,(h.scrollHeight - h.clientHeight));
+    prog.style.width = (pct*100)+'%';
+    if (h.scrollTop > 80) hint.classList.add('gone');
+    var mid = h.scrollTop + window.innerHeight/2, cur = 0;
+    secs.forEach(function(s,i){ if (s.offsetTop <= mid) cur = i; });
+    links.forEach(function(a,i){ a.classList.toggle('on', i===cur); });
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if (e.isIntersecting) e.target.classList.add('in'); });
+  }, {threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+  function go(dir){
+    var h = document.documentElement, mid = h.scrollTop + 10, cur = 0;
+    secs.forEach(function(s,i){ if (s.offsetTop <= mid) cur = i; });
+    var t = Math.min(secs.length-1, Math.max(0, cur+dir));
+    secs[t].scrollIntoView({behavior:'smooth'});
+  }
+  document.addEventListener('keydown', function(e){
+    if (e.target && /input|textarea/i.test(e.target.tagName)) return;
+    if (e.key==='ArrowDown'||e.key==='PageDown'||e.key===' '){ e.preventDefault(); go(1); }
+    if (e.key==='ArrowUp'  ||e.key==='PageUp'){ e.preventDefault(); go(-1); }
+    if (e.key==='Home'){ e.preventDefault(); secs[0].scrollIntoView({behavior:'smooth'}); }
+    if (e.key==='End'){ e.preventDefault(); secs[secs.length-1].scrollIntoView({behavior:'smooth'}); }
+  });
+
+  // --- score cliff chart ---
+  var X0 = 60, X1 = 860;
+  function px(v){ return X0 + v*(X1-X0); }
+  var others = [0.74,0.78,0.81,0.84,0.86,0.89,0.91,0.93,0.95,0.97,0.99,1.00];
+  var four = [
+    {n:'Vesper',       a:0.00, c:0.84},
+    {n:'Farlight',     a:0.00, c:0.80},
+    {n:'The Undertow', a:0.00, c:0.78},
+    {n:'Meteor Mite',  a:0.00, c:0.76}
+  ];
+  var gO = document.getElementById('dotsOthers');
+  var gF = document.getElementById('dotsFour');
+  var gL = document.getElementById('fourLabels');
+  var band = document.getElementById('band');
+  var note = document.getElementById('cfNote');
+  var NS = 'http://www.w3.org/2000/svg';
+
+  others.forEach(function(v,i){
+    var c = document.createElementNS(NS,'circle');
+    c.setAttribute('cx', px(v));
+    c.setAttribute('cy', 108 + (i%4)*14);
+    c.setAttribute('r', 6);
+    c.setAttribute('fill', '#4cc38a');
+    c.setAttribute('opacity', '.85');
+    gO.appendChild(c);
+  });
+
+  var fDots = [], fLabs = [];
+  four.forEach(function(d,i){
+    var c = document.createElementNS(NS,'circle');
+    c.setAttribute('cy', 108 + i*14);
+    c.setAttribute('r', 7);
+    c.setAttribute('fill', '#ef5f5f');
+    c.setAttribute('style','transition:cx .9s cubic-bezier(.3,.8,.3,1), fill .9s ease');
+    gF.appendChild(c); fDots.push(c);
+
+    var t = document.createElementNS(NS,'text');
+    t.setAttribute('class','axt');
+    t.setAttribute('y', 112 + i*14);
+    t.setAttribute('style','transition:x .9s cubic-bezier(.3,.8,.3,1)');
+    t.textContent = d.n;
+    gL.appendChild(t); fLabs.push(t);
+  });
+
+  var bA = document.getElementById('bActual'), bC = document.getElementById('bCf');
+  function render(mode){
+    four.forEach(function(d,i){
+      var v = (mode==='cf') ? d.c : d.a;
+      fDots[i].setAttribute('cx', px(v));
+      fDots[i].setAttribute('fill', mode==='cf' ? '#f5b544' : '#ef5f5f');
+      if (mode==='cf'){
+        fLabs[i].setAttribute('x', px(v) - 12);
+        fLabs[i].setAttribute('text-anchor','end');
+      } else {
+        fLabs[i].setAttribute('x', px(v) + 14);
+        fLabs[i].setAttribute('text-anchor','start');
+      }
+    });
+    band.setAttribute('opacity', mode==='cf' ? '.35' : '1');
+    bA.classList.toggle('on', mode!=='cf');
+    bC.classList.toggle('on', mode==='cf');
+    note.innerHTML = (mode==='cf')
+      ? 'Same month, same pings, one line changed: a miss no longer costs what a refusal costs. <b>Nobody reaches the floor &mdash; 0 of 16.</b> The four sit at 0.76&ndash;0.84, still in rotation, and the cliff disappears.'
+      : 'Four responders sit on the floor. The threshold was exact: <b>four or more misses in the first five days and you are gone; three or fewer and you are fine</b>, no exceptions.';
+  }
+  bA.addEventListener('click', function(){ render('actual'); });
+  bC.addEventListener('click', function(){ render('cf'); });
+  render('actual');
+})();
+</script>
+</body>
+</html>
