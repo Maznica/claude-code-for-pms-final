@@ -6,8 +6,8 @@
 <title>Release 4.2</title>
 <style>
 :root{
-  --bg:#0a0d14; --bg2:#10141e; --panel:#141926; --line:#242c3d;
-  --ink:#e9ecf3; --mut:#8e9ab3; --dim:#5f6b83;
+  --bg:#080b12; --bg2:#10141e; --panel:#121826; --panel2:#171e2e; --line:#232b3c;
+  --ink:#eef1f7; --mut:#8e9ab3; --dim:#5f6b83;
   --amber:#f5b544; --amber2:#ffd27a;
   --red:#ef5f5f; --green:#4cc38a; --blue:#6aa9ff; --violet:#a98bff;
   --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
@@ -15,121 +15,199 @@
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{
-  margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
-  font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;
-}
-body::before{
-  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+  font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
   background:
-    radial-gradient(900px 500px at 12% -10%,rgba(245,181,68,.10),transparent 60%),
-    radial-gradient(800px 500px at 100% 0%,rgba(106,169,255,.08),transparent 60%),
-    radial-gradient(900px 600px at 50% 110%,rgba(169,139,255,.07),transparent 60%);
-}
+    radial-gradient(900px 500px at 12% -10%,rgba(245,181,68,.11),transparent 60%),
+    radial-gradient(800px 500px at 100% 0%,rgba(106,169,255,.09),transparent 60%),
+    radial-gradient(900px 600px at 50% 110%,rgba(169,139,255,.08),transparent 60%);}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.35;
+  background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:48px 48px;mask-image:radial-gradient(ellipse at center,#000 30%,transparent 80%)}
+
 #prog{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
-  background:linear-gradient(90deg,var(--amber),var(--amber2));box-shadow:0 0 14px rgba(245,181,68,.6)}
-nav#dots{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:40;
-  display:flex;flex-direction:column;gap:11px}
-nav#dots a{width:9px;height:9px;border-radius:50%;background:#2b3448;display:block;
-  transition:.25s;position:relative;cursor:pointer}
+  background:linear-gradient(90deg,var(--red),var(--amber),var(--amber2));box-shadow:0 0 14px rgba(245,181,68,.6)}
+nav#dots{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:40;display:flex;flex-direction:column;gap:11px}
+nav#dots a{width:9px;height:9px;border-radius:50%;background:#2b3448;display:block;transition:.25s;position:relative;cursor:pointer}
 nav#dots a:hover{background:var(--dim);transform:scale(1.3)}
 nav#dots a.on{background:var(--amber);box-shadow:0 0 0 4px rgba(245,181,68,.15)}
-nav#dots a span{position:absolute;right:18px;top:50%;transform:translateY(-50%);
-  white-space:nowrap;font-size:11px;color:var(--mut);background:var(--panel);
-  border:1px solid var(--line);padding:3px 8px;border-radius:5px;opacity:0;
-  pointer-events:none;transition:.2s}
+nav#dots a span{position:absolute;right:18px;top:50%;transform:translateY(-50%);white-space:nowrap;font-size:11px;color:var(--mut);
+  background:var(--panel);border:1px solid var(--line);padding:3px 8px;border-radius:5px;opacity:0;pointer-events:none;transition:.2s}
 nav#dots a:hover span{opacity:1}
 
-section{position:relative;z-index:1;min-height:100vh;padding:72px 28px;
-  display:flex;flex-direction:column;justify-content:center;align-items:center}
-.wrap{width:100%;max-width:1060px}
-.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--amber);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+section{position:relative;z-index:1;min-height:100vh;padding:80px 28px;display:flex;flex-direction:column;justify-content:center;align-items:center}
+.wrap{width:100%;max-width:1100px}
+.wrap.wide{max-width:1320px}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);margin-bottom:14px;display:flex;align-items:center;gap:10px}
 .kicker::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
-h1{font-size:clamp(38px,7vw,76px);line-height:1.03;margin:0 0 18px;letter-spacing:-.03em;font-weight:800}
-h2{font-size:clamp(26px,3.6vw,42px);line-height:1.12;margin:0 0 16px;letter-spacing:-.02em;font-weight:750}
-h3{font-size:19px;margin:0 0 10px;letter-spacing:-.01em}
+h1{font-size:clamp(38px,6.4vw,74px);line-height:1.02;margin:0 0 18px;letter-spacing:-.035em;font-weight:850}
+h2{font-size:clamp(26px,3.6vw,44px);line-height:1.1;margin:0 0 16px;letter-spacing:-.025em;font-weight:780}
+h3{font-size:18px;margin:0 0 10px;letter-spacing:-.01em}
 p{margin:0 0 14px;color:#cfd5e2;max-width:72ch}
-.lead{font-size:clamp(18px,2.1vw,23px);color:#d8dde8;line-height:1.5}
+.lead{font-size:clamp(18px,2vw,22px);color:#d8dde8;line-height:1.5}
 .mut{color:var(--mut)}
 b,strong{color:#fff;font-weight:650}
 .amber{color:var(--amber)}.red{color:var(--red)}.green{color:var(--green)}.blue{color:var(--blue)}
-code,.m{font-family:var(--mono);font-size:.88em;background:#1a2030;border:1px solid var(--line);
-  padding:1px 6px;border-radius:5px;color:var(--amber2)}
+.grad{background:linear-gradient(92deg,var(--red),var(--amber) 55%,var(--amber2));-webkit-background-clip:text;background-clip:text;color:transparent}
+code,.m{font-family:var(--mono);font-size:.86em;background:#1a2030;border:1px solid var(--line);padding:1px 6px;border-radius:5px;color:var(--amber2)}
 
-.reveal{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.3,1)}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.3,1)}
 .reveal.in{opacity:1;transform:none}
-.reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}
-.reveal.d3{transition-delay:.24s}.reveal.d4{transition-delay:.32s}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}
 
-.panel{background:linear-gradient(180deg,rgba(20,25,38,.9),rgba(16,20,30,.9));
-  border:1px solid var(--line);border-radius:16px;padding:24px}
+/* growing chart marks */
+.gx,.gy{transform-box:fill-box;transition:transform 1.1s cubic-bezier(.2,.75,.25,1)}
+.gx{transform-origin:left center;transform:scaleX(0)}
+.gxr{transform-origin:right center}
+.gy{transform-origin:center bottom;transform:scaleY(0)}
+.in .gx,.in .gy{transform:none}
+.fade{opacity:0;transition:opacity .6s ease}
+.in .fade{opacity:1}
+.draw{stroke-dasharray:var(--len,1000);stroke-dashoffset:var(--len,1000);transition:stroke-dashoffset 1.6s cubic-bezier(.3,.7,.3,1)}
+.in .draw{stroke-dashoffset:0}
+.t1{transition-delay:.15s!important}.t2{transition-delay:.35s!important}.t3{transition-delay:.55s!important}
+.t4{transition-delay:.75s!important}.t5{transition-delay:.95s!important}.t6{transition-delay:1.2s!important}.t7{transition-delay:1.5s!important}
+
+.panel{background:linear-gradient(180deg,rgba(20,26,40,.92),rgba(14,18,28,.92));border:1px solid var(--line);border-radius:18px;padding:24px;
+  box-shadow:0 1px 0 rgba(255,255,255,.03) inset,0 20px 50px -30px rgba(0,0,0,.7)}
+.panel.hot{border-color:rgba(239,95,95,.35)}
+.panel.ok{border-color:rgba(76,195,138,.32)}
 .grid{display:grid;gap:16px}
 .g2{grid-template-columns:repeat(2,1fr)}
 .g3{grid-template-columns:repeat(3,1fr)}
 .g4{grid-template-columns:repeat(4,1fr)}
-@media(max-width:860px){.g2,.g3,.g4{grid-template-columns:1fr}nav#dots{display:none}}
+.g21{grid-template-columns:1.25fr 1fr}
+@media(max-width:900px){.g2,.g3,.g4,.g21{grid-template-columns:1fr}nav#dots{display:none}}
 
-.stat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;
-  position:relative;overflow:hidden}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;position:relative;overflow:hidden}
 .stat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--amber)}
-.stat.r::before{background:var(--red)}.stat.g::before{background:var(--green)}.stat.b::before{background:var(--blue)}
-.stat .n{font-family:var(--mono);font-size:clamp(19px,2.3vw,27px);font-weight:700;letter-spacing:-.03em;line-height:1.15}
+.stat::after{content:"";position:absolute;right:-40px;top:-40px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(245,181,68,.10),transparent 70%)}
+.stat.r::before{background:var(--red)}.stat.r::after{background:radial-gradient(circle,rgba(239,95,95,.13),transparent 70%)}
+.stat.g::before{background:var(--green)}.stat.g::after{background:radial-gradient(circle,rgba(76,195,138,.12),transparent 70%)}
+.stat.b::before{background:var(--blue)}.stat.b::after{background:radial-gradient(circle,rgba(106,169,255,.12),transparent 70%)}
+.stat .n{font-family:var(--mono);font-size:clamp(20px,2.4vw,30px);font-weight:750;letter-spacing:-.03em;line-height:1.12}
 .stat .l{font-size:12.5px;color:var(--mut);margin-top:8px;line-height:1.4}
 
 .chain{display:flex;flex-wrap:wrap;align-items:stretch}
-.step{flex:1 1 150px;min-width:150px;background:var(--panel);border:1px solid var(--line);
-  border-radius:12px;padding:14px 15px;margin:6px;position:relative}
+.step{flex:1 1 150px;min-width:150px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 15px;margin:6px;position:relative}
 .step .i{font-family:var(--mono);font-size:11px;color:var(--amber);letter-spacing:.1em}
 .step .t{font-weight:650;margin:6px 0 4px;font-size:15px}
 .step .s{font-size:12.5px;color:var(--mut);line-height:1.4}
-.step.end{border-color:rgba(239,95,95,.5);background:linear-gradient(180deg,rgba(239,95,95,.10),rgba(20,25,38,.9))}
+.step .ico{font-size:22px;line-height:1;margin-bottom:6px;display:block}
+.step.end{border-color:rgba(239,95,95,.5);background:linear-gradient(180deg,rgba(239,95,95,.12),rgba(20,25,38,.9))}
 .step.end .i{color:var(--red)}
+.step.go{border-color:rgba(76,195,138,.5);background:linear-gradient(180deg,rgba(76,195,138,.12),rgba(20,25,38,.9))}
+.step.go .i{color:var(--green)}
 .arrow{align-self:center;color:var(--dim);font-size:18px}
+.flow .step{animation:none}
+.in.flow .step{animation:pulse 5s ease-in-out infinite}
+.in.flow .step:nth-of-type(1){animation-delay:0s}.in.flow .step:nth-of-type(2){animation-delay:.6s}
+.in.flow .step:nth-of-type(3){animation-delay:1.2s}.in.flow .step:nth-of-type(4){animation-delay:1.8s}.in.flow .step:nth-of-type(5){animation-delay:2.4s}
+@keyframes pulse{0%,70%,100%{box-shadow:0 0 0 0 rgba(245,181,68,0)}10%{box-shadow:0 0 0 1px rgba(245,181,68,.6),0 0 28px -4px rgba(245,181,68,.45)}}
 
-.promptbox{background:#0d1119;border:1px solid var(--line);border-left:3px solid var(--violet);
-  border-radius:0 12px 12px 0;padding:16px 18px;font-family:var(--mono);font-size:12.5px;
-  line-height:1.6;color:#c6cee0;white-space:pre-wrap;max-height:300px;overflow:auto}
-.promptbox::-webkit-scrollbar{width:8px}
-.promptbox::-webkit-scrollbar-thumb{background:#2a3347;border-radius:8px}
-.tag{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11px;
-  letter-spacing:.1em;text-transform:uppercase;color:var(--mut);margin-bottom:9px}
+.promptbox{background:#0c1018;border:1px solid var(--line);border-left:3px solid var(--violet);border-radius:0 12px 12px 0;padding:16px 18px;font-family:var(--mono);
+  font-size:12.5px;line-height:1.6;color:#c6cee0;white-space:pre-wrap;max-height:240px;overflow:auto}
+.promptbox::-webkit-scrollbar{width:8px}.promptbox::-webkit-scrollbar-thumb{background:#2a3347;border-radius:8px}
+details.pr{margin-top:14px}
+details.pr summary{cursor:pointer;list-style:none;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--violet);
+  display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border:1px solid rgba(169,139,255,.35);border-radius:8px;background:rgba(169,139,255,.06)}
+details.pr summary::-webkit-details-marker{display:none}
+details.pr summary::before{content:"\25B8";transition:.2s}
+details.pr[open] summary::before{transform:rotate(90deg)}
+details.pr .promptbox{margin-top:10px}
+.tag{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);margin-bottom:10px}
 .tag i{width:6px;height:6px;border-radius:50%;background:var(--violet);font-style:normal}
-.tag.f i{background:var(--amber)}.tag.t i{background:var(--green)}
+.tag.f i{background:var(--amber)}.tag.t i{background:var(--green)}.tag.r i{background:var(--red)}
 
-.modcard{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
-@media(max-width:860px){.modcard{grid-template-columns:1fr}}
-.take{background:linear-gradient(135deg,rgba(76,195,138,.10),rgba(16,20,30,.6));
-  border:1px solid rgba(76,195,138,.28);border-radius:12px;padding:16px 18px}
+.take{background:linear-gradient(135deg,rgba(76,195,138,.10),rgba(16,20,30,.6));border:1px solid rgba(76,195,138,.28);border-radius:12px;padding:16px 18px}
 .take p{margin:0;color:#dbe4ec;font-size:15.5px}
-.mnum{font-family:var(--mono);font-size:12px;color:var(--dim);letter-spacing:.14em}
+.mhead{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:6px}
+.mnum{font-family:var(--mono);font-size:56px;font-weight:800;line-height:1;letter-spacing:-.05em;
+  background:linear-gradient(180deg,rgba(245,181,68,.9),rgba(245,181,68,.15));-webkit-background-clip:text;background-clip:text;color:transparent}
+.mname{font-family:var(--mono);font-size:12px;color:var(--mut);letter-spacing:.16em;text-transform:uppercase}
 
 table{width:100%;border-collapse:collapse;font-size:14.5px}
 th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line)}
 th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);font-weight:500}
-td.n{font-family:var(--mono);text-align:right}
 
-.btn{display:inline-flex;align-items:center;gap:8px;background:#1a2132;border:1px solid var(--line);
-  color:var(--ink);padding:9px 16px;border-radius:9px;font-size:14px;cursor:pointer;
-  font-family:var(--sans);transition:.2s;text-decoration:none}
+.btn{display:inline-flex;align-items:center;gap:8px;background:#1a2132;border:1px solid var(--line);color:var(--ink);padding:10px 16px;border-radius:10px;
+  font-size:14px;cursor:pointer;font-family:var(--sans);transition:.2s;text-decoration:none;font-weight:550}
 .btn:hover{border-color:var(--amber);color:var(--amber)}
 .btn.on{background:rgba(245,181,68,.14);border-color:var(--amber);color:var(--amber)}
+.btn.primary{background:linear-gradient(135deg,var(--amber),#e8952b);color:#1a1205;border-color:transparent;box-shadow:0 8px 24px -10px rgba(245,181,68,.8)}
+.btn.primary:hover{color:#1a1205;filter:brightness(1.08);transform:translateY(-1px)}
 
 svg{display:block;width:100%;height:auto;overflow:visible}
 .ax{stroke:var(--line);stroke-width:1}
 .axt{fill:var(--mut);font-family:var(--mono);font-size:11px}
 .lbl{fill:var(--ink);font-family:var(--sans);font-size:13px}
-.vl{fill:#fff;font-family:var(--mono);font-size:13px;font-weight:600}
+.vl{fill:#fff;font-family:var(--mono);font-size:13px;font-weight:650}
+.big{fill:#fff;font-family:var(--mono);font-size:22px;font-weight:800}
 .leg{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--mut);margin-top:12px}
 .leg i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px;font-style:normal}
-
 .note{font-size:13px;color:var(--dim);border-left:2px solid var(--line);padding-left:12px;margin-top:14px}
-footer{position:relative;z-index:1;padding:48px 28px 60px;border-top:1px solid var(--line);
-  text-align:center;color:var(--dim);font-size:13px}
-.hint{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:40;
-  font-family:var(--mono);font-size:11px;color:var(--dim);background:rgba(10,13,20,.8);
-  border:1px solid var(--line);padding:6px 12px;border-radius:20px;transition:.4s}
+.note b{color:#c9d1e0}
+
+/* hero responders */
+.hd{transition:fill 1s ease,opacity 1s ease}
+.in .hd.s{fill:#ef5f5f;opacity:.55}
+.ring{fill:none;stroke:#4cc38a;stroke-width:2;transform-box:fill-box;transform-origin:center;opacity:0}
+.in .ring{animation:ring 3.2s ease-out infinite}
+@keyframes ring{0%{transform:scale(1);opacity:.7}80%,100%{transform:scale(3.2);opacity:0}}
+.hname{opacity:0;transition:opacity .8s ease 1.6s}
+.in .hname{opacity:1}
+.xmark{opacity:0;transition:opacity .6s ease 1.8s}
+.in .xmark{opacity:1}
+
+/* waffle */
+.waffle{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;width:200px;flex:0 0 200px}
+.waffle span{aspect-ratio:1;border-radius:3px;background:#222a3b;transform:scale(.3);opacity:0;transition:transform .4s ease,opacity .4s ease}
+.in .waffle span{transform:none;opacity:1}
+.waffle span.h{background:var(--amber)}
+
+/* heatmap */
+.heat{display:grid;grid-template-columns:minmax(150px,1.6fr) repeat(5,1fr);gap:5px;font-size:13px}
+.heat .hh{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);text-align:center;align-self:end;padding-bottom:4px}
+.heat .rn{color:var(--ink);align-self:center;font-size:13.5px}
+.heat .rn small{display:block;color:var(--dim);font-size:11px;font-family:var(--mono)}
+.heat .c{height:38px;border-radius:7px;display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:13px;
+  transform:scale(.6);opacity:0;transition:transform .45s cubic-bezier(.3,1.6,.5,1),opacity .4s}
+.in .heat .c{transform:none;opacity:1}
+.heat .c.y{background:rgba(76,195,138,.13);color:var(--green);border:1px solid rgba(76,195,138,.25)}
+.heat .c.n{background:rgba(239,95,95,.2);color:#ff8a8a;border:1px solid rgba(239,95,95,.45)}
+.heat .c.n.ev{background:rgba(239,95,95,.32)}
+.heat .sep{grid-column:1/-1;height:1px;background:var(--line);margin:4px 0}
+
+/* schema pills */
+.pills{display:flex;flex-wrap:wrap;gap:7px}
+.pill{font-family:var(--mono);font-size:11.5px;padding:5px 9px;border-radius:7px;background:#192033;border:1px solid var(--line);color:#b8c2d6}
+.pill.t{background:rgba(106,169,255,.12);border-color:rgba(106,169,255,.35);color:var(--blue);font-weight:700}
+.pill.x{background:transparent;border:1px dashed rgba(239,95,95,.6);color:#ff8a8a}
+
+/* prototype frame */
+.browser{border:1px solid #2c354a;border-radius:16px;overflow:hidden;background:#0d0d0d;box-shadow:0 40px 90px -40px rgba(0,0,0,.9),0 0 0 1px rgba(245,181,68,.06)}
+.browser .bar{display:flex;align-items:center;gap:12px;padding:10px 14px;background:#161b27;border-bottom:1px solid #262e40}
+.browser .bar i{width:11px;height:11px;border-radius:50%;display:inline-block;font-style:normal}
+.browser .url{flex:1;background:#0d1119;border:1px solid #262e40;border-radius:8px;padding:5px 12px;font-family:var(--mono);font-size:12px;color:var(--mut);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.browser .bar .mini{background:none;border:1px solid #2c354a;color:var(--mut);border-radius:7px;padding:4px 10px;font-size:12px;cursor:pointer;font-family:var(--sans)}
+.browser .bar .mini:hover{color:var(--amber);border-color:var(--amber)}
+.browser iframe{display:block;width:100%;height:min(860px,82vh);border:0;background:#0d0d0d}
+
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;background:var(--panel);border:1px solid var(--line);text-decoration:none;color:var(--ink);font-size:14px;transition:.2s}
+.chip:hover{border-color:var(--amber);transform:translateY(-2px)}
+.chip b{font-family:var(--mono);color:var(--amber);font-size:12px}
+
+footer{position:relative;z-index:1;padding:48px 28px 60px;border-top:1px solid var(--line);text-align:center;color:var(--dim);font-size:13px}
+.hint{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:40;font-family:var(--mono);font-size:11px;color:var(--dim);
+  background:rgba(10,13,20,.8);border:1px solid var(--line);padding:6px 12px;border-radius:20px;transition:.4s}
 .hint.gone{opacity:0}
+@media (prefers-reduced-motion:reduce){
+  .reveal,.gx,.gy,.fade,.draw,.waffle span,.heat .c,.hd,.hname,.xmark{transition:none!important;opacity:1;transform:none;stroke-dashoffset:0}
+  .ring,.in.flow .step{animation:none!important}
+}
 </style>
 </head>
 <body>
@@ -140,15 +218,26 @@ footer{position:relative;z-index:1;padding:48px 28px 60px;border-top:1px solid v
 <!-- 1 TITLE -->
 <section data-t="Release 4.2">
   <div class="wrap">
-    <div class="kicker reveal">Rook Dispatch &middot; post-release review &middot; 7 November 2026</div>
-    <h1 class="reveal d1">Release 4.2 cut a timer<br>by thirty seconds<br><span class="amber">and four responders<br>stopped getting work.</span></h1>
-    <p class="lead reveal d2" style="max-width:62ch">Six sessions, four independent sources, one prototype and one skill.
-      This is what happened, how it was found, and what keeps it from happening again.</p>
+    <div class="grid g21" style="align-items:center;gap:40px">
+      <div>
+        <div class="kicker reveal">Rook Dispatch &middot; post-release review &middot; 7 November 2026</div>
+        <h1 class="reveal d1">Release 4.2 cut a timer by <span class="grad">thirty seconds</span>, and four responders stopped getting work.</h1>
+        <p class="lead reveal d2" style="max-width:56ch">Six sessions, four independent sources, one prototype and one skill:
+          what happened, how it was found, and what stops it happening again.</p>
+      </div>
+      <div class="panel reveal d2" style="padding:18px 18px 10px">
+        <div class="tag"><i style="background:var(--green)"></i>16 responders &middot; pings arriving, early September</div>
+        <svg viewBox="0 0 320 300" role="img" aria-label="Sixteen responders: twelve still receive pings, four have gone silent">
+          <g id="heroDots"></g>
+        </svg>
+        <div class="leg" style="margin-top:4px"><span><i style="background:#4cc38a"></i>still getting pings</span><span><i style="background:#ef5f5f"></i>score at 0.00, 0&ndash;1 pings</span></div>
+      </div>
+    </div>
     <div class="grid g4 reveal d3" style="margin-top:34px">
-      <div class="stat r"><div class="n">2.3 &rarr; 18.0%</div><div class="l">Pings missed, before and after 12 August</div></div>
-      <div class="stat b"><div class="n">21.1 &rarr; 18.0%</div><div class="l">Pings turned down &mdash; refusals actually <b>fell</b></div></div>
-      <div class="stat r"><div class="n">4 of 16</div><div class="l">Responders driven to a score of exactly 0.00</div></div>
-      <div class="stat g"><div class="n">1 line</div><div class="l">The change that fixes it: stop counting silence as a refusal</div></div>
+      <div class="stat r"><div class="n"><span class="cu" data-to="2.3" data-dec="1">2.3</span> &rarr; <span class="cu" data-to="18.0" data-dec="1">18.0</span>%</div><div class="l">Pings missed, before and after 12 August</div></div>
+      <div class="stat b"><div class="n"><span class="cu" data-to="21.1" data-dec="1">21.1</span> &rarr; <span class="cu" data-to="18.0" data-dec="1">18.0</span>%</div><div class="l">Pings turned down. Refusals actually <b>fell</b></div></div>
+      <div class="stat r"><div class="n"><span class="cu" data-to="4">4</span> of 16</div><div class="l">Responders driven to a score of exactly 0.00</div></div>
+      <div class="stat g"><div class="n"><span class="cu" data-to="1">1</span> line</div><div class="l">The change that fixes it: stop counting silence as a refusal</div></div>
     </div>
   </div>
 </section>
@@ -157,25 +246,58 @@ footer{position:relative;z-index:1;padding:48px 28px 60px;border-top:1px solid v
 <section data-t="What happened">
   <div class="wrap">
     <div class="kicker reveal">The plain version</div>
-    <h2 class="reveal d1">It was the timer. Not the weighting everybody blamed.</h2>
-    <p class="lead reveal d1">4.2 shipped two routing changes on the same day. The team's read &mdash; and my predecessor's &mdash; was that
+    <h2 class="reveal d1">It was the timer, not the weighting everybody blamed.</h2>
+    <p class="lead reveal d1">4.2 shipped two routing changes on the same day. The team's read, and my predecessor's, was that
       re-weighting proximity against acceptance history had pushed responders down the list. It hadn't.
       <b class="amber">The ping wait went from 90 seconds to 60</b>, people started missing calls they used to catch, and the code
       scores a miss exactly like a refusal.</p>
-    <div class="chain reveal d2" style="margin-top:26px">
-      <div class="step"><div class="i">01</div><div class="t">Timer cut</div><div class="s"><code>config.py:9</code> &mdash; 90s to 60s</div></div>
+    <div class="chain flow reveal d2" style="margin-top:22px">
+      <div class="step"><span class="ico">&#9201;</span><div class="i">01</div><div class="t">Timer cut</div><div class="s"><code>config.py:9</code>: 90s to 60s</div></div>
       <div class="arrow">&rarr;</div>
-      <div class="step"><div class="i">02</div><div class="t">Pings missed</div><div class="s">Phone in the next room. 2.3% to 18.0%</div></div>
+      <div class="step"><span class="ico">&#128245;</span><div class="i">02</div><div class="t">Pings missed</div><div class="s">Phone in the next room. 2.3% to 18.0%</div></div>
       <div class="arrow">&rarr;</div>
-      <div class="step"><div class="i">03</div><div class="t">Miss = refusal</div><div class="s"><code>offer.py:30</code> + <code>history.py:35</code>, &minus;0.12 either way</div></div>
+      <div class="step"><span class="ico">&#9878;</span><div class="i">03</div><div class="t">Miss = refusal</div><div class="s"><code>offer.py:30</code> + <code>history.py:35</code>, &minus;0.12 either way</div></div>
       <div class="arrow">&rarr;</div>
-      <div class="step"><div class="i">04</div><div class="t">Score falls</div><div class="s">+0.08 credit never catches &minus;0.12. No decay, no reset</div></div>
+      <div class="step"><span class="ico">&#128201;</span><div class="i">04</div><div class="t">Score falls</div><div class="s">+0.08 credit never catches &minus;0.12. No decay, no reset</div></div>
       <div class="arrow">&rarr;</div>
-      <div class="step end"><div class="i">05</div><div class="t">Fewer offers, then none</div><div class="s">The only line that adds points needs a ping to arrive</div></div>
+      <div class="step end"><span class="ico">&#128263;</span><div class="i">05</div><div class="t">Fewer offers, then none</div><div class="s">The only line that adds points needs a ping to arrive</div></div>
     </div>
-    <p class="reveal d3" style="margin-top:26px">The trap is the last arrow. Points are only earned by answering a ping, so a responder who has
-      stopped receiving pings has <b>no mechanism to recover</b>. Nothing in 232 lines of routing code ever raises a score on its own.
-      <span class="mut">The weight change (proximity 0.45&rarr;0.60, acceptance 0.40&rarr;0.25) arithmetically <i>softens</i> that spiral &mdash; it is the innocent half of the release.</span></p>
+    <div class="grid g2" style="margin-top:18px">
+      <div class="panel reveal d3">
+        <h3>The score ledger, per ping</h3>
+        <svg viewBox="0 0 460 150" role="img" aria-label="Taking a ping adds 0.08; missing or refusing subtracts 0.12">
+          <line class="ax" x1="290" y1="10" x2="290" y2="128"/>
+          <text class="axt" x="290" y="144" text-anchor="middle">0</text>
+          <text class="lbl" x="0" y="36">Taken</text>
+          <rect class="gx t1" x="290" y="18" width="107" height="26" rx="5" fill="#4cc38a"/>
+          <text class="vl" x="405" y="36">+0.08</text>
+          <text class="lbl" x="0" y="76">Turned down</text>
+          <rect class="gx gxr t2" x="130" y="58" width="160" height="26" rx="5" fill="#6aa9ff"/>
+          <text class="vl fade t4" x="140" y="76" style="font-size:12px">&minus;0.12</text>
+          <text class="lbl" x="0" y="116">Missed</text>
+          <rect class="gx gxr t3" x="130" y="98" width="160" height="26" rx="5" fill="#ef5f5f"/>
+          <text class="vl fade t4" x="140" y="116" style="font-size:12px">&minus;0.12</text>
+        </svg>
+        <div class="note">Nobody answering costs exactly what saying no costs. You need <b>1.5 yeses for every no or miss</b> just to stand still.</div>
+      </div>
+      <div class="panel reveal d4">
+        <h3>The weights 4.2 changed: the innocent half</h3>
+        <svg viewBox="0 0 460 150" role="img" aria-label="Proximity weight 0.45 to 0.60, acceptance weight 0.40 to 0.25">
+          <text class="axt" x="0" y="14">BEFORE</text>
+          <rect class="gx t1" x="0" y="22" width="207" height="30" rx="5" fill="#6aa9ff"/>
+          <rect class="gx t2" x="209" y="22" width="184" height="30" rx="0" fill="#a98bff"/>
+          <rect class="gx t3" x="395" y="22" width="65" height="30" rx="5" fill="#2a3347"/>
+          <text class="vl" x="12" y="42">proximity 0.45</text><text class="vl" x="221" y="42">acceptance 0.40</text>
+          <text class="axt" x="0" y="84">AFTER 4.2</text>
+          <rect class="gx t3" x="0" y="92" width="276" height="30" rx="5" fill="#6aa9ff"/>
+          <rect class="gx t4" x="278" y="92" width="115" height="30" rx="0" fill="#a98bff"/>
+          <rect class="gx t5" x="395" y="92" width="65" height="30" rx="5" fill="#2a3347"/>
+          <text class="vl" x="12" y="112">proximity 0.60</text><text class="vl" x="290" y="112">acc. 0.25</text>
+          <text class="axt" x="427" y="140" text-anchor="middle">other</text>
+        </svg>
+        <div class="note">Less weight on acceptance <b>softens</b> the spiral. The release everyone wanted to revert was the part helping.</div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -183,61 +305,82 @@ footer{position:relative;z-index:1;padding:48px 28px 60px;border-top:1px solid v
 <section data-t="The proof">
   <div class="wrap">
     <div class="kicker reveal">The decisive query</div>
-    <h2 class="reveal d1">Measure the gap between pings and the timer confesses.</h2>
+    <h2 class="reveal d1">Measure the gap between pings and the timer gives itself away.</h2>
     <p class="reveal d1">The <code>pings</code> table has no delivery field and no time-to-accept. But when a callout moves on to the next
       responder, the gap between consecutive pings <i>is</i> the wait. If somebody tapped no, the gap is unchanged. If nobody answered, it moves by exactly what the config moved.</p>
-    <div class="grid g2" style="margin-top:22px">
+    <div class="grid g3" style="margin-top:22px">
       <div class="panel reveal d2">
-        <h3>Seconds between one ping and the next</h3>
-        <svg viewBox="0 0 500 250" role="img" aria-label="Gap between pings: 92 seconds before and 62 after when nobody answered; 22 seconds in both periods when someone refused">
-          <line class="ax" x1="46" y1="200" x2="490" y2="200"/>
-          <line class="ax" x1="46" y1="30" x2="46" y2="200"/>
-          <text class="axt" x="38" y="204" text-anchor="end">0</text>
-          <text class="axt" x="38" y="124" text-anchor="end">50</text>
-          <text class="axt" x="38" y="44" text-anchor="end">100</text>
-          <line class="ax" x1="46" y1="120" x2="490" y2="120" stroke-dasharray="3 5" opacity=".5"/>
-          <rect x="80"  y="53"  width="60" height="147" rx="4" fill="#ef5f5f" opacity=".9"/>
-          <rect x="152" y="101" width="60" height="99"  rx="4" fill="#ef5f5f" opacity=".45"/>
-          <rect x="300" y="165" width="60" height="35"  rx="4" fill="#6aa9ff" opacity=".9"/>
-          <rect x="372" y="165" width="60" height="35"  rx="4" fill="#6aa9ff" opacity=".45"/>
-          <text class="vl" x="110" y="45"  text-anchor="middle">92s</text>
-          <text class="vl" x="182" y="93"  text-anchor="middle">62s</text>
-          <text class="vl" x="330" y="157" text-anchor="middle">22s</text>
-          <text class="vl" x="402" y="157" text-anchor="middle">22s</text>
-          <text class="axt" x="110" y="218" text-anchor="middle">before</text>
-          <text class="axt" x="182" y="218" text-anchor="middle">after</text>
-          <text class="axt" x="330" y="218" text-anchor="middle">before</text>
-          <text class="axt" x="402" y="218" text-anchor="middle">after</text>
-          <text class="lbl" x="146" y="241" text-anchor="middle">Nobody answered</text>
-          <text class="lbl" x="366" y="241" text-anchor="middle">Someone tapped no</text>
+        <h3>Seconds between pings</h3>
+        <svg viewBox="0 0 320 260" role="img" aria-label="Gap between pings: 92 seconds before and 62 after when nobody answered; 22 seconds in both periods when someone refused">
+          <line class="ax" x1="30" y1="210" x2="320" y2="210"/>
+          <line class="ax" x1="30" y1="210" x2="320" y2="210"/>
+          <line class="ax" x1="30" y1="120" x2="320" y2="120" stroke-dasharray="3 5" opacity=".5"/>
+          <line class="ax" x1="30" y1="30" x2="320" y2="30" stroke-dasharray="3 5" opacity=".5"/>
+          <text class="axt" x="24" y="214" text-anchor="end">0</text>
+          <text class="axt" x="24" y="124" text-anchor="end">50</text>
+          <text class="axt" x="24" y="34" text-anchor="end">100</text>
+          <rect class="gy t1" x="46"  y="44.4" width="52" height="165.6" rx="5" fill="#ef5f5f"/>
+          <rect class="gy t2" x="104" y="98.4" width="52" height="111.6" rx="5" fill="#ef5f5f" opacity=".5"/>
+          <rect class="gy t3" x="190" y="170.4" width="52" height="39.6" rx="5" fill="#6aa9ff"/>
+          <rect class="gy t4" x="248" y="170.4" width="52" height="39.6" rx="5" fill="#6aa9ff" opacity=".5"/>
+          <g class="fade t5">
+            <text class="vl" x="72"  y="36"  text-anchor="middle">92s</text>
+            <text class="vl" x="130" y="90"  text-anchor="middle">62s</text>
+            <text class="vl" x="216" y="162" text-anchor="middle">22s</text>
+            <text class="vl" x="274" y="162" text-anchor="middle">22s</text>
+            <path d="M100 52 C 120 56,128 70,128 86" stroke="#ffd27a" stroke-width="1.5" fill="none" stroke-dasharray="3 3"/>
+            <text class="axt" x="160" y="62" style="fill:#ffd27a">&minus;30s, as configured</text>
+          </g>
+          <text class="axt" x="72" y="228" text-anchor="middle">before</text><text class="axt" x="130" y="228" text-anchor="middle">after</text>
+          <text class="axt" x="216" y="228" text-anchor="middle">before</text><text class="axt" x="274" y="228" text-anchor="middle">after</text>
+          <text class="lbl" x="101" y="250" text-anchor="middle">Nobody answered</text>
+          <text class="lbl" x="245" y="250" text-anchor="middle">Someone tapped no</text>
         </svg>
-        <div class="note">A thirty-second cut in the config, showing up as a thirty-second cut in the data &mdash; and only on the branch where the timer runs.</div>
       </div>
       <div class="panel reveal d3">
-        <h3>What happened to the headline metric</h3>
-        <svg viewBox="0 0 510 250" role="img" aria-label="Outcome mix: taken fell from 76.6 to 64.0 percent, turned down from 21.1 to 18.0, missed rose from 2.3 to 18.0 percent">
-          <text class="axt" x="0" y="54">BEFORE &middot; 76.6% TAKEN</text>
+        <h3>The headline metric</h3>
+        <svg viewBox="0 0 320 260" role="img" aria-label="Outcome mix: taken fell from 76.6 to 64.0 percent, turned down from 21.1 to 18.0, missed rose from 2.3 to 18.0 percent">
+          <text class="axt" x="0" y="20">BEFORE 12 AUG</text>
+          <text class="big" x="0" y="50">76.6%</text><text class="axt" x="86" y="49">taken</text>
           <g transform="translate(0,62)">
-            <rect x="0"   y="0" width="383" height="46" rx="4" fill="#4cc38a"/>
-            <rect x="385" y="0" width="105" height="46" fill="#6aa9ff"/>
-            <rect x="492" y="0" width="12"  height="46" fill="#ef5f5f"/>
-            <text class="vl" x="14" y="29">taken</text>
-            <text class="vl" x="437" y="29" text-anchor="middle">21.1%</text>
+            <rect class="gx t1" x="0" y="0" width="245" height="36" rx="5" fill="#4cc38a"/>
+            <rect class="gx t2" x="247" y="0" width="66" height="36" fill="#6aa9ff"/>
+            <rect class="gx t3" x="315" y="0" width="5" height="36" fill="#ef5f5f"/>
           </g>
-          <text class="axt" x="0" y="150">AFTER &middot; 64.0% TAKEN</text>
-          <g transform="translate(0,158)">
-            <rect x="0"   y="0" width="320" height="46" rx="4" fill="#4cc38a" opacity=".8"/>
-            <rect x="322" y="0" width="90"  height="46" fill="#6aa9ff" opacity=".8"/>
-            <rect x="414" y="0" width="90"  height="46" rx="4" fill="#ef5f5f"/>
-            <text class="vl" x="14" y="29">taken</text>
-            <text class="vl" x="367" y="29" text-anchor="middle">18.0%</text>
-            <text class="vl" x="459" y="29" text-anchor="middle">18.0%</text>
+          <text class="axt" x="0" y="140">AFTER</text>
+          <text class="big" x="0" y="170" style="fill:#ffb3b3">64.0%</text><text class="axt" x="86" y="169">taken</text>
+          <g transform="translate(0,182)">
+            <rect class="gx t3" x="0" y="0" width="204" height="36" rx="5" fill="#4cc38a" opacity=".85"/>
+            <rect class="gx t4" x="206" y="0" width="56" height="36" fill="#6aa9ff" opacity=".85"/>
+            <rect class="gx t5" x="264" y="0" width="56" height="36" rx="5" fill="#ef5f5f"/>
+            <text class="vl fade t6" x="234" y="23" text-anchor="middle" style="font-size:11px">18.0</text>
+            <text class="vl fade t6" x="292" y="23" text-anchor="middle" style="font-size:11px">18.0</text>
           </g>
+          <text class="axt" x="281" y="56" text-anchor="middle">21.1</text>
         </svg>
         <div class="leg"><span><i style="background:#4cc38a"></i>taken</span><span><i style="background:#6aa9ff"></i>turned down</span><span><i style="background:#ef5f5f"></i>missed</span></div>
-        <div class="note">Refusals went <b>down</b>. The whole drop is misses &mdash; which is why "responders are ignoring us" was never the story.</div>
+      </div>
+      <div class="panel reveal d4">
+        <h3>&ldquo;Nobody came&rdquo; doubled</h3>
+        <svg viewBox="0 0 320 260" role="img" aria-label="Callouts where nobody came rose from 5.5 to 11.1 percent; the refusal-driven part held at 5.1 to 5.0, all the growth is misses">
+          <line class="ax" x1="20" y1="210" x2="320" y2="210"/>
+          <rect class="gy t1" x="60" y="115.6" width="80" height="94.4" rx="0" fill="#6aa9ff"/>
+          <rect class="gy t2" x="60" y="108.2" width="80" height="7.4" fill="#ef5f5f"/>
+          <rect class="gy t3" x="190" y="117.5" width="80" height="92.5" fill="#6aa9ff"/>
+          <rect class="gy t4" x="190" y="4.6" width="80" height="112.9" fill="#ef5f5f"/>
+          <g class="fade t5">
+            <text class="big" x="100" y="90" text-anchor="middle">5.5%</text>
+            <text class="big" x="230" y="36" text-anchor="middle">11.1%</text>
+            <text class="vl" x="100" y="165" text-anchor="middle" style="font-size:11px">5.1</text>
+            <text class="vl" x="230" y="170" text-anchor="middle" style="font-size:11px">5.0</text>
+            <text class="vl" x="230" y="66" text-anchor="middle" style="font-size:11px">misses</text>
+          </g>
+          <text class="axt" x="100" y="230" text-anchor="middle">before</text><text class="axt" x="230" y="230" text-anchor="middle">after</text>
+        </svg>
+        <div class="leg"><span><i style="background:#6aa9ff"></i>after a refusal</span><span><i style="background:#ef5f5f"></i>after a miss</span></div>
       </div>
     </div>
+    <div class="note reveal d4" style="margin-top:18px">Three charts, one story. Refusals went <b>down</b>, refusal-driven failures held flat, and all of the damage sits in misses. &ldquo;Responders are ignoring us&rdquo; was never the story. The &ldquo;after a miss&rdquo; split in the third chart is the remainder of the total once refusal-driven failures are taken out.</div>
   </div>
 </section>
 
@@ -246,42 +389,38 @@ footer{position:relative;z-index:1;padding:48px 28px 60px;border-top:1px solid v
   <div class="wrap">
     <div class="kicker reveal">Replayed score, all sixteen responders</div>
     <h2 class="reveal d1">A cliff, not a distribution.</h2>
-    <p class="reveal d1">There is no score column anywhere in the database &mdash; the score lives only in <code>history.py</code>. Replaying it from
-      the ping record puts twelve responders between 0.72 and 1.00, and four at exactly zero. Nobody is in between.
-      Press the second button to replay the same month with one line changed.</p>
+    <p class="reveal d1">There is no score column anywhere in the database; the score lives only in <code>history.py</code>. Replaying it from
+      the ping record puts twelve responders between 0.72 and 1.00, and four at exactly zero, with nobody in between.
+      <b>Press the second button</b> to replay the same month with one line changed.</p>
 
     <div class="panel reveal d2" style="margin-top:20px">
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-        <button class="btn on" id="bActual" type="button">What actually happened</button>
-        <button class="btn" id="bCf" type="button">If a miss weren't a refusal</button>
+        <button class="btn on" id="bActual" type="button">&#9679; What actually happened</button>
+        <button class="btn" id="bCf" type="button">&#8635; If a miss weren't a refusal</button>
       </div>
       <svg viewBox="0 0 900 230" role="img" aria-label="Score line from zero to one, showing four responders at zero and twelve between 0.72 and 1.00">
-        <line class="ax" x1="60" y1="170" x2="860" y2="170"/>
+        <defs><linearGradient id="scoreGrad" x1="0" x2="1"><stop offset="0" stop-color="#ef5f5f" stop-opacity=".35"/><stop offset=".5" stop-color="#f5b544" stop-opacity=".15"/><stop offset="1" stop-color="#4cc38a" stop-opacity=".35"/></linearGradient></defs>
+        <rect x="60" y="164" width="800" height="6" rx="3" fill="url(#scoreGrad)"/>
         <g class="axt">
-          <text x="60" y="192" text-anchor="middle">0.00</text>
-          <text x="260" y="192" text-anchor="middle">0.25</text>
-          <text x="460" y="192" text-anchor="middle">0.50</text>
-          <text x="660" y="192" text-anchor="middle">0.75</text>
-          <text x="860" y="192" text-anchor="middle">1.00</text>
+          <text x="60" y="192" text-anchor="middle">0.00</text><text x="260" y="192" text-anchor="middle">0.25</text>
+          <text x="460" y="192" text-anchor="middle">0.50</text><text x="660" y="192" text-anchor="middle">0.75</text><text x="860" y="192" text-anchor="middle">1.00</text>
         </g>
-        <line class="ax" x1="460" y1="66" x2="460" y2="170" stroke-dasharray="4 5" opacity=".6"/>
-        <text class="axt" x="460" y="56" text-anchor="middle">NEUTRAL_SCORE 0.5 &mdash; a default for unknown names, not a reset</text>
+        <line class="ax" x1="460" y1="66" x2="460" y2="164" stroke-dasharray="4 5" opacity=".6"/>
+        <text class="axt" x="460" y="56" text-anchor="middle">NEUTRAL_SCORE 0.5: a default for unknown names, not a reset</text>
         <rect id="band" x="636" y="96" width="228" height="62" rx="8" fill="rgba(76,195,138,.10)" stroke="rgba(76,195,138,.30)"/>
-        <g id="dotsOthers"></g>
-        <g id="dotsFour"></g>
-        <g id="fourLabels"></g>
+        <g id="dotsOthers"></g><g id="dotsFour"></g><g id="fourLabels"></g>
       </svg>
       <div class="leg">
         <span><i style="background:#ef5f5f"></i>Vesper, Farlight, The Undertow, Meteor Mite</span>
-        <span><i style="background:#4cc38a"></i>the other twelve &mdash; positions inside the stated band are illustrative</span>
+        <span><i style="background:#4cc38a"></i>the other twelve (positions inside the stated band are illustrative)</span>
       </div>
-      <div class="note" id="cfNote">Four responders sit on the floor. The threshold was exact: <b>four or more misses in the first five days and you are gone; three or fewer and you are fine</b>, no exceptions.</div>
+      <div class="note" id="cfNote"></div>
     </div>
 
     <div class="grid g3 reveal d3" style="margin-top:16px">
-      <div class="stat r"><div class="n">0&ndash;1 pings</div><div class="l">What the four got across 1&ndash;6 September, down from 70&ndash;86 before</div></div>
-      <div class="stat"><div class="n">60%</div><div class="l">Break-even taken rate. To cross it on refusals alone you would have to refuse 40% &mdash; the roster record is 28.6%</div></div>
-      <div class="stat g"><div class="n">0 of 16</div><div class="l">Reach the floor in the counterfactual. The four would sit at 0.76&ndash;0.84, still in rotation</div></div>
+      <div class="stat r"><div class="n"><span class="cu" data-to="86">86</span> &rarr; 0&ndash;1</div><div class="l">Pings the four got across 1&ndash;6 September, down from 70&ndash;86 before</div></div>
+      <div class="stat"><div class="n"><span class="cu" data-to="60">60</span>%</div><div class="l">Break-even taken rate. Crossing it on refusals alone means refusing 40%; the roster record is 28.6%</div></div>
+      <div class="stat g"><div class="n"><span class="cu" data-to="0">0</span> of 16</div><div class="l">Reach the floor in the replay. The four would sit at 0.76&ndash;0.84, still in rotation</div></div>
     </div>
   </div>
 </section>
@@ -291,285 +430,1870 @@ footer{position:relative;z-index:1;padding:48px 28px 60px;border-top:1px solid v
   <div class="wrap">
     <div class="kicker reveal">Six sessions</div>
     <h2 class="reveal d1">How it was found.</h2>
-    <p class="lead reveal d1">One finding per module, the exact prompt that produced it, and what I took away.
-      No single source gave the answer. Four did, and two of them corrected the other two.</p>
-    <div class="grid g3 reveal d2" style="margin-top:28px">
-      <div class="stat b"><div class="n">147</div><div class="l">Support tickets read &mdash; every one filed by a handler, none by a responder</div></div>
-      <div class="stat"><div class="n">232</div><div class="l">Lines in the whole routing service, containing four <code>if</code> statements</div></div>
-      <div class="stat g"><div class="n">19</div><div class="l">Columns across five tables. That is the entire instrument</div></div>
+    <p class="lead reveal d1">No single source gave the answer. Four did, and two of them corrected the other two.</p>
+    <div class="grid g21" style="margin-top:20px;align-items:center">
+      <div class="panel reveal d2">
+        <svg viewBox="0 0 600 300" role="img" aria-label="Four independent sources, code, ping data, 147 tickets and 4 interviews, converge on one cause">
+          <g fill="none" stroke-width="2">
+            <path class="draw t1" style="--len:260" d="M120 50 C 220 50,240 150,300 150" stroke="#f5b544"/>
+            <path class="draw t2" style="--len:260" d="M120 250 C 220 250,240 150,300 150" stroke="#6aa9ff"/>
+            <path class="draw t3" style="--len:260" d="M480 50 C 380 50,360 150,300 150" stroke="#a98bff"/>
+            <path class="draw t4" style="--len:260" d="M480 250 C 380 250,360 150,300 150" stroke="#4cc38a"/>
+          </g>
+          <g class="fade t1"><rect x="0" y="22" width="150" height="56" rx="12" fill="#1a2132" stroke="#f5b544"/>
+            <text class="lbl" x="75" y="46" text-anchor="middle" style="font-weight:650">Code</text><text class="axt" x="75" y="64" text-anchor="middle">232 lines, 4 ifs</text></g>
+          <g class="fade t2"><rect x="0" y="222" width="150" height="56" rx="12" fill="#1a2132" stroke="#6aa9ff"/>
+            <text class="lbl" x="75" y="246" text-anchor="middle" style="font-weight:650">Ping data</text><text class="axt" x="75" y="264" text-anchor="middle">19 columns, 5 tables</text></g>
+          <g class="fade t3"><rect x="450" y="22" width="150" height="56" rx="12" fill="#1a2132" stroke="#a98bff"/>
+            <text class="lbl" x="525" y="46" text-anchor="middle" style="font-weight:650">147 tickets</text><text class="axt" x="525" y="64" text-anchor="middle">all from handlers</text></g>
+          <g class="fade t4"><rect x="450" y="222" width="150" height="56" rx="12" fill="#1a2132" stroke="#4cc38a"/>
+            <text class="lbl" x="525" y="246" text-anchor="middle" style="font-weight:650">4 interviews</text><text class="axt" x="525" y="264" text-anchor="middle">Sofia, September</text></g>
+          <g class="fade t6">
+            <circle cx="300" cy="150" r="58" fill="rgba(239,95,95,.15)" stroke="#ef5f5f" stroke-width="2"/>
+            <circle cx="300" cy="150" r="72" fill="none" stroke="rgba(239,95,95,.25)" stroke-dasharray="3 5"/>
+            <text class="lbl" x="300" y="142" text-anchor="middle" style="font-weight:750">Timer cut</text>
+            <text class="lbl" x="300" y="160" text-anchor="middle" style="font-weight:750">+ miss = refusal</text>
+            <text class="axt" x="300" y="178" text-anchor="middle">one cause</text>
+          </g>
+        </svg>
+      </div>
+      <div class="reveal d3">
+        <div class="tag f"><i></i>Jump to a module</div>
+        <div class="chips">
+          <a class="chip" href="#m1"><b>01</b>Origin Story</a>
+          <a class="chip" href="#m2"><b>02</b>Super Hearing</a>
+          <a class="chip" href="#m3"><b>03</b>Rewind</a>
+          <a class="chip" href="#m4"><b>04</b>X-Ray Vision</a>
+          <a class="chip" href="#m5"><b>05</b>Super Speed</a>
+          <a class="chip" href="#proto"><b>&#9654;</b>Live prototype</a>
+          <a class="chip" href="#m6"><b>06</b>Sidekicks</a>
+        </div>
+        <p class="note" style="margin-top:18px">Each module: the finding, the chart that proves it, the prompt that produced it, and what I took away.</p>
+      </div>
     </div>
-    <div class="note reveal d3" style="margin-top:24px">Modules 1&ndash;6 follow: Origin Story, Super Hearing, Rewind, X-Ray Vision, Super Speed, Sidekicks.</div>
   </div>
 </section>
 
 <!-- M1 -->
-<section data-t="M1 Origin Story">
+<section id="m1" data-t="M1 Origin Story">
   <div class="wrap">
-    <div class="mnum reveal">MODULE 01</div>
-    <h2 class="reveal d1">Origin Story &mdash; the consensus was wrong</h2>
-    <div class="modcard">
-      <div>
-        <div class="panel reveal d2">
-          <div class="tag f"><i></i>The finding</div>
-          <p style="margin-bottom:10px">The cause is the <b class="amber">timeout cut</b>, not the weight change everyone blamed.
-          <code>config.py:9</code> went 90s to 60s. Misses jumped 2.3% to 18.0% on 12 August; refusals <i>fell</i> from 21.1% to 18.0%.</p>
-          <p style="margin:0">The amplifier: <code>offer.py:30</code> and <code>history.py:35</code> penalise a miss identically to a refusal
-          (&minus;0.12 against +0.08 credit), and the score never decays &mdash; a <code>TODO</code> dated 2019.
-          Four responders floored out. Written up in <code>overview_questions.md</code>.</p>
-        </div>
-        <div class="take reveal d3" style="margin-top:16px">
-          <div class="tag t"><i></i>Takeaway</div>
-          <p>Ask what is <i>missing and contradictory across sources</i>, not what the story is. The room had a theory,
-          my predecessor had a theory, and both named the wrong half of the release. Asking the question in a form the
-          documents could fail to answer is what broke it open.</p>
-        </div>
+    <div class="mhead reveal"><span class="mnum">01</span><span class="mname">Origin Story</span></div>
+    <h2 class="reveal d1">The consensus was wrong.</h2>
+    <div class="grid g2" style="margin-top:10px">
+      <div class="panel reveal d2">
+        <div class="tag f"><i></i>The finding</div>
+        <p>The cause is the <b class="amber">timeout cut</b>, not the weight change everyone blamed. <code>config.py:9</code> went 90s to 60s.
+          The amplifier: a miss is penalised identically to a refusal, and the score never decays (a <code>TODO</code> dated 2019).
+          The threshold was exact: <b>four or more misses in the first five days and you were gone.</b></p>
+        <svg viewBox="0 0 460 120" role="img" aria-label="Misses in first five days: 4 or more means suppressed, 3 or fewer means fine">
+          <g id="missStrip"></g>
+          <text class="axt" x="0" y="112">MISSES IN THE FIRST FIVE DAYS AFTER 12 AUG</text>
+        </svg>
       </div>
-      <div class="reveal d2">
-        <div class="tag"><i></i>The prompt I wrote</div>
-        <div class="promptbox">I will ask now three questions. Please answer them separately as detailed as possible:
+      <div class="panel reveal d3">
+        <div class="tag r"><i></i>Testing the &ldquo;seasonal&rdquo; theory</div>
+        <svg viewBox="0 0 460 190" role="img" aria-label="Incidents per week fell from about 138 in July to 110 to 127 in mid-August; acceptance rate fell from 76.6 to 64.0 percent">
+          <text class="axt" x="0" y="14">INCIDENTS PER WEEK</text>
+          <text class="lbl" x="0" y="44">July</text>
+          <rect class="gx t1" x="90" y="28" width="290" height="22" rx="4" fill="#6aa9ff"/><text class="vl" x="388" y="44">~138</text>
+          <text class="lbl" x="0" y="76">Mid-Aug</text>
+          <rect class="gx t2" x="90" y="60" width="231" height="22" rx="4" fill="#6aa9ff" opacity=".7"/>
+          <rect class="gx t3" x="321" y="60" width="36" height="22" fill="#6aa9ff" opacity=".3"/><text class="vl" x="365" y="76">110&ndash;127</text>
+          <text class="axt" x="0" y="118">SHARE OF PINGS TAKEN</text>
+          <text class="lbl" x="0" y="148">Before</text>
+          <rect class="gx t3" x="90" y="132" width="290" height="22" rx="4" fill="#4cc38a"/><text class="vl" x="388" y="148">76.6%</text>
+          <text class="lbl" x="0" y="180">After</text>
+          <rect class="gx t4" x="90" y="164" width="242" height="22" rx="4" fill="#ef5f5f"/><text class="vl" x="340" y="180">64.0%</text>
+        </svg>
+        <div class="note">Priya was partly right: incidents really did dip. But acceptance is a <b>ratio</b>. Fewer callouts don't make people answer a smaller share of them.</div>
+      </div>
+    </div>
+    <div class="grid g2" style="margin-top:16px">
+      <div class="take reveal d3">
+        <div class="tag t"><i></i>Takeaway</div>
+        <p>Ask what is <i>missing and contradictory across sources</i>, not what the story is. The room had a theory,
+        my predecessor had a theory, and both named the wrong half of the release.</p>
+      </div>
+      <div class="reveal d3">
+        <details class="pr"><summary>The prompt I wrote</summary><div class="promptbox">I will ask now three questions. Please answer them separately as detailed as possible:
 
 1. What's contradictory or missing, not just in the company documents, but across Rook's wiki, its database and the files in my repo?
 2. How exactly does the dispatch algorithm determine which responder gets contacted first, and how did that logic change in Release 4.2?
-3. Is the decline in response rate caused by responders ignoring notifications, or by notifications failing to reach them?</div>
-        <div class="note">Question 3 is the one that mattered. It forces a choice between two mechanisms instead of
-        inviting a narrative, and the gap-between-pings query is what settled it.</div>
+3. Is the decline in response rate caused by responders ignoring notifications, or by notifications failing to reach them?</div></details>
+        <div class="note">Question 3 is the one that mattered. It forces a choice between two mechanisms instead of inviting a narrative.</div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- M2 -->
-<section data-t="M2 Super Hearing">
+<section id="m2" data-t="M2 Super Hearing">
   <div class="wrap">
-    <div class="mnum reveal">MODULE 02</div>
-    <h2 class="reveal d1">Super Hearing &mdash; volume is not prevalence</h2>
-    <div class="modcard">
-      <div>
-        <div class="panel reveal d2">
-          <div class="tag f"><i></i>The finding</div>
-          <p>Our support lead read the tickets as two thirds "my phone never goes off" and one third "it buzzes and it's gone".
-          By <b>volume</b> she was right. By <b>how many people are affected</b> it inverts:</p>
-          <svg viewBox="0 0 460 120" role="img" aria-label="Callout vanished affects 11 of 12 ticket handlers; gone quiet affects 4 of 12">
-            <text class="axt" x="0" y="20">"CALLOUT VANISHED BEFORE I COULD ANSWER"</text>
-            <g transform="translate(0,28)">
-              <rect x="0" y="0" width="420" height="22" rx="4" fill="#20283a"/>
-              <rect x="0" y="0" width="385" height="22" rx="4" fill="#ef5f5f"/>
-              <text class="vl" x="430" y="16">11 / 12</text>
-            </g>
-            <text class="axt" x="0" y="82">"PHONE HAS GONE QUIET"</text>
-            <g transform="translate(0,90)">
-              <rect x="0" y="0" width="420" height="22" rx="4" fill="#20283a"/>
-              <rect x="0" y="0" width="140" height="22" rx="4" fill="#6aa9ff"/>
-              <text class="vl" x="430" y="16">4 / 12</text>
-            </g>
-          </svg>
-          <p style="margin:14px 0 0">Also unreported anywhere: out-of-area pings went <b>17% to 39%</b> &mdash; responders travelling
-          further, invisible in acceptance rate. And tickets and interviews name <b>completely different</b> suppressed responders,
-          with no overlap. Neither source alone gives the right four.</p>
-        </div>
-        <div class="take reveal d3" style="margin-top:16px">
-          <div class="tag t"><i></i>Takeaway</div>
-          <p>Disagreeing with the model is the work. I pushed back on its grouping twice, and the structure that survived
-          &mdash; three defects, ranked by urgency &mdash; is the one that went into the brief. A tidy synthesis I had not argued with
-          would have kept the support lead's split intact and buried the bigger problem.</p>
-        </div>
+    <div class="mhead reveal"><span class="mnum">02</span><span class="mname">Super Hearing</span></div>
+    <h2 class="reveal d1">Volume is not prevalence.</h2>
+    <div class="grid g2" style="margin-top:10px">
+      <div class="panel reveal d2">
+        <div class="tag f"><i></i>Same tickets, two readings</div>
+        <svg viewBox="0 0 460 220" role="img" aria-label="By ticket volume: gone quiet two thirds, vanished one third. By handlers affected: vanished 11 of 12, gone quiet 4 of 12">
+          <text class="axt" x="0" y="14">BY TICKET VOLUME (SUPPORT LEAD'S SPLIT)</text>
+          <rect class="gx t1" x="0" y="24" width="300" height="34" rx="5" fill="#6aa9ff"/>
+          <rect class="gx t2" x="302" y="24" width="158" height="34" rx="5" fill="#ef5f5f"/>
+          <text class="vl" x="12" y="46">&ldquo;gone quiet&rdquo; 2/3</text><text class="vl" x="314" y="46">&ldquo;vanished&rdquo; 1/3</text>
+          <text class="axt" x="0" y="100">BY HANDLERS AFFECTED (OF 12 WHO FILED)</text>
+          <text class="lbl" x="0" y="130">&ldquo;Vanished&rdquo;</text>
+          <rect x="110" y="114" width="300" height="24" rx="5" fill="#20283a"/>
+          <rect class="gx t3" x="110" y="114" width="275" height="24" rx="5" fill="#ef5f5f"/><text class="vl" x="418" y="131">11</text>
+          <text class="lbl" x="0" y="172">&ldquo;Gone quiet&rdquo;</text>
+          <rect x="110" y="156" width="300" height="24" rx="5" fill="#20283a"/>
+          <rect class="gx t4" x="110" y="156" width="100" height="24" rx="5" fill="#6aa9ff"/><text class="vl" x="418" y="173">4</text>
+          <text class="axt fade t5" x="110" y="208">Flip: the smaller pile touches almost everyone</text>
+        </svg>
       </div>
-      <div class="reveal d2">
-        <div class="tag"><i></i>The prompt I wrote</div>
-        <div class="promptbox">I both agree and disagree with you. I think the observable differences are caused basically by the fact that different handlers are in both samples. In addition, I observe there pretty similar story although different handlers are in both samples. We observe very similar phings: callout vanishing, phone gone quiet, some problems with filters in the console - these are three main problems with the release. The console design issues where observable also in both piles. Knowing both these cases can you group the issues, visualize them and add to them some urgency statement (what should we look at first)? Would your response from module 1 and lab A change or is still similar? Finally, would be the procedure from module 1 - ask first engineer .... decide about timeout hold?</div>
-        <div class="note">Three sources now reproduce the same diagnosis independently: code, tickets, interviews.
-        The case stopped being single-source here.</div>
+      <div class="panel reveal d3">
+        <div class="tag r"><i></i>Unreported anywhere: out-of-area pings</div>
+        <div style="display:flex;justify-content:space-around;align-items:center;gap:10px;flex-wrap:wrap">
+          <svg viewBox="0 0 140 160" style="max-width:170px" role="img" aria-label="Before: 17 percent of pings out of area">
+            <circle cx="70" cy="70" r="50" fill="none" stroke="#20283a" stroke-width="16"/>
+            <circle class="donut" data-p="0.17" cx="70" cy="70" r="50" fill="none" stroke="#6aa9ff" stroke-width="16" stroke-linecap="round" transform="rotate(-90 70 70)"/>
+            <text class="big" x="70" y="78" text-anchor="middle">17%</text>
+            <text class="axt" x="70" y="150" text-anchor="middle">BEFORE</text>
+          </svg>
+          <div style="font-size:28px;color:var(--dim)">&rarr;</div>
+          <svg viewBox="0 0 140 160" style="max-width:170px" role="img" aria-label="After: 39 percent of pings out of area">
+            <circle cx="70" cy="70" r="50" fill="none" stroke="#20283a" stroke-width="16"/>
+            <circle class="donut" data-p="0.39" cx="70" cy="70" r="50" fill="none" stroke="#ef5f5f" stroke-width="16" stroke-linecap="round" transform="rotate(-90 70 70)"/>
+            <text class="big" x="70" y="78" text-anchor="middle" style="fill:#ffb3b3">39%</text>
+            <text class="axt" x="70" y="150" text-anchor="middle">AFTER</text>
+          </svg>
+        </div>
+        <div class="note">Responders travelling further, and it never shows in acceptance rate. Tickets and interviews also name <b>completely different</b> suppressed responders, with no overlap. Neither source alone gives the right four.</div>
+      </div>
+    </div>
+    <div class="grid g2" style="margin-top:16px">
+      <div class="take reveal d3">
+        <div class="tag t"><i></i>Takeaway</div>
+        <p>Disagreeing with the model is the work. I pushed back on its grouping twice, and the structure that survived
+        (three defects, ranked by urgency) is the one that went into the brief.</p>
+      </div>
+      <div class="reveal d3">
+        <details class="pr"><summary>The prompt I wrote</summary><div class="promptbox">I both agree and disagree with you. I think the observable differences are caused basically by the fact that different handlers are in both samples. In addition, I observe there pretty similar story although different handlers are in both samples. We observe very similar phings: callout vanishing, phone gone quiet, some problems with filters in the console - these are three main problems with the release. The console design issues where observable also in both piles. Knowing both these cases can you group the issues, visualize them and add to them some urgency statement (what should we look at first)? Would your response from module 1 and lab A change or is still similar? Finally, would be the procedure from module 1 - ask first engineer .... decide about timeout hold?</div></details>
+        <div class="note">Three sources now reproduce the same diagnosis independently: code, tickets, interviews.</div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- M3 -->
-<section data-t="M3 Rewind">
+<section id="m3" data-t="M3 Rewind">
   <div class="wrap">
-    <div class="mnum reveal">MODULE 03</div>
-    <h2 class="reveal d1">Rewind &mdash; refusals cannot sink anyone</h2>
-    <div class="modcard">
-      <div>
-        <div class="panel reveal d2">
-          <div class="tag f"><i></i>The finding</div>
-          <p>This answers the question our engineering manager asked on 14 August and nobody had answered since:
-          was the change meant to apply to responders who turn jobs down?</p>
-          <p>With +0.08 credit against &minus;0.12 penalty, the <b class="amber">break-even taken rate is exactly 60%</b>.
-          To cross it on refusals alone you would have to refuse 40% of your pings. The roster record is Meteor Mite's 28.6%.
-          <b>Refusals cannot sink anybody.</b> Misses crossed it for four people.</p>
-          <p style="margin:0">And a correction to my own earlier reading: <b>Group B does not exist.</b> Two responders I had
-          counted as suppressed are, demand-adjusted, <b class="green">+14% and +16%</b> &mdash; their areas simply had the two
-          biggest incident drops. The damage is contained to four, not six.</p>
-        </div>
-        <div class="take reveal d3" style="margin-top:16px">
-          <div class="tag t"><i></i>Takeaway</div>
-          <p>Normalise before you accuse. Raw ping counts said six people were being starved; incidents-in-their-own-area
-          said four. Eastgate is the control that proves it &mdash; Meteor Mite &minus;59% and The Gale +74%, same area, same handler.</p>
-        </div>
+    <div class="mhead reveal"><span class="mnum">03</span><span class="mname">Rewind</span></div>
+    <h2 class="reveal d1">Refusals cannot sink anyone.</h2>
+    <p class="reveal d1">This answers the question our engineering manager asked on 14 August: was the change meant to apply to responders who turn jobs down?
+      With +0.08 against &minus;0.12, the break-even is a 60% taken rate. To sink on refusals alone you'd need to refuse 40% of your pings.</p>
+    <div class="grid g3" style="margin-top:14px">
+      <div class="panel reveal d2">
+        <div class="tag f"><i></i>Refusal rate needed vs record</div>
+        <svg viewBox="0 0 300 170" role="img" aria-label="Refusal rate needed to sink: 40 percent. Highest on roster: Meteor Mite 28.6 percent">
+          <rect x="0" y="50" width="300" height="40" rx="6" fill="#20283a"/>
+          <rect x="240" y="50" width="60" height="40" rx="0" fill="rgba(239,95,95,.22)"/>
+          <rect class="gx t2" x="0" y="50" width="172" height="40" rx="6" fill="#6aa9ff"/>
+          <line x1="240" y1="36" x2="240" y2="104" stroke="#ef5f5f" stroke-width="2.5"/>
+          <text class="vl" x="240" y="28" text-anchor="middle" style="fill:#ff8a8a">40% to sink</text>
+          <text class="vl fade t3" x="12" y="76">28.6%</text>
+          <text class="axt" x="0" y="122">Meteor Mite: highest on the roster</text>
+          <text class="axt" x="0" y="140">0%</text><text class="axt" x="300" y="140" text-anchor="end">50%</text>
+        </svg>
+        <div class="note">Nobody came close. <b>Misses</b> crossed the line for four people.</div>
       </div>
-      <div class="reveal d2">
-        <div class="tag"><i></i>The prompt I wrote</div>
-        <div class="promptbox">Use 3 examples and visualize it to back up following hypothesis:
-"The change applies to everyone's existing score. But before 4.2, people's turn-downs had been wiped out by the 1.0 ceiling, so old history made almost no difference. After 4.2, turning jobs down didn't sink anyone either. What decided it was missed pings, because the code counts a miss as a turn-down. So the change didn't hit people who turn jobs down, old or new. It hit people who didn't answer within 60 seconds."</div>
-        <div class="panel" style="margin-top:16px">
-          <h3 style="font-size:16px">Why old history didn't matter</h3>
-          <p style="font-size:14.5px;margin:0">All 16 responders had hit the 1.00 ceiling before 4.2, discarding
-          <b>315 acceptance credits</b>. Old refusal history wasn't outweighed &mdash; it was erased. The responder who refused
-          most on the roster sat at a perfect 1.00 on 11 August.</p>
-        </div>
+      <div class="panel reveal d3">
+        <div class="tag f"><i></i>Demand-adjusted change in pings</div>
+        <svg viewBox="0 0 320 220" role="img" aria-label="Demand-adjusted pings: The Gale plus 74, Halfmoon plus 16, Ashgrove plus 14, Meteor Mite minus 59, other three of the four between minus 59 and minus 72">
+          <defs><pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#ef5f5f" opacity=".35"/><line x1="0" y1="0" x2="0" y2="6" stroke="#ef5f5f" stroke-width="3"/></pattern></defs>
+          <line class="ax" x1="190" y1="6" x2="190" y2="196"/>
+          <text class="axt" x="190" y="212" text-anchor="middle">0%</text>
+          <text class="lbl" x="0" y="26">The Gale</text>
+          <rect class="gx t1" x="190" y="12" width="96" height="22" rx="4" fill="#4cc38a"/><text class="vl" x="292" y="28" style="font-size:11.5px">+74</text>
+          <text class="lbl" x="0" y="62">Halfmoon</text>
+          <rect class="gx t2" x="190" y="48" width="21" height="22" rx="4" fill="#4cc38a" opacity=".75"/><text class="vl" x="217" y="64" style="font-size:11.5px">+16</text>
+          <text class="lbl" x="0" y="98">Ashgrove</text>
+          <rect class="gx t2" x="190" y="84" width="18" height="22" rx="4" fill="#4cc38a" opacity=".75"/><text class="vl" x="214" y="100" style="font-size:11.5px">+14</text>
+          <text class="lbl" x="0" y="134">Meteor Mite</text>
+          <rect class="gx gxr t3" x="113" y="120" width="77" height="22" rx="4" fill="#ef5f5f"/><text class="vl fade t4" x="119" y="136" style="font-size:11.5px">&minus;59</text>
+          <text class="lbl" x="0" y="164">Other three</text><text class="axt" x="0" y="180">of the four</text>
+          <rect class="gx gxr t4" x="113" y="156" width="77" height="22" rx="4" fill="#ef5f5f" opacity=".8"/>
+          <rect class="gx gxr t5" x="96" y="156" width="17" height="22" fill="url(#hatch)"/><text class="vl fade t5" x="119" y="172" style="font-size:11px">&minus;59&hellip;&minus;72</text>
+        </svg>
+        <div class="note">Normalised to incidents in their own area. <b>Group B does not exist</b>: Ashgrove and Halfmoon were up, not suppressed. Same area, same handler: Meteor Mite &minus;59, The Gale +74.</div>
+      </div>
+      <div class="panel reveal d4">
+        <div class="tag r"><i></i>The tickets told it in order</div>
+        <svg viewBox="0 0 320 220" role="img" aria-label="Timeline: release 12 August; vanished complaints start 12 August; gone-quiet complaints start 17 August; miss rate peaks week of 10 August; tickets peak 24 August">
+          <line class="ax" x1="10" y1="186" x2="310" y2="186"/>
+          <g class="axt"><text x="10" y="204">1 Aug</text><text x="160" y="204" text-anchor="middle">18 Aug</text><text x="310" y="204" text-anchor="end">6 Sep</text></g>
+          <rect class="fade t1" x="85" y="8" width="58" height="178" fill="rgba(239,95,95,.08)"/>
+          <text class="axt fade t1" x="114" y="40" text-anchor="middle" style="fill:#ff8a8a">miss peak</text>
+          <line x1="102" y1="2" x2="102" y2="186" stroke="#f5b544" stroke-width="2" stroke-dasharray="4 3"/>
+          <text class="axt" x="108" y="2" style="fill:#f5b544">4.2 &middot; 12 Aug</text>
+          <text class="lbl" x="10" y="78" style="font-size:12px">&ldquo;gone before I could answer&rdquo;</text>
+          <rect class="gx t2" x="102" y="86" width="208" height="16" rx="8" fill="#ef5f5f"/>
+          <text class="lbl" x="10" y="132" style="font-size:12px">&ldquo;phone never goes off&rdquo;</text>
+          <rect class="gx t4" x="144" y="140" width="166" height="16" rx="8" fill="#6aa9ff"/>
+          <text class="axt fade t5" x="144" y="172">17 Aug, +5 days</text>
+          <circle class="fade t6" cx="202" cy="148" r="6" fill="#fff"/><text class="axt fade t6" x="210" y="125" style="fill:#fff">ticket peak 24 Aug</text>
+        </svg>
+        <div class="note">Cause, then effect, five days apart. Tickets peak two weeks <b>after</b> misses, so the metric recovers while complaints are still rising.</div>
+      </div>
+    </div>
+    <div class="grid g2" style="margin-top:16px">
+      <div class="take reveal d3">
+        <div class="tag t"><i></i>Takeaway</div>
+        <p>Normalise before you accuse. Raw ping counts said six people were being starved; incidents in their own area said four.
+        And old refusal history didn't matter: all 16 had hit the 1.00 ceiling before 4.2, throwing away <b>315 credits</b>.</p>
+      </div>
+      <div class="reveal d3">
+        <details class="pr"><summary>The prompt I wrote</summary><div class="promptbox">Use 3 examples and visualize it to back up following hypothesis:
+"The change applies to everyone's existing score. But before 4.2, people's turn-downs had been wiped out by the 1.0 ceiling, so old history made almost no difference. After 4.2, turning jobs down didn't sink anyone either. What decided it was missed pings, because the code counts a miss as a turn-down. So the change didn't hit people who turn jobs down, old or new. It hit people who didn't answer within 60 seconds."</div></details>
       </div>
     </div>
   </div>
 </section>
 
 <!-- M4 -->
-<section data-t="M4 X-Ray Vision">
+<section id="m4" data-t="M4 X-Ray Vision">
   <div class="wrap">
-    <div class="mnum reveal">MODULE 04</div>
-    <h2 class="reveal d1">X-Ray Vision &mdash; the floor is a basin</h2>
-    <div class="modcard">
-      <div>
-        <div class="panel reveal d2">
-          <div class="tag f"><i></i>The finding</div>
-          <p>The whole routing service is 232 lines and contains <b>four <code>if</code> statements, none of which looks at
-          who the responder is.</b> Nothing was grandfathered; there is nowhere for a per-responder distinction to live.
-          Exactly one line adds points &mdash; <code>history.py:27</code>, gated on receiving a ping.</p>
-          <p style="margin:0">And the thing that changes the plan: the clamp makes the break-even yes-rate vary by height.
-          0% at the floor, 50% at 0.08, 60% at 0.12 and above. The four sit at roughly 35&ndash;45%, so they bounce between
-          0.00 and 0.08 and cannot climb out. <b class="red">Restoring the timer will not recover them.</b> It stops new
-          people falling in while the headline metric recovers around them.</p>
+    <div class="mhead reveal"><span class="mnum">04</span><span class="mname">X-Ray Vision</span></div>
+    <h2 class="reveal d1">The floor is a basin, not a pit.</h2>
+    <p class="reveal d1">232 lines, four <code>if</code> statements, none of which looks at who the responder is. Exactly one line adds points
+      (<code>history.py:27</code>), and only when a ping arrives. Then the clamp turns the floor into a trap.</p>
+    <div class="grid g21" style="margin-top:14px">
+      <div class="panel hot reveal d2">
+        <div class="tag r"><i></i>Yes-rate needed to climb, by current score</div>
+        <svg viewBox="0 0 520 260" role="img" aria-label="Break-even yes-rate rises from 0 percent at the floor to 50 percent at 0.08 and 60 percent from 0.12. The four answer 35 to 45 percent, so they stay trapped below 0.08">
+          <rect class="fade t1" x="60" y="20" width="117" height="200" fill="rgba(239,95,95,.08)"/>
+          <text class="axt fade t1" x="118" y="36" text-anchor="middle" style="fill:#ff8a8a">TRAPPED</text>
+          <line class="ax" x1="60" y1="220" x2="500" y2="220"/><line class="ax" x1="60" y1="20" x2="60" y2="220"/>
+          <g class="axt">
+            <text x="52" y="224" text-anchor="end">0%</text><text x="52" y="124" text-anchor="end">50%</text><text x="52" y="104" text-anchor="end">60%</text><text x="52" y="24" text-anchor="end">100%</text>
+            <text x="60" y="240" text-anchor="middle">0.00</text><text x="177" y="240" text-anchor="middle">0.08</text><text x="236" y="240" text-anchor="middle">0.12</text><text x="500" y="240" text-anchor="middle">0.30</text>
+            <text x="280" y="258" text-anchor="middle">score (recent acceptance)</text>
+          </g>
+          <rect class="gx t2" x="60" y="130" width="440" height="20" fill="rgba(245,181,68,.22)" stroke="rgba(245,181,68,.5)" stroke-dasharray="4 3"/>
+          <text class="vl fade t3" x="490" y="144" text-anchor="end" style="font-size:11px;fill:#ffd27a">the four answer 35&ndash;45%</text>
+          <path class="draw t3" style="--len:520" d="M60 220 L177 120 L236 100 L500 100" fill="none" stroke="#ef5f5f" stroke-width="3"/>
+          <g class="fade t5"><circle cx="60" cy="220" r="5" fill="#ef5f5f"/><circle cx="177" cy="120" r="5" fill="#ef5f5f"/><circle cx="236" cy="100" r="5" fill="#ef5f5f"/></g>
+          <text class="vl fade t5" x="250" y="90" style="font-size:11.5px">break-even</text>
+        </svg>
+        <div class="note">Above 0.00 the bar rises faster than they can answer, so they bounce between 0.00 and 0.08. <b class="red">Restoring the timer will not recover them.</b> It stops new people falling in while the headline recovers around them.</div>
+      </div>
+      <div class="grid" style="gap:16px">
+        <div class="panel reveal d3">
+          <div class="tag f"><i></i>97 failed callouts</div>
+          <div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap">
+            <div class="waffle" id="waffle"></div>
+            <div><div class="stat" style="border:0;background:none;padding:0"><div class="n amber"><span class="cu" data-to="82">82</span></div><div class="l">died after a single ping. The list usually had <b>one name</b> on it.</div></div></div>
+          </div>
         </div>
-        <div class="take reveal d3" style="margin-top:16px">
-          <div class="tag t"><i></i>Takeaway</div>
-          <p>When the code and the data disagree, that gap is the finding. An empty function body means the answer is
-          elsewhere, and a parameter name is not a behaviour. <code>offer.py:25</code> says it walks the whole ranked list &mdash;
-          but 82 of 97 failed callouts died after a single ping. "Nobody came" turned out to mean
-          <i>the one person we asked said no</i>.</p>
+        <div class="panel reveal d4">
+          <div class="tag b"><i style="background:var(--blue)"></i>Out-of-area pings taken</div>
+          <svg viewBox="0 0 300 90" role="img" aria-label="Out-of-area acceptance went from 0 of 186 to 35.7 percent">
+            <text class="lbl" x="0" y="22">Before</text><rect x="70" y="8" width="200" height="20" rx="4" fill="#20283a"/><text class="vl" x="278" y="23">0%</text>
+            <text class="lbl" x="0" y="64">After</text><rect x="70" y="50" width="200" height="20" rx="4" fill="#20283a"/>
+            <rect class="gx t3" x="70" y="50" width="71" height="20" rx="4" fill="#6aa9ff"/><text class="vl" x="278" y="65">35.7%</text>
+          </svg>
+          <div class="note">0 of 186 before. Work moved into a bucket that converts at half the rate: a <b>mix effect</b>.</div>
         </div>
       </div>
-      <div class="reveal d2">
-        <div class="tag"><i></i>The prompt I wrote</div>
-        <div class="promptbox">Before we add this, let's elaborate on this even more? Can you find something in the data or code why the ranking list is so short in nobody came cases. The only thing I can think off is that someone sets me as not available. I disagree with you that you are excluded from the list when your expected travel time is larger than 45 minutes. From all the discussions, I understood that if this is the case your proximity score is zero but you still are part of the list. What I miss here?</div>
-        <div class="note">That disagreement was right and produced a correction: there is no region gate, and the
-        45-minute horizon removes nobody &mdash; it sets proximity to 0.0 and they stay on the list. Availability is
-        the only filter.</div>
-        <div class="panel" style="margin-top:16px">
-          <h3 style="font-size:16px">Two instrumentation gaps</h3>
-          <p style="font-size:14.5px;margin:0">No travel-time estimate is stored &mdash; the largest input, weighted 0.60, leaves
-          zero trace. And no availability history, the only thing that can shorten the candidate list. Both make whole
-          classes of question unanswerable.</p>
-        </div>
+    </div>
+    <div class="grid g2" style="margin-top:16px">
+      <div class="take reveal d3">
+        <div class="tag t"><i></i>Takeaway</div>
+        <p>When the code and the data disagree, that gap is the finding. <code>offer.py:25</code> says it walks the whole list, yet
+        82 of 97 failures stopped at one ping. &ldquo;Nobody came&rdquo; meant <i>the one person we asked said no</i>.</p>
+      </div>
+      <div class="reveal d3">
+        <details class="pr"><summary>The prompt I wrote</summary><div class="promptbox">Before we add this, let's elaborate on this even more? Can you find something in the data or code why the ranking list is so short in nobody came cases. The only thing I can think off is that someone sets me as not available. I disagree with you that you are excluded from the list when your expected travel time is larger than 45 minutes. From all the discussions, I understood that if this is the case your proximity score is zero but you still are part of the list. What I miss here?</div></details>
+        <div class="note">That disagreement was right: there is no region gate. The 45-minute horizon sets proximity to 0.0 and they stay on the list. Availability is the only filter.</div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- M5 FIX -->
-<section data-t="M5 The fix">
+<section id="m5" data-t="M5 The fix">
   <div class="wrap">
-    <div class="mnum reveal">MODULE 05</div>
-    <h2 class="reveal d1">Super Speed &mdash; the fix, and a prototype of it</h2>
-    <div class="modcard">
-      <div>
-        <div class="panel reveal d2">
-          <div class="tag f"><i></i>The artifact</div>
-          <p>A brief for the director (<a href="05-super-speed/brief.md" style="color:inherit"><code>05-super-speed/brief.md</code></a>) and a clickable prototype
-          (<a href="05-super-speed/prototype.html" style="color:inherit"><code>05-super-speed/prototype.html</code></a>) showing the handler console and the responder's phone,
-          before and after, with a live timer and a test ping.</p>
-          <p style="margin:0">The rescue value is <b class="amber">0.8</b>, not <code>NEUTRAL_SCORE</code> 0.5 &mdash; 0.5 would leave the
-          four below everyone else. 0.8 is both the counterfactual resting place and mid-roster today.
-          Plus a floor of about three offers a week, as a backstop and a detector, against a baseline of
-          roughly ten offers per responder per week.</p>
-        </div>
-        <div class="take reveal d3" style="margin-top:16px">
-          <div class="tag t"><i></i>Takeaway</div>
-          <p>Build the thing that shows the trade-off, not the thing that wins the argument. The prototype puts both
-          numbers on screen at once on purpose: restoring 90 seconds takes acceptance back to about 76%
-          <i>while the four stay at zero</i>. That is why the timer decision comes <b>last</b> in the plan, not first.</p>
-        </div>
+    <div class="mhead reveal"><span class="mnum">05</span><span class="mname">Super Speed</span></div>
+    <h2 class="reveal d1">Fixing the metric is not fixing the people.</h2>
+    <p class="reveal d1">A brief for the director (<a href="05-super-speed/brief.md" style="color:inherit"><code>brief.md</code></a>) and a clickable prototype.
+      The rescue value is <b class="amber">0.8</b>, not <code>NEUTRAL_SCORE</code> 0.5, which would leave the four below everyone. Plus a floor of about three offers a week, against a baseline of ~10.</p>
+    <div class="grid g2" style="margin-top:14px">
+      <div class="panel reveal d2">
+        <div class="tag f"><i></i>Headline acceptance rate</div>
+        <svg viewBox="0 0 320 200" role="img" aria-label="Acceptance 76.6 percent before, 64.0 after, back to about 76 percent if the timer is restored">
+          <line class="ax" x1="30" y1="170" x2="310" y2="170"/>
+          <line class="ax" x1="30" y1="47" x2="310" y2="47" stroke-dasharray="3 5" opacity=".5"/>
+          <path class="draw t1" style="--len:260" d="M60 47 L170 110" stroke="#ef5f5f" stroke-width="3" fill="none"/>
+          <path class="draw t3" style="--len:260" d="M170 110 L280 50" stroke="#4cc38a" stroke-width="3" fill="none" stroke-dasharray="7 5"/>
+          <g class="fade t4">
+            <circle cx="60" cy="47" r="6" fill="#4cc38a"/><circle cx="170" cy="110" r="6" fill="#ef5f5f"/><circle cx="280" cy="50" r="6" fill="#4cc38a" stroke="#fff" stroke-dasharray="2 2"/>
+            <text class="vl" x="60" y="34" text-anchor="middle">76.6%</text><text class="vl" x="170" y="134" text-anchor="middle">64.0%</text><text class="vl" x="280" y="34" text-anchor="middle">~76%</text>
+          </g>
+          <g class="axt"><text x="60" y="190" text-anchor="middle">before</text><text x="170" y="190" text-anchor="middle">after 4.2</text><text x="280" y="190" text-anchor="middle">timer back</text></g>
+        </svg>
+        <div class="note">Looks healthy again&hellip;</div>
       </div>
-      <div class="reveal d2">
-        <div class="tag"><i></i>The prompt I wrote</div>
-        <div class="promptbox">We very likely know the answers from previous modules and therefore it is not necessary to ask wen li. Moreover, maybe Don't count miss as a refusal is most important thing. Then somehow un-stick the four - either manually or as you suggested garantee some calls during the week but it must be more than one. How many callouts a week in average are there. After that record the ring, check the gear and maybe let's know handler what's going on and lastly the decision about the timer. What do you think? Can you use it in the brief and write the brief also in the chat</div>
-        <div class="panel" style="margin-top:16px">
-          <h3 style="font-size:16px">Two different harms, not one</h3>
-          <table>
-            <tr><th>Area</th><th>What happened</th></tr>
-            <tr><td><b>Eastgate</b></td><td>Concentrated. Callouts offered to one person and nobody else went 39% to 70%. <b class="red">Four incidents unattended</b> in August because he declined and there was no second name.</td></tr>
-            <tr><td><b>Old Town<br>&amp; Uptown</b></td><td>Exported. Vesper went 72 to 10 pings while outsiders took 52. Invisible in acceptance rate &mdash; a ping taken forty minutes away counts the same as one next door.</td></tr>
-          </table>
-        </div>
+      <div class="panel hot reveal d3">
+        <div class="tag r"><i></i>The four's score</div>
+        <svg viewBox="0 0 320 200" role="img" aria-label="The four responders' score: 1.00 on 11 August, 0.00 after; still 0.00 with the timer only; 0.80 with the fix">
+          <line class="ax" x1="30" y1="170" x2="310" y2="170"/>
+          <g class="axt"><text x="24" y="44" text-anchor="end">1.0</text><text x="24" y="174" text-anchor="end">0</text></g>
+          <path class="draw t1" style="--len:260" d="M60 40 L170 170" stroke="#ef5f5f" stroke-width="3" fill="none"/>
+          <path class="draw t3" style="--len:200" d="M170 170 L280 170" stroke="#ef5f5f" stroke-width="3" fill="none" stroke-dasharray="7 5"/>
+          <path class="draw t4" style="--len:200" d="M170 170 L280 66" stroke="#4cc38a" stroke-width="3" fill="none" stroke-dasharray="7 5"/>
+          <g class="fade t5">
+            <circle cx="60" cy="40" r="6" fill="#4cc38a"/><circle cx="170" cy="170" r="6" fill="#ef5f5f"/>
+            <circle cx="280" cy="170" r="6" fill="#ef5f5f"/><circle cx="280" cy="66" r="6" fill="#4cc38a"/>
+            <text class="vl" x="60" y="28" text-anchor="middle">1.00</text><text class="vl" x="170" y="158" text-anchor="end">0.00</text>
+            <text class="vl" x="292" y="160" style="font-size:11px;fill:#ff8a8a">timer only: 0.00</text>
+            <text class="vl" x="292" y="70" style="font-size:11px;fill:#8ff0bd">with fix: 0.80</text>
+          </g>
+          <g class="axt"><text x="60" y="190" text-anchor="middle">11 Aug</text><text x="170" y="190" text-anchor="middle">Sep</text><text x="280" y="190" text-anchor="middle">after fix</text></g>
+        </svg>
+        <div class="note">&hellip;while four people stay at zero. That's why the timer comes <b>last</b>.</div>
       </div>
     </div>
-    <div class="panel reveal d4" style="margin-top:18px">
-      <div class="tag f"><i></i>Agreed order &mdash; timer last, on purpose</div>
+    <div class="grid g3" style="margin-top:16px">
+      <div class="panel reveal d2">
+        <div class="tag r"><i></i>Eastgate: concentrated</div>
+        <svg viewBox="0 0 300 150" role="img" aria-label="Eastgate callouts offered only to The Gale went from 39 to 70 percent; four incidents unattended on 20, 24, 25 and 31 August">
+          <text class="axt" x="0" y="12">OFFERED TO THE GALE AND NOBODY ELSE</text>
+          <rect x="0" y="22" width="300" height="18" rx="4" fill="#20283a"/><rect class="gx t1" x="0" y="22" width="117" height="18" rx="4" fill="#f5b544"/><text class="vl" x="124" y="36" style="font-size:11px">39%</text>
+          <rect x="0" y="46" width="300" height="18" rx="4" fill="#20283a"/><rect class="gx t2" x="0" y="46" width="210" height="18" rx="4" fill="#ef5f5f"/><text class="vl" x="217" y="60" style="font-size:11px">70%</text>
+          <text class="axt" x="0" y="92">AUGUST: UNATTENDED INCIDENTS</text>
+          <g id="augStrip" transform="translate(0,100)"></g>
+        </svg>
+        <div class="note">The Gale declined and there was <b>no second name</b>.</div>
+      </div>
+      <div class="panel reveal d3">
+        <div class="tag r"><i></i>Old Town &amp; Uptown: exported</div>
+        <svg viewBox="0 0 300 150" role="img" aria-label="Vesper pings went from 72 to 10 while outsiders took 52">
+          <text class="lbl" x="0" y="30">Vesper before</text>
+          <rect class="gx t1" x="110" y="16" width="180" height="22" rx="4" fill="#4cc38a"/><text class="vl" x="118" y="32" style="font-size:11px">72</text>
+          <text class="lbl" x="0" y="72">After</text>
+          <rect class="gx t2" x="110" y="58" width="25" height="22" rx="4" fill="#ef5f5f"/>
+          <rect class="gx t3" x="137" y="58" width="130" height="22" rx="4" fill="#a98bff"/>
+          <text class="vl" x="114" y="74" style="font-size:11px">10</text><text class="vl" x="145" y="74" style="font-size:11px">52 to outsiders</text>
+          <text class="axt" x="0" y="118">Nightwell's out-of-area: 3/wk &rarr; 12 of 21</text>
+        </svg>
+        <div class="note">A ping taken 40 minutes away counts the same as one next door.</div>
+      </div>
+      <div class="panel reveal d4">
+        <div class="tag f"><i></i>Taken per refusal</div>
+        <svg viewBox="0 0 300 150" role="img" aria-label="Break-even is 1.5 taken per refusal. The four ran 2.4 to 5.4 before August and about 1.0 now">
+          <line class="ax" x1="20" y1="100" x2="290" y2="100"/>
+          <line x1="125" y1="10" x2="125" y2="100" stroke="#f5b544" stroke-width="2" stroke-dasharray="4 3"/>
+          <text class="axt" x="125" y="118" text-anchor="middle" style="fill:#f5b544">1.5 break-even</text>
+          <text class="axt" x="20" y="22">BEFORE AUG</text>
+          <rect class="gx t2" x="188" y="30" width="102" height="16" rx="8" fill="#4cc38a"/>
+          <text class="vl" x="188" y="62" style="font-size:11px">2.4&ndash;5.4 &rarr;</text>
+          <text class="axt" x="20" y="80">NOW</text>
+          <circle class="fade t4" cx="90" cy="86" r="8" fill="#ef5f5f"/><text class="vl fade t4" x="102" y="90" style="font-size:11px">~1.0</text>
+          <g class="axt"><text x="20" y="138">0</text><text x="160" y="138" text-anchor="middle">2</text><text x="290" y="138" text-anchor="end">4+</text></g>
+        </svg>
+        <div class="note">A floor-only fix may never recover Meteor Mite or Farlight.</div>
+      </div>
+    </div>
+    <div class="panel reveal d4" style="margin-top:16px">
+      <div class="tag f"><i></i>Agreed order: timer last, on purpose</div>
       <div class="chain" style="margin:0 -6px">
-        <div class="step"><div class="i">1</div><div class="t">Miss &ne; refusal</div><div class="s">The one change everything follows from</div></div>
+        <div class="step go"><div class="i">1</div><div class="t">Miss &ne; refusal</div><div class="s">The one change everything follows from</div></div>
         <div class="step"><div class="i">2</div><div class="t">Un-stick the four</div><div class="s">Set to 0.8, plus an offer floor</div></div>
         <div class="step"><div class="i">3</div><div class="t">Record the ring</div><div class="s">Delivery and time-to-accept</div></div>
         <div class="step"><div class="i">4</div><div class="t">Check the gear</div><div class="s">Supply reads the availability record</div></div>
-        <div class="step"><div class="i">5</div><div class="t">Tell the handlers</div><div class="s">They filed 147 tickets and got no answer</div></div>
+        <div class="step"><div class="i">5</div><div class="t">Tell the handlers</div><div class="s">147 tickets, no answer yet</div></div>
         <div class="step end"><div class="i">6</div><div class="t">Then the timer</div><div class="s">It fixes the metric, not the people</div></div>
+      </div>
+    </div>
+    <div class="grid g2" style="margin-top:16px">
+      <div class="take reveal d3">
+        <div class="tag t"><i></i>Takeaway</div>
+        <p>Build the thing that shows the trade-off, not the thing that wins the argument. The prototype puts both numbers on screen at once on purpose.</p>
+      </div>
+      <div class="reveal d3">
+        <details class="pr"><summary>The prompt I wrote</summary><div class="promptbox">We very likely know the answers from previous modules and therefore it is not necessary to ask wen li. Moreover, maybe Don't count miss as a refusal is most important thing. Then somehow un-stick the four - either manually or as you suggested garantee some calls during the week but it must be more than one. How many callouts a week in average are there. After that record the ring, check the gear and maybe let's know handler what's going on and lastly the decision about the timer. What do you think? Can you use it in the brief and write the brief also in the chat</div></details>
       </div>
     </div>
   </div>
 </section>
 
-<!-- M6 SKILL -->
-<section data-t="M6 The skill">
-  <div class="wrap">
-    <div class="mnum reveal">MODULE 06</div>
-    <h2 class="reveal d1">Sidekicks &mdash; so it doesn't happen again</h2>
-    <p class="lead reveal d1">4.2 was not a coding mistake. It was a decision that shipped without anyone writing down how
-      we would know it had worked. <code>review-checklist</code> is a project skill that grades every brief against five
-      criteria before it becomes a release.</p>
-    <div class="grid g2 reveal d2" style="margin-top:22px">
-      <div class="panel">
-        <div class="tag f"><i></i>The five criteria</div>
-        <table>
-          <tr><td>Owner named</td><td class="mut">a person or team, not a role with nobody in it</td></tr>
-          <tr><td>Success measure</td><td class="mut">how anyone would know it worked, checkably</td></tr>
-          <tr><td>Scope stays bounded</td><td class="mut">the ask at the end is the ask at the start</td></tr>
-          <tr><td>Problem before fix</td><td class="mut">opens with who hurts, not what to build</td></tr>
-          <tr><td>Evidence present and current</td><td class="mut">figures a reader can re-run, with a date</td></tr>
-        </table>
-        <div class="note">It reads and reports. It never edits a brief and never files anything. Defined in
-        <a href=".claude/skills/review-checklist/SKILL.md" style="color:inherit"><code>.claude/skills/review-checklist/SKILL.md</code></a>,
-        scheduled Monday 09:06; runs land in <code>06-sidekicks/review-checklist-runs/</code>.</div>
+<!-- PROTOTYPE -->
+<section id="proto" data-t="Live prototype">
+  <div class="wrap wide">
+    <div class="kicker reveal">Module 05 &middot; try it</div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap">
+      <div>
+        <h2 class="reveal d1" style="margin-bottom:8px">The prototype, live.</h2>
+        <p class="reveal d1" style="margin:0">The handler console and the responder's phone, before and after the fix, with a live timer and a test ping. Click around right here, or open it in its own window.</p>
       </div>
-      <div class="panel">
-        <div class="tag f"><i></i>First real run: four of Priya's wiki briefs</div>
-        <svg viewBox="0 0 460 180" role="img" aria-label="Flags per brief: Handler Phone App 3, Requisition Approval Chains 2, Routing Override Audit Log 2, Bulk Callout 2">
-          <g font-family="var(--sans)">
-            <text class="lbl" x="0" y="20">Handler Phone App</text>
-            <rect x="250" y="7" width="60" height="16" rx="3" fill="#ef5f5f"/><text class="vl" x="320" y="20">3 flags</text>
-            <text class="lbl" x="0" y="60">Requisition Approval Chains</text>
-            <rect x="250" y="47" width="40" height="16" rx="3" fill="#f5b544"/><text class="vl" x="320" y="60">2 flags</text>
-            <text class="lbl" x="0" y="100">Routing Override Audit Log</text>
-            <rect x="250" y="87" width="40" height="16" rx="3" fill="#f5b544"/><text class="vl" x="320" y="100">2 flags</text>
-            <text class="lbl" x="0" y="140">Bulk Callout</text>
-            <rect x="250" y="127" width="40" height="16" rx="3" fill="#f5b544"/><text class="vl" x="320" y="140">2 flags</text>
-            <line class="ax" x1="0" y1="158" x2="460" y2="158"/>
-            <text class="axt" x="0" y="176">4 briefs checked &middot; 4 flagged &middot; 9 flags</text>
-          </g>
-        </svg>
-        <p style="margin:14px 0 0;font-size:15px"><b>Every one of them fails on evidence. Not a single figure between
-        them.</b> Each case rests on one anecdote: "Halloran's asked more than once", "Aunt Dot asked for".</p>
+      <div class="reveal d2" style="display:flex;gap:10px;flex-wrap:wrap">
+        <a class="btn primary" id="popOut" href="05-super-speed/prototype.html" target="_blank" rel="noopener">&#8599; Open in a new window</a>
+        <button class="btn" id="fsBtn" type="button">&#x26F6; Full screen</button>
       </div>
     </div>
-    <div class="modcard" style="margin-top:18px">
-      <div class="reveal d3">
-        <div class="tag"><i></i>The prompt I wrote</div>
-        <div class="promptbox">Imagine it's Monday morning
-review-checklist flagged four gaps overnight, on four briefs in Rook's wiki that nobody in this room has read yet. You don't know yet what they mean. But you already know exactly where to look, without doing any of the digging yourself. What I should write as a prompt to test the skill in this scenario? What should I write as a prompt to test it on the brief created in module 5</div>
+    <div class="browser reveal d2" style="margin-top:22px" id="protoFrame">
+      <div class="bar">
+        <i style="background:#ef5f5f"></i><i style="background:#f5b544"></i><i style="background:#4cc38a"></i>
+        <div class="url">rook-dispatch / handler-console &middot; prototype</div>
+        <button class="mini" id="reloadProto" type="button">&#8635; Reset</button>
+        <button class="mini" id="popOut2" type="button">&#8599; Pop out</button>
       </div>
+      <iframe id="protoIframe" srcdoc="<!doctype html>
+<html lang=&quot;en&quot; data-theme=&quot;dark&quot;>
+<head>
+<meta charset=&quot;utf-8&quot;>
+<meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;>
+<title>Rook Dispatch — Handler Console</title>
+<style>
+  :root {
+    --plane:      #f9f9f7;
+    --surface:    #fcfcfb;
+    --raised:     #ffffff;
+    --ink:        #0b0b0b;
+    --ink-2:      #52514e;
+    --muted:      #898781;
+    --grid:       #e1e0d9;
+    --rule:       rgba(11,11,11,0.10);
+    --series:     #2a78d6;
+    --good:       #0ca30c;
+    --warning:    #fab219;
+    --serious:    #ec835a;
+    --critical:   #d03b3b;
+    --shadow:     0 1px 2px rgba(11,11,11,.06), 0 8px 24px rgba(11,11,11,.06);
+    color-scheme: light;
+  }
+  :root[data-theme=&quot;dark&quot;] {
+    --plane:      #0d0d0d;
+    --surface:    #1a1a19;
+    --raised:     #212120;
+    --ink:        #f0efec;
+    --ink-2:      #c3c2b7;
+    --muted:      #898781;
+    --grid:       #2c2c2a;
+    --rule:       rgba(255,255,255,0.10);
+    --series:     #3987e5;
+    --shadow:     0 1px 2px rgba(0,0,0,.5), 0 8px 24px rgba(0,0,0,.4);
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--plane);
+    color: var(--ink);
+    font: 15px/1.5 system-ui, -apple-system, &quot;Segoe UI&quot;, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 { margin: 0; font-weight: 600; letter-spacing: -0.01em; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+
+  /* ---------- top bar ---------- */
+  .topbar {
+    display: flex; align-items: center; gap: 16px;
+    padding: 0 20px; height: 52px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--rule);
+    position: sticky; top: 0; z-index: 30;
+  }
+  .logo { display: flex; align-items: center; gap: 9px; font-weight: 650; letter-spacing: -0.02em; }
+  .logo svg { display: block; }
+  .crumb { color: var(--muted); font-size: 13.5px; }
+  .crumb b { color: var(--ink-2); font-weight: 500; }
+  .spacer { flex: 1; }
+  .who {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13.5px; color: var(--ink-2);
+  }
+  .avatar {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--series); color: #fff;
+    display: grid; place-items: center;
+    font-size: 11.5px; font-weight: 650;
+  }
+  .icon-btn {
+    width: 32px; height: 32px; display: grid; place-items: center;
+    background: transparent; border: 1px solid var(--rule); border-radius: 8px;
+    color: var(--ink-2); transition: background .15s, color .15s;
+  }
+  .icon-btn:hover { background: var(--plane); color: var(--ink); }
+
+  /* ---------- prototype strip ---------- */
+  .strip {
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    padding: 12px 20px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--rule);
+    position: sticky; top: 52px; z-index: 29;
+  }
+  .strip-label {
+    font-size: 11px; font-weight: 650; letter-spacing: .09em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .seg {
+    display: inline-flex; padding: 3px; gap: 3px;
+    background: var(--plane); border: 1px solid var(--rule); border-radius: 10px;
+  }
+  .seg button {
+    border: 0; background: transparent; color: var(--ink-2);
+    padding: 6px 14px; border-radius: 7px; font-size: 13.5px; font-weight: 550;
+    transition: background .15s, color .15s;
+  }
+  .seg button:hover { color: var(--ink); }
+  .seg button[aria-pressed=&quot;true&quot;] {
+    background: var(--raised); color: var(--ink); box-shadow: var(--shadow);
+  }
+  .strip-note { font-size: 13px; color: var(--muted); }
+
+  /* ---------- headline metrics ---------- */
+  .metrics {
+    display: flex; align-items: stretch; gap: 26px; flex-wrap: wrap;
+    max-width: 1240px; margin: 0 auto; padding: 18px 20px 0;
+  }
+  .metric { min-width: 160px; }
+  .mv {
+    font-size: 32px; font-weight: 600; letter-spacing: -0.025em; line-height: 1.05;
+    transition: color .3s;
+  }
+  .mv.good { color: var(--good); }
+  .mv.warn { color: var(--warning); }
+  .mv.bad  { color: var(--critical); }
+  .mk { font-size: 11.5px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); margin-top: 5px; }
+  .md { font-size: 12px; color: var(--muted); margin-top: 3px; }
+  .verdict {
+    flex: 1; min-width: 260px;
+    display: flex; align-items: center; gap: 10px;
+    border-radius: 10px; padding: 12px 14px; font-size: 13px; line-height: 1.5;
+    border: 1px solid var(--rule); color: var(--ink-2);
+  }
+  .verdict svg { flex: none; }
+  .verdict.warn {
+    border-color: color-mix(in srgb, var(--warning) 36%, transparent);
+    background: color-mix(in srgb, var(--warning) 9%, transparent);
+  }
+  .verdict.bad {
+    border-color: color-mix(in srgb, var(--critical) 36%, transparent);
+    background: color-mix(in srgb, var(--critical) 9%, transparent);
+  }
+  .verdict.ok {
+    border-color: color-mix(in srgb, var(--good) 36%, transparent);
+    background: color-mix(in srgb, var(--good) 9%, transparent);
+  }
+
+  /* ---------- layout ---------- */
+  .wrap {
+    display: grid; grid-template-columns: minmax(0,1fr) 300px;
+    gap: 22px; align-items: start;
+    max-width: 1240px; margin: 0 auto; padding: 22px 20px 60px;
+  }
+  /* ---------- the two panels: Kip's console, and everything he can't see ---------- */
+  .panel { border-radius: 16px; padding: 16px; }
+  .panel-console {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+  }
+  .panel-roster {
+    margin-top: 24px;
+    background: transparent;
+    border: 1px dashed color-mix(in srgb, var(--muted) 45%, transparent);
+  }
+  .panel-tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 10.5px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
+    padding: 3px 9px; border-radius: 999px; margin-bottom: 12px;
+  }
+  .panel-tag.live {
+    color: var(--series);
+    background: color-mix(in srgb, var(--series) 14%, transparent);
+  }
+  .panel-tag.off {
+    color: var(--muted);
+    background: color-mix(in srgb, var(--muted) 15%, transparent);
+  }
+  .panel-roster .card { background: transparent; }
+
+  .section-head {
+    display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px;
+  }
+  .section-head h2 { font-size: 13px; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); font-weight: 650; }
+  .section-head .sub { font-size: 13px; color: var(--muted); }
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  /* ---------- coverage card ---------- */
+  .card {
+    background: var(--surface); border: 1px solid var(--rule);
+    border-radius: 14px; padding: 18px; box-shadow: var(--shadow);
+    transition: border-color .2s;
+  }
+  .card.flash { animation: flash .9s ease; }
+  @keyframes flash {
+    0% { border-color: var(--good); box-shadow: 0 0 0 3px color-mix(in srgb, var(--good) 22%, transparent); }
+    100% { border-color: var(--rule); }
+  }
+  .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+  .name { font-size: 17px; font-weight: 650; letter-spacing: -0.015em; }
+  .area { font-size: 13px; color: var(--muted); margin-top: 2px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 11.5px; font-weight: 650; letter-spacing: .02em;
+    padding: 4px 9px; border-radius: 999px; white-space: nowrap;
+    border: 1px solid transparent;
+  }
+  .badge svg { display: block; flex: none; }
+  .badge.ok   { color: var(--good);     background: color-mix(in srgb, var(--good) 14%, transparent);     border-color: color-mix(in srgb, var(--good) 32%, transparent); }
+  .badge.bad  { color: var(--critical); background: color-mix(in srgb, var(--critical) 14%, transparent); border-color: color-mix(in srgb, var(--critical) 32%, transparent); }
+  .badge.warn { color: var(--warning);  background: color-mix(in srgb, var(--warning) 14%, transparent);  border-color: color-mix(in srgb, var(--warning) 34%, transparent); }
+
+  .stat-row { display: flex; gap: 26px; margin: 16px 0 4px; }
+  .stat .v { font-size: 27px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; }
+  .stat .k { font-size: 11.5px; color: var(--muted); margin-top: 3px; letter-spacing: .03em; }
+  .stat .v small { font-size: 14px; color: var(--muted); font-weight: 500; letter-spacing: 0; }
+
+  /* ---------- chart ---------- */
+  .chart { margin-top: 14px; }
+  .chart-cap {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-size: 11.5px; color: var(--muted); margin-bottom: 7px;
+  }
+  .plot {
+    position: relative; height: 68px;
+    display: flex; align-items: flex-end; gap: 2px;
+    border-bottom: 1px solid var(--grid);
+  }
+  .bar { position: relative; flex: 1; min-width: 0; display: flex; align-items: flex-end; height: 100%; }
+  .bar i {
+    display: block; width: 100%;
+    background: var(--series); border-radius: 4px 4px 0 0;
+    transition: height .45s cubic-bezier(.3,.8,.4,1);
+  }
+  .bar.ghost i {
+    background: repeating-linear-gradient(135deg,
+      color-mix(in srgb, var(--good) 55%, transparent) 0 3px,
+      transparent 3px 6px);
+    border: 1px solid color-mix(in srgb, var(--good) 55%, transparent);
+    border-bottom: 0;
+  }
+  .bar:hover i { filter: brightness(1.18); }
+  .bar[data-tip]:hover::after {
+    content: attr(data-tip);
+    position: absolute; bottom: calc(100% + 7px); left: 50%; transform: translateX(-50%);
+    background: var(--ink); color: var(--surface);
+    font-size: 11.5px; line-height: 1.35; font-weight: 500;
+    padding: 6px 9px; border-radius: 7px; white-space: nowrap; z-index: 10;
+    pointer-events: none; box-shadow: var(--shadow);
+  }
+  .marker {
+    position: absolute; top: -4px; bottom: 0; width: 1px;
+    background: var(--muted); opacity: .55;
+  }
+  .marker span {
+    position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
+    font-size: 10px; font-weight: 650; letter-spacing: .04em;
+    color: var(--muted); background: var(--surface); padding: 0 4px; white-space: nowrap;
+  }
+  .axis { display: flex; justify-content: space-between; font-size: 10.5px; color: var(--muted); margin-top: 6px; }
+
+  /* ---------- the explanation panel (the thing we'd build) ---------- */
+  .slot { margin-top: 16px; min-height: 92px; }
+  .absent {
+    border: 1px dashed var(--rule); border-radius: 10px;
+    padding: 16px; text-align: center;
+    font-size: 12.5px; color: var(--muted); font-style: italic;
+  }
+  .explain {
+    border: 1px solid color-mix(in srgb, var(--warning) 34%, transparent);
+    background: color-mix(in srgb, var(--warning) 9%, transparent);
+    border-radius: 10px; padding: 13px 14px;
+    animation: rise .3s ease;
+  }
+  .explain.done {
+    border-color: color-mix(in srgb, var(--good) 34%, transparent);
+    background: color-mix(in srgb, var(--good) 9%, transparent);
+  }
+  @keyframes rise { from { opacity: 0; transform: translateY(5px); } }
+  .explain h3 { font-size: 13px; margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
+  .explain p { margin: 0; font-size: 13px; line-height: 1.5; color: var(--ink-2); }
+  .explain p + p { margin-top: 7px; }
+  .link {
+    margin-top: 10px; background: transparent; border: 1px solid var(--rule);
+    border-radius: 8px; padding: 6px 11px; font-size: 12.5px; font-weight: 600;
+    transition: background .15s;
+  }
+  .link:hover { background: var(--raised); }
+
+  /* ---------- phone ---------- */
+  .phone-col { position: sticky; top: 128px; }
+  .phone {
+    background: var(--surface); border: 1px solid var(--rule);
+    border-radius: 26px; padding: 11px; box-shadow: var(--shadow);
+  }
+  .screen {
+    background: linear-gradient(170deg, #11223d 0%, #1d1b2e 55%, #241a26 100%);
+    border-radius: 18px; min-height: 420px; padding: 16px 13px;
+    color: #f0efec; display: flex; flex-direction: column; gap: 12px;
+  }
+  .screen .clock { text-align: center; padding: 10px 0 4px; }
+  .screen .clock b { display: block; font-size: 38px; font-weight: 300; letter-spacing: -0.02em; }
+  .screen .clock span { font-size: 12px; opacity: .72; }
+  .notif {
+    background: rgba(255,255,255,.13); backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,.16);
+    border-radius: 13px; padding: 11px 12px;
+    animation: rise .35s ease;
+  }
+  .notif .app {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 10.5px; font-weight: 650; letter-spacing: .05em;
+    text-transform: uppercase; opacity: .78; margin-bottom: 6px;
+  }
+  .dot { width: 13px; height: 13px; border-radius: 4px; background: var(--series); flex: none; }
+  .notif p { margin: 0; font-size: 13px; line-height: 1.45; }
+  .notif .tap {
+    margin-top: 10px; width: 100%; background: rgba(255,255,255,.17);
+    border: 1px solid rgba(255,255,255,.22); color: #fff;
+    border-radius: 9px; padding: 8px; font-size: 12.5px; font-weight: 600;
+    transition: background .15s;
+  }
+  .notif .tap:hover { background: rgba(255,255,255,.27); }
+  .notif .tap:disabled { opacity: .6; cursor: default; }
+  .cd-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-size: 11.5px; opacity: .85; margin-top: 11px;
+  }
+  .cd-row b { font-size: 19px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .countdown {
+    height: 5px; border-radius: 3px; margin-top: 5px; overflow: hidden;
+    background: rgba(255,255,255,.17);
+  }
+  .countdown i {
+    display: block; height: 100%; border-radius: 3px;
+    background: #4ec07a; transition: width .1s linear, background .3s;
+  }
+  .countdown i.low  { background: #fab219; }
+  .countdown i.crit { background: #e8604f; }
+  .ping-btn { display: inline-block; margin-top: 12px; }
+  .quiet {
+    flex: 1; display: grid; place-items: center; text-align: center;
+    font-size: 12.5px; opacity: .5; line-height: 1.6; padding: 0 14px;
+  }
+  .phone-cap { font-size: 11.5px; color: var(--muted); text-align: center; margin-top: 9px; line-height: 1.5; }
+
+  /* ---------- drawer ---------- */
+  .scrim {
+    position: fixed; inset: 0; background: rgba(0,0,0,.5);
+    opacity: 0; pointer-events: none; transition: opacity .25s; z-index: 40;
+  }
+  .scrim.open { opacity: 1; pointer-events: auto; }
+  .drawer {
+    position: fixed; top: 0; right: 0; bottom: 0; width: min(430px, 100%);
+    background: var(--surface); border-left: 1px solid var(--rule);
+    z-index: 41; transform: translateX(100%); transition: transform .28s cubic-bezier(.3,.8,.4,1);
+    display: flex; flex-direction: column;
+  }
+  .drawer.open { transform: none; }
+  .drawer-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 18px; border-bottom: 1px solid var(--rule);
+  }
+  .drawer-body { padding: 18px; overflow-y: auto; flex: 1; }
+  .drawer-body h3 { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin: 20px 0 9px; }
+  .drawer-body h3:first-child { margin-top: 0; }
+  .drawer-body p { font-size: 13.5px; line-height: 1.55; color: var(--ink-2); margin: 0 0 10px; }
+
+  .track { position: relative; height: 7px; background: var(--grid); border-radius: 4px; margin: 16px 0 8px; }
+  .track i {
+    position: absolute; inset: 0 auto 0 0; border-radius: 4px;
+    background: var(--critical); transition: width .6s cubic-bezier(.3,.8,.4,1), background .4s;
+  }
+  .track.ok i { background: var(--good); }
+  .track-ends { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); }
+
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  th { text-align: left; font-weight: 600; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .05em; padding: 0 0 7px; }
+  td { padding: 6px 0; border-top: 1px solid var(--rule); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+  td.o { text-align: right; font-weight: 600; }
+  td.o.miss { color: var(--critical); }
+  td.o.took { color: var(--good); }
+  td.o.no   { color: var(--muted); }
+
+  .act {
+    width: 100%; margin-top: 8px; padding: 11px;
+    background: var(--good); color: #fff; border: 0; border-radius: 10px;
+    font-size: 14px; font-weight: 650;
+    transition: filter .15s;
+  }
+  .act:hover { filter: brightness(1.1); }
+  .act:disabled { background: var(--grid); color: var(--muted); cursor: default; filter: none; }
+  .act-note { font-size: 11.5px; color: var(--muted); margin-top: 8px; line-height: 1.5; }
+
+  /* ---------- toast ---------- */
+  .toast {
+    position: fixed; left: 50%; bottom: 26px; transform: translate(-50%, 70px);
+    background: var(--ink); color: var(--plane);
+    padding: 12px 18px; border-radius: 11px; font-size: 13.5px; font-weight: 550;
+    box-shadow: var(--shadow); z-index: 60; opacity: 0;
+    transition: transform .3s cubic-bezier(.3,.8,.4,1), opacity .3s;
+    display: flex; align-items: center; gap: 9px;
+  }
+  .toast.show { transform: translate(-50%, 0); opacity: 1; }
+
+  footer {
+    max-width: 1240px; margin: 0 auto; padding: 0 20px 50px;
+    font-size: 12.5px; color: var(--muted); line-height: 1.65;
+  }
+  footer hr { border: 0; border-top: 1px solid var(--rule); margin: 0 0 16px; }
+  footer b { color: var(--ink-2); font-weight: 600; }
+
+  @media (max-width: 940px) {
+    .wrap { grid-template-columns: minmax(0,1fr); }
+    .cards { grid-template-columns: 1fr; }
+    .phone-col { position: static; max-width: 300px; }
+  }
+</style>
+</head>
+<body>
+
+<div class=&quot;topbar&quot;>
+  <div class=&quot;logo&quot;>
+    <svg width=&quot;17&quot; height=&quot;17&quot; viewBox=&quot;0 0 16 16&quot; fill=&quot;currentColor&quot; aria-hidden=&quot;true&quot;>
+      <path d=&quot;M3 2h2v2h2V2h2v2h2V2h2v5l-1.5 1.5V14h-7V8.5L3 7V2z&quot;/>
+    </svg>
+    Rook Dispatch
+  </div>
+  <div class=&quot;crumb&quot;>Console · <b>Coverage</b> · Eastgate</div>
+  <div class=&quot;spacer&quot;></div>
+  <div class=&quot;who&quot;><span class=&quot;avatar&quot;>K</span> Kip</div>
+  <button class=&quot;icon-btn&quot; id=&quot;theme&quot; title=&quot;Dark mode — Kip's standing request&quot; aria-label=&quot;Toggle dark mode&quot;>
+    <svg width=&quot;15&quot; height=&quot;15&quot; viewBox=&quot;0 0 16 16&quot; fill=&quot;currentColor&quot; aria-hidden=&quot;true&quot;>
+      <path d=&quot;M13.5 9.5A6 6 0 0 1 6.5 2.5a6 6 0 1 0 7 7z&quot;/>
+    </svg>
+  </button>
+</div>
+
+<div class=&quot;strip&quot;>
+  <span class=&quot;strip-label&quot;>Prototype</span>
+  <div class=&quot;seg&quot; role=&quot;group&quot; aria-label=&quot;Compare versions&quot;>
+    <button id=&quot;btn-today&quot; aria-pressed=&quot;true&quot;>Today &amp;middot; 4.2</button>
+    <button id=&quot;btn-fixed&quot; aria-pressed=&quot;false&quot;>With the fix</button>
+  </div>
+  <span class=&quot;strip-note&quot; id=&quot;mode-note&quot;>Kip's console as it ships today. Both cards, same area, same week.</span>
+  <span class=&quot;strip-label&quot; style=&quot;margin-left:6px&quot;>Ping wait</span>
+  <div class=&quot;seg&quot; role=&quot;group&quot; aria-label=&quot;Ping wait&quot;>
+    <button id=&quot;t-60&quot; aria-pressed=&quot;true&quot;>60s &amp;middot; today</button>
+    <button id=&quot;t-90&quot; aria-pressed=&quot;false&quot;>90s</button>
+  </div>
+  <span class=&quot;spacer&quot;></span>
+  <button class=&quot;link&quot; id=&quot;reset&quot; style=&quot;margin:0&quot;>Reset</button>
+</div>
+
+<div class=&quot;metrics&quot;>
+  <div class=&quot;metric&quot;>
+    <div class=&quot;mv&quot; id=&quot;m-accept&quot;>64%</div>
+    <div class=&quot;mk&quot;>Callout acceptance rate</div>
+    <div class=&quot;md&quot; id=&quot;m-accept-d&quot;>down from 77% before 4.2</div>
+  </div>
+  <div class=&quot;metric&quot;>
+    <div class=&quot;mv&quot; id=&quot;m-stuck&quot;>4</div>
+    <div class=&quot;mk&quot;>Responders getting no work</div>
+    <div class=&quot;md&quot; id=&quot;m-stuck-d&quot;>Meteor Mite, Vesper, Farlight, The Undertow</div>
+  </div>
+  <div class=&quot;verdict&quot; id=&quot;verdict&quot;></div>
+</div>
+
+<div class=&quot;wrap&quot;>
+  <div>
+   <div class=&quot;panel panel-console&quot;>
+    <span class=&quot;panel-tag live&quot;>
+      <svg width=&quot;9&quot; height=&quot;9&quot; viewBox=&quot;0 0 16 16&quot; fill=&quot;currentColor&quot;><circle cx=&quot;8&quot; cy=&quot;8&quot; r=&quot;6&quot;/></svg>
+      Kip's console — what Kip actually sees
+    </span>
+    <div class=&quot;section-head&quot;>
+      <h2>Coverage</h2>
+      <span class=&quot;sub&quot;>Week commencing 31 August · 2 responders</span>
+    </div>
+    <div class=&quot;cards&quot;>
+
+      <!-- ============ Meteor Mite ============ -->
+      <div class=&quot;card&quot; id=&quot;card-mite&quot;>
+        <div class=&quot;card-top&quot;>
+          <div>
+            <div class=&quot;name&quot;>Meteor Mite</div>
+            <div class=&quot;area&quot;>Eastgate · flight, structural-entry</div>
+          </div>
+          <span class=&quot;badge bad&quot; id=&quot;mite-badge&quot;>
+            <svg width=&quot;11&quot; height=&quot;11&quot; viewBox=&quot;0 0 16 16&quot; fill=&quot;currentColor&quot; aria-hidden=&quot;true&quot;><path d=&quot;M8 1l7 13H1L8 1zm0 5v4.2M8 11.6v1.1&quot;stroke=&quot;currentColor&quot; stroke-width=&quot;1.6&quot; fill=&quot;none&quot;/></svg>
+            No activity
+          </span>
+        </div>
+
+        <div class=&quot;stat-row&quot;>
+          <div class=&quot;stat&quot;><div class=&quot;v&quot; id=&quot;mite-week&quot;>0</div><div class=&quot;k&quot;>OFFERS THIS WEEK</div></div>
+          <div class=&quot;stat&quot;><div class=&quot;v&quot; id=&quot;mite-avg&quot;>1 <small>/ 10 avg</small></div><div class=&quot;k&quot;>LAST 7 DAYS</div></div>
+        </div>
+        <button class=&quot;link ping-btn&quot; data-who=&quot;mite&quot;>Send test ping</button>
+
+        <div class=&quot;chart&quot;>
+          <div class=&quot;chart-cap&quot;><span>Callouts offered per week</span><span>Available · on duty</span></div>
+          <div class=&quot;plot&quot; id=&quot;plot-mite&quot;></div>
+          <div class=&quot;axis&quot;><span>29 Jun</span><span>31 Aug</span></div>
+        </div>
+
+        <div class=&quot;slot&quot; id=&quot;mite-slot&quot;></div>
+      </div>
+
+      <!-- ============ The Gale ============ -->
+      <div class=&quot;card&quot;>
+        <div class=&quot;card-top&quot;>
+          <div>
+            <div class=&quot;name&quot;>The Gale</div>
+            <div class=&quot;area&quot;>Eastgate · flight, crowd-management</div>
+          </div>
+          <span class=&quot;badge ok&quot; id=&quot;gale-badge&quot;>
+            <svg width=&quot;11&quot; height=&quot;11&quot; viewBox=&quot;0 0 16 16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; aria-hidden=&quot;true&quot;><path d=&quot;M3 8.5l3.5 3.5L13 5&quot;/></svg>
+            Normal
+          </span>
+        </div>
+
+        <div class=&quot;stat-row&quot;>
+          <div class=&quot;stat&quot;><div class=&quot;v&quot; id=&quot;gale-week&quot;>21</div><div class=&quot;k&quot;>OFFERS THIS WEEK</div></div>
+          <div class=&quot;stat&quot;><div class=&quot;v&quot; id=&quot;gale-taken&quot;>16 <small>taken</small></div><div class=&quot;k&quot;>LAST 7 DAYS</div></div>
+        </div>
+        <button class=&quot;link ping-btn&quot; data-who=&quot;gale&quot;>Send test ping</button>
+
+        <div class=&quot;chart&quot;>
+          <div class=&quot;chart-cap&quot;><span>Callouts offered per week</span><span>Available · on duty</span></div>
+          <div class=&quot;plot&quot; id=&quot;plot-gale&quot;></div>
+          <div class=&quot;axis&quot;><span>29 Jun</span><span>31 Aug</span></div>
+        </div>
+
+        <div class=&quot;slot&quot; id=&quot;gale-slot&quot;></div>
+      </div>
+
+    </div>
+
+   </div>
+
+   <div class=&quot;panel panel-roster&quot;>
+    <span class=&quot;panel-tag off&quot;>
+      <svg width=&quot;10&quot; height=&quot;10&quot; viewBox=&quot;0 0 16 16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot;><path d=&quot;M2 8s2.5-4.5 6-4.5S14 8 14 8s-2.5 4.5-6 4.5S2 8 2 8z&quot;/><path d=&quot;M3 13L13 3&quot;/></svg>
+      Not in any console — product view only
+    </span>
+    <div class=&quot;section-head&quot;>
+      <h2>Elsewhere on the roster</h2>
+      <span class=&quot;sub&quot;>Other handlers' responders. Kip cannot see these, and neither can they see each other's.</span>
+    </div>
+    <div class=&quot;cards&quot;>
+
+      <!-- ============ Vesper ============ -->
+      <div class=&quot;card&quot; id=&quot;card-vesper&quot;>
+        <div class=&quot;card-top&quot;>
+          <div>
+            <div class=&quot;name&quot;>Vesper</div>
+            <div class=&quot;area&quot;>Old Town · handler Aunt Dot</div>
+          </div>
+          <span class=&quot;badge bad&quot; id=&quot;vesper-badge&quot;></span>
+        </div>
+
+        <div class=&quot;stat-row&quot;>
+          <div class=&quot;stat&quot;><div class=&quot;v&quot; id=&quot;vesper-week&quot;>0</div><div class=&quot;k&quot;>OFFERS THIS WEEK</div></div>
+          <div class=&quot;stat&quot;><div class=&quot;v&quot; id=&quot;vesper-avg&quot;>1 <small>/ 14 avg</small></div><div class=&quot;k&quot;>LAST 7 DAYS</div></div>
+        </div>
+        <button class=&quot;link ping-btn&quot; data-who=&quot;vesper&quot;>Send test ping</button>
+
+        <div class=&quot;chart&quot;>
+          <div class=&quot;chart-cap&quot;><span>Callouts offered per week</span><span>Available · on duty</span></div>
+          <div class=&quot;plot&quot; id=&quot;plot-vesper&quot;></div>
+          <div class=&quot;axis&quot;><span>29 Jun</span><span>31 Aug</span></div>
+        </div>
+
+        <div class=&quot;slot&quot; id=&quot;vesper-slot&quot;></div>
+      </div>
+
+      <!-- ============ Nightwell ============ -->
+      <div class=&quot;card&quot;>
+        <div class=&quot;card-top&quot;>
+          <div>
+            <div class=&quot;name&quot;>Nightwell</div>
+            <div class=&quot;area&quot;>Midtown · handler Marjorie Sung</div>
+          </div>
+          <span class=&quot;badge ok&quot; id=&quot;night-badge&quot;></span>
+        </div>
+
+        <div class=&quot;stat-row&quot;>
+          <div class=&quot;stat&quot;><div class=&quot;v&quot; id=&quot;night-week&quot;>21</div><div class=&quot;k&quot;>OFFERS THIS WEEK</div></div>
+          <div class=&quot;stat&quot;><div class=&quot;v&quot; id=&quot;night-away&quot;>12 <small>/ 21 away</small></div><div class=&quot;k&quot;>OUTSIDE MIDTOWN</div></div>
+        </div>
+        <button class=&quot;link ping-btn&quot; data-who=&quot;night&quot;>Send test ping</button>
+
+        <div class=&quot;chart&quot;>
+          <div class=&quot;chart-cap&quot;><span>Callouts offered per week</span><span>Available · on duty</span></div>
+          <div class=&quot;plot&quot; id=&quot;plot-night&quot;></div>
+          <div class=&quot;axis&quot;><span>29 Jun</span><span>31 Aug</span></div>
+        </div>
+
+        <div class=&quot;slot&quot; id=&quot;night-slot&quot;></div>
+      </div>
+
+    </div>
+   </div>
+  </div>
+
+  <!-- ============ phone ============ -->
+  <div class=&quot;phone-col&quot;>
+    <div class=&quot;section-head&quot; style=&quot;margin-bottom:8px&quot;>
+      <h2 id=&quot;phone-who&quot;>Meteor Mite's phone</h2>
+    </div>
+    <div class=&quot;seg&quot; style=&quot;padding:2px;margin-bottom:12px&quot;>
+      <button id=&quot;ph-mite&quot; aria-pressed=&quot;true&quot; style=&quot;padding:4px 9px;font-size:12px&quot;>Meteor Mite</button>
+      <button id=&quot;ph-gale&quot; aria-pressed=&quot;false&quot; style=&quot;padding:4px 9px;font-size:12px&quot;>The Gale</button>
+    </div>
+    <div class=&quot;phone&quot;>
+      <div class=&quot;screen&quot;>
+        <div class=&quot;clock&quot;><b>11:04</b><span>Saturday 5 September</span></div>
+        <div id=&quot;phone-body&quot;></div>
+      </div>
+    </div>
+    <div class=&quot;phone-cap&quot; id=&quot;phone-cap&quot;>Nothing has reached this device since 5 September.</div>
+  </div>
+</div>
+
+<footer>
+  <hr>
+  <b>Prototype — Rook Dispatch, Module 5.</b> Real figures throughout: ping counts, outcomes,
+  weekly volumes and out-of-area shares are the August–September record for all four
+  responders shown. Eastgate is Kip's own console. The second row is a product view —
+  Vesper and Nightwell belong to other handlers, who would not see each other's cards.
+  Out-of-area is recorded nowhere at Rook today, which is why it only appears in the
+  <b>With the fix</b> view. That view is proposed, not built. Dark mode is here because Kip
+  has asked for it in every research call — it is not part of this proposal.
+</footer>
+
+<div class=&quot;scrim&quot; id=&quot;scrim&quot;></div>
+<aside class=&quot;drawer&quot; id=&quot;drawer&quot; aria-hidden=&quot;true&quot; aria-label=&quot;Why is it quiet?&quot;>
+  <div class=&quot;drawer-head&quot;>
+    <h2 style=&quot;font-size:16px&quot;>Why is it quiet?</h2>
+    <button class=&quot;icon-btn&quot; id=&quot;drawer-close&quot; aria-label=&quot;Close&quot;>
+      <svg width=&quot;13&quot; height=&quot;13&quot; viewBox=&quot;0 0 16 16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot;><path d=&quot;M3 3l10 10M13 3L3 13&quot;/></svg>
+    </button>
+  </div>
+  <div class=&quot;drawer-body&quot;>
+    <h3>Recent acceptance</h3>
+    <div class=&quot;track&quot; id=&quot;track&quot;><i id=&quot;track-fill&quot; style=&quot;width:0%&quot;></i></div>
+    <div class=&quot;track-ends&quot;><span>0.00</span><span id=&quot;track-now&quot;>Meteor Mite &amp;mdash; 0.00</span><span>1.00</span></div>
+    <p style=&quot;margin-top:12px&quot; id=&quot;drawer-lead&quot;>
+      Every responder carries a score for how often they take the callouts we send.
+      It is one of three things that decide who gets offered a job first.
+      Meteor Mite is at the bottom of the range.
+    </p>
+
+    <h3>What happened</h3>
+    <table>
+      <thead><tr><th>Date</th><th>Offers</th><th style=&quot;text-align:right&quot;>Outcome</th></tr></thead>
+      <tbody>
+        <tr><td>12 Aug</td><td>1</td><td class=&quot;o no&quot;>turned down</td></tr>
+        <tr><td>13 Aug</td><td>2</td><td class=&quot;o miss&quot;>both missed</td></tr>
+        <tr><td>14 Aug</td><td>1</td><td class=&quot;o miss&quot;>missed</td></tr>
+        <tr><td>15 Aug</td><td>2</td><td class=&quot;o took&quot;>both taken</td></tr>
+        <tr><td>16 Aug</td><td>1</td><td class=&quot;o miss&quot;>missed</td></tr>
+        <tr><td>20 Aug</td><td>1</td><td class=&quot;o miss&quot;>missed</td></tr>
+        <tr><td>5 Sep</td><td>1</td><td class=&quot;o miss&quot;>missed</td></tr>
+      </tbody>
+    </table>
+    <p style=&quot;margin-top:12px&quot;>
+      A missed ping currently costs the same as a refusal &amp;mdash; 0.12 either way, against
+      0.08 for a yes. The ping wait dropped from 90 seconds to 60 on 12 August, so a phone
+      in a pocket at 11pm now runs out before it is reached. Each silence lowered the score,
+      a lower score meant fewer offers, and fewer offers meant fewer chances to earn it back.
+    </p>
+    <p>
+      Meteor Mite turned down more callouts than anyone on the roster and was still at the
+      top of the range on 11 August. Saying no did not do this.
+    </p>
+
+    <h3>Put it right</h3>
+    <button class=&quot;act&quot; id=&quot;restore&quot;>Fix A &amp;mdash; restore standing to 0.80</button>
+    <button class=&quot;act&quot; id=&quot;restore-b&quot; style=&quot;background:transparent;border:1px solid var(--rule);color:var(--ink)&quot;>Fix B &amp;mdash; floor only, leave standing at 0.00</button>
+    <p class=&quot;act-note&quot; id=&quot;act-note&quot;>
+      Returns Meteor Mite to mid-roster &amp;mdash; where the replay says they would have been
+      had misses never been penalised. Adds a floor of 3 offers a week for four weeks as a
+      backstop. Logged against your name, visible to the responder.
+    </p>
+  </div>
+</aside>
+
+<div class=&quot;toast&quot; id=&quot;toast&quot;>
+  <svg width=&quot;15&quot; height=&quot;15&quot; viewBox=&quot;0 0 16 16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot;><path d=&quot;M3 8.5l3.5 3.5L13 5&quot;/></svg>
+  <span id=&quot;toast-text&quot;></span>
+</div>
+
+<script>
+(function () {
+  &quot;use strict&quot;;
+
+  // Real weekly offer counts, 29 Jun – 31 Aug 2026.
+  var WEEKS = [&quot;29 Jun&quot;,&quot;6 Jul&quot;,&quot;13 Jul&quot;,&quot;20 Jul&quot;,&quot;27 Jul&quot;,&quot;3 Aug&quot;,&quot;10 Aug&quot;,&quot;17 Aug&quot;,&quot;24 Aug&quot;,&quot;31 Aug&quot;];
+  var MITE  = [11,12,10,11,12,11,10,4,2,1];
+  var MITE_TAKEN = [7,9,6,7,9,8,4,1,0,0];
+  var GALE  = [13,12,13,14,13,13,15,17,20,21];
+  var GALE_TAKEN = [10,9,10,11,11,10,9,12,14,16];
+  var VESPER      = [14,13,15,14,13,14,12,5,2,1];
+  var VESPER_TAKEN= [11,10,13,11,11,12,6,1,0,0];
+  var NIGHT       = [15,14,15,16,15,15,16,18,20,21];
+  var NIGHT_TAKEN = [11,10,12,12,11,12,9,14,13,15];
+  var NIGHT_AWAY  = [3,3,2,3,4,3,6,7,8,12];   // callouts outside Midtown
+
+  // Fix A — standing restored to 0.80 plus a floor. Fix B — floor only, no restore.
+  var PROJECTED      = [3,4,6,8];          // A: ranks back up, so offers grow past the floor
+  var PROJECTED_B    = [3,3,3,3];          // B: still bottom-ranked, so the floor is all they get
+  var GALE_PROJECTED   = [18,15,13,13];
+  var GALE_PROJECTED_B = [20,19,18,17];    // B: relief arrives slowly, if at all
+  var NIGHT_PROJECTED   = [19,17,15,15];
+  var NIGHT_PROJECTED_B = [20,19,18,17];
+  var SCALE = 22;                          // shared y-max across both cards
+  var RELEASE_INDEX = 6;                   // week 4.2 shipped
+
+  var state = { mode: &quot;today&quot;, restored: false, variant: null, phone: &quot;mite&quot;, timer: 60, ping: null };
+
+  var $ = function (id) { return document.getElementById(id); };
+
+  /* ---------- charts ---------- */
+  function drawPlot(el, data, taken, opts) {
+    opts = opts || {};
+    el.innerHTML = &quot;&quot;;
+    data.forEach(function (v, i) {
+      var bar = document.createElement(&quot;div&quot;);
+      bar.className = &quot;bar&quot;;
+      bar.setAttribute(&quot;data-tip&quot;, &quot;w/c &quot; + WEEKS[i] + &quot; · &quot; + v + &quot; offered · &quot; + taken[i] + &quot; taken&quot; +
+        (opts.away ? &quot; · &quot; + opts.away[i] + &quot; out of area&quot; : &quot;&quot;));
+      var fill = document.createElement(&quot;i&quot;);
+      fill.style.height = (v / SCALE * 100) + &quot;%&quot;;
+      bar.appendChild(fill);
+      el.appendChild(bar);
+    });
+    if (opts.projected) {
+      opts.projected.forEach(function (v, i) {
+        var bar = document.createElement(&quot;div&quot;);
+        bar.className = &quot;bar ghost&quot;;
+        bar.setAttribute(&quot;data-tip&quot;, &quot;projected · &quot; + v + &quot; offers guaranteed&quot;);
+        var fill = document.createElement(&quot;i&quot;);
+        fill.style.height = (v / SCALE * 100) + &quot;%&quot;;
+        bar.appendChild(fill);
+        el.appendChild(bar);
+      });
+    }
+    if (opts.marker) {
+      var total = data.length + (opts.projected ? opts.projected.length : 0);
+      var m = document.createElement(&quot;div&quot;);
+      m.className = &quot;marker&quot;;
+      m.style.left = (RELEASE_INDEX / total * 100) + &quot;%&quot;;
+      m.innerHTML = &quot;<span>4.2</span>&quot;;
+      el.appendChild(m);
+    }
+  }
+
+  /* ---------- the card slot: what Kip sees ---------- */
+  function renderSlot() {
+    var slot = $(&quot;mite-slot&quot;);
+    var badge = $(&quot;mite-badge&quot;);
+
+    if (state.mode === &quot;today&quot;) {
+      slot.innerHTML = '<div class=&quot;absent&quot;>No explanation available.<br>' +
+                       'The console does not know why this card is quiet.</div>';
+      badge.className = &quot;badge bad&quot;;
+      badge.innerHTML = '<svg width=&quot;11&quot; height=&quot;11&quot; viewBox=&quot;0 0 16 16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.8&quot;><path d=&quot;M8 2l6.5 12h-13L8 2zM8 6.5v3.2M8 11.4v1&quot;/></svg> No activity';
+      return;
+    }
+
+    if (state.restored) {
+      if (state.variant === &quot;B&quot;) {
+        slot.innerHTML =
+          '<div class=&quot;explain&quot;>' +
+            '<h3><svg width=&quot;12&quot; height=&quot;12&quot; viewBox=&quot;0 0 16 16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.8&quot;><path d=&quot;M8 2l6.5 12h-13L8 2zM8 6.5v3.2M8 11.4v1&quot;/></svg> Floor in place &amp;mdash; standing unchanged</h3>' +
+            '<p>Meteor Mite now gets <b>3 offers a week</b> but is still at <b>0.00</b>, so nothing else reaches them. The climb back is theirs to make.</p>' +
+            '<p>At their pre-August take rate that is about <b>13 weeks</b>. At the rate they are answering now, they take as many as they refuse &amp;mdash; below break-even, so they never climb.</p>' +
+          '</div>';
+        badge.className = &quot;badge warn&quot;;
+        badge.innerHTML = '<svg width=&quot;11&quot; height=&quot;11&quot; viewBox=&quot;0 0 16 16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.8&quot;><path d=&quot;M8 2l6.5 12h-13L8 2zM8 6.5v3.2M8 11.4v1&quot;/></svg> Floor only';
+        return;
+      }
+      slot.innerHTML =
+        '<div class=&quot;explain done&quot;>' +
+          '<h3><svg width=&quot;12&quot; height=&quot;12&quot; viewBox=&quot;0 0 16 16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot;><path d=&quot;M3 8.5l3.5 3.5L13 5&quot;/></svg> Standing restored</h3>' +
+          '<p>Meteor Mite is back at <b>0.80</b> and in rotation. A floor of 3 offers a week is in place for four weeks.</p>' +
+          '<p>Restored by you, 5 Sept. Meteor Mite has been told.</p>' +
+        '</div>';
+      badge.className = &quot;badge ok&quot;;
+      badge.innerHTML = '<svg width=&quot;11&quot; height=&quot;11&quot; viewBox=&quot;0 0 16 16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot;><path d=&quot;M3 8.5l3.5 3.5L13 5&quot;/></svg> Recovering';
+      return;
+    }
+
+    slot.innerHTML =
+      '<div class=&quot;explain&quot;>' +
+        '<h3><svg width=&quot;12&quot; height=&quot;12&quot; viewBox=&quot;0 0 16 16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.8&quot;><path d=&quot;M8 2l6.5 12h-13L8 2zM8 6.5v3.2M8 11.4v1&quot;/></svg> Ranking low on recent acceptance</h3>' +
+        '<p><b>4 pings missed 13&amp;ndash;20 Aug.</b> Standing is 0.00 of 1.00, the bottom of the range, so Meteor Mite is being offered callouts last.</p>' +
+        '<p>This will not recover on its own.</p>' +
+        '<button class=&quot;link&quot; id=&quot;why&quot;>Why is it quiet? &amp;rarr;</button>' +
+      '</div>';
+    badge.className = &quot;badge warn&quot;;
+    badge.innerHTML = '<svg width=&quot;11&quot; height=&quot;11&quot; viewBox=&quot;0 0 16 16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.8&quot;><path d=&quot;M8 2l6.5 12h-13L8 2zM8 6.5v3.2M8 11.4v1&quot;/></svg> Ranking low';
+    $(&quot;why&quot;).addEventListener(&quot;click&quot;, openDrawer);
+  }
+
+  /* ---------- The Gale's card: the cost of carrying Eastgate alone ---------- */
+  function renderGaleSlot() {
+    var slot = $(&quot;gale-slot&quot;);
+    var badge = $(&quot;gale-badge&quot;);
+    var ok = '<svg width=&quot;11&quot; height=&quot;11&quot; viewBox=&quot;0 0 16 16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot;><path d=&quot;M3 8.5l3.5 3.5L13 5&quot;/></svg>';
+    var warn = '<svg width=&quot;11&quot; height=&quot;11&quot; viewBox=&quot;0 0 16 16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.8&quot;><path d=&quot;M8 2l6.5 12h-13L8 2zM8 6.5v3.2M8 11.4v1&quot;/></svg>';
+
+    if (state.mode === &quot;today&quot;) {
+      slot.innerHTML = '<div class=&quot;absent&quot; style=&quot;border-style:solid;opacity:.75&quot;>' +
+                       'Carrying Eastgate on their own since mid-August.</div>';
+      badge.className = &quot;badge ok&quot;;
+      badge.innerHTML = ok + &quot; Normal&quot;;
+      return;
+    }
+
+    if (state.restored) {
+      if (state.variant === &quot;B&quot;) {
+        slot.innerHTML =
+          '<div class=&quot;explain&quot;>' +
+            '<h3>' + warn + ' Still carrying most of it</h3>' +
+            '<p>Meteor Mite is getting 3 callouts a week and nothing more, so The Gale keeps ' +
+            'the rest. Expect <b>17&amp;ndash;20 a week</b> for months rather than 13.</p>' +
+            '<p>A refusal still ends the callout on most nights.</p>' +
+          '</div>';
+        badge.className = &quot;badge warn&quot;;
+        badge.innerHTML = warn + &quot; Carrying alone&quot;;
+        return;
+      }
+      slot.innerHTML =
+        '<div class=&quot;explain done&quot;>' +
+          '<h3>' + ok + ' Load coming back down</h3>' +
+          '<p>Meteor Mite is back in rotation. Expect about <b>13 offers a week</b> here, ' +
+          'down from 21 &amp;mdash; the Eastgate normal before August.</p>' +
+          '<p>Turning one down now passes it on instead of ending it.</p>' +
+        '</div>';
+      badge.className = &quot;badge ok&quot;;
+      badge.innerHTML = ok + &quot; Normal&quot;;
+      return;
+    }
+
+    slot.innerHTML =
+      '<div class=&quot;explain&quot;>' +
+        '<h3>' + warn + ' Carrying Eastgate alone</h3>' +
+        '<p><b>70% of Eastgate callouts now go to The Gale and nobody else</b>, up from 39% ' +
+        'before August. Offers are up 62%; take rate is down from 78% to 70%.</p>' +
+        '<p><b>4 incidents went unattended in three weeks</b> because The Gale could not take ' +
+        'it and there was no second name.</p>' +
+      '</div>';
+    badge.className = &quot;badge warn&quot;;
+    badge.innerHTML = warn + &quot; Carrying alone&quot;;
+  }
+
+  /* ---------- Vesper: the same thing, another area, another handler ---------- */
+  function renderVesperSlot() {
+    var slot = $(&quot;vesper-slot&quot;);
+    var badge = $(&quot;vesper-badge&quot;);
+    var ok = '<svg width=&quot;11&quot; height=&quot;11&quot; viewBox=&quot;0 0 16 16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot;><path d=&quot;M3 8.5l3.5 3.5L13 5&quot;/></svg>';
+    var warn = '<svg width=&quot;11&quot; height=&quot;11&quot; viewBox=&quot;0 0 16 16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.8&quot;><path d=&quot;M8 2l6.5 12h-13L8 2zM8 6.5v3.2M8 11.4v1&quot;/></svg>';
+
+    if (state.mode === &quot;today&quot;) {
+      slot.innerHTML = '<div class=&quot;absent&quot;>No explanation available.<br>' +
+                       'Aunt Dot has filed no tickets. Nobody at Rook knows.</div>';
+      badge.className = &quot;badge bad&quot;;
+      badge.innerHTML = warn + &quot; No activity&quot;;
+      return;
+    }
+
+    if (state.restored) {
+      if (state.variant === &quot;B&quot;) {
+        slot.innerHTML =
+          '<div class=&quot;explain&quot;>' +
+            '<h3>' + warn + ' Floor in place &amp;mdash; standing unchanged</h3>' +
+            '<p>3 offers a week in Old Town, standing still <b>0.00</b>. Vesper took 70 and ' +
+            'refused 13 before August, the best ratio on the roster &amp;mdash; so of the four, ' +
+            'Vesper is the most likely to climb out unaided.</p>' +
+          '</div>';
+        badge.className = &quot;badge warn&quot;;
+        badge.innerHTML = warn + &quot; Floor only&quot;;
+        return;
+      }
+      slot.innerHTML =
+        '<div class=&quot;explain done&quot;>' +
+          '<h3>' + ok + ' Standing restored</h3>' +
+          '<p>Vesper is back at <b>0.80</b> and in rotation in Old Town, with a floor of 3 ' +
+          'offers a week for four weeks.</p>' +
+        '</div>';
+      badge.className = &quot;badge ok&quot;;
+      badge.innerHTML = ok + &quot; Recovering&quot;;
+      return;
+    }
+
+    slot.innerHTML =
+      '<div class=&quot;explain&quot;>' +
+        '<h3>' + warn + ' Ranking low on recent acceptance</h3>' +
+        '<p><b>Standing 0.00 of 1.00.</b> Old Town callouts now go to Nightwell, ' +
+        'Captain Vantage and The Longcast &amp;mdash; 52 between them &amp;mdash; while Vesper, ' +
+        'who lives there, got 10.</p>' +
+        '<button class=&quot;link&quot; id=&quot;restore-vesper&quot;>Fix A &amp;mdash; restore to 0.80</button> ' +
+        '<button class=&quot;link&quot; id=&quot;restore-vesper-b&quot; style=&quot;margin-left:4px&quot;>Fix B &amp;mdash; floor only</button>' +
+      '</div>';
+    badge.className = &quot;badge warn&quot;;
+    badge.innerHTML = warn + &quot; Ranking low&quot;;
+    $(&quot;restore-vesper&quot;).addEventListener(&quot;click&quot;, function () { applyFix(&quot;A&quot;); });
+    $(&quot;restore-vesper-b&quot;).addEventListener(&quot;click&quot;, function () { applyFix(&quot;B&quot;); });
+  }
+
+  /* ---------- Nightwell: overloaded, and in the wrong part of the city ---------- */
+  function renderNightSlot() {
+    var slot = $(&quot;night-slot&quot;);
+    var badge = $(&quot;night-badge&quot;);
+    var ok = '<svg width=&quot;11&quot; height=&quot;11&quot; viewBox=&quot;0 0 16 16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot;><path d=&quot;M3 8.5l3.5 3.5L13 5&quot;/></svg>';
+    var warn = '<svg width=&quot;11&quot; height=&quot;11&quot; viewBox=&quot;0 0 16 16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.8&quot;><path d=&quot;M8 2l6.5 12h-13L8 2zM8 6.5v3.2M8 11.4v1&quot;/></svg>';
+
+    if (state.mode === &quot;today&quot;) {
+      slot.innerHTML = '<div class=&quot;absent&quot; style=&quot;border-style:solid;opacity:.75&quot;>' +
+                       'Busiest responder on the roster. Nothing flags the travel.</div>';
+      badge.className = &quot;badge ok&quot;;
+      badge.innerHTML = ok + &quot; Normal&quot;;
+      // Out-of-area is recorded nowhere at Rook today, so the console cannot show it.
+      $(&quot;night-away&quot;).innerHTML = '15 <small>taken</small>';
+      $(&quot;night-away&quot;).parentNode.querySelector(&quot;.k&quot;).textContent = &quot;LAST 7 DAYS&quot;;
+      return;
+    }
+    $(&quot;night-away&quot;).parentNode.querySelector(&quot;.k&quot;).textContent = &quot;OUTSIDE MIDTOWN&quot;;
+
+    if (state.restored) {
+      if (state.variant === &quot;B&quot;) {
+        $(&quot;night-away&quot;).innerHTML = '10 <small>/ 20 away</small>';
+        slot.innerHTML =
+          '<div class=&quot;explain&quot;>' +
+            '<h3>' + warn + ' Still covering Old Town</h3>' +
+            '<p>Vesper is only reachable 3 times a week, so the other Old Town callouts ' +
+            'still come to Midtown. Out-of-area eases from 12 to about 10 and stays there ' +
+            'until Vesper climbs back.</p>' +
+          '</div>';
+        badge.className = &quot;badge warn&quot;;
+        badge.innerHTML = warn + &quot; Covering elsewhere&quot;;
+        return;
+      }
+      $(&quot;night-away&quot;).innerHTML = '3 <small>/ 15 away</small>';
+      slot.innerHTML =
+        '<div class=&quot;explain done&quot;>' +
+          '<h3>' + ok + ' Coming home</h3>' +
+          '<p>Vesper is covering Old Town again. Out-of-area callouts should fall back ' +
+          'to around <b>3 a week</b>, and the load to about 15.</p>' +
+        '</div>';
+      badge.className = &quot;badge ok&quot;;
+      badge.innerHTML = ok + &quot; Normal&quot;;
+      return;
+    }
+
+    slot.innerHTML =
+      '<div class=&quot;explain&quot;>' +
+        '<h3>' + warn + ' Covering Old Town</h3>' +
+        '<p><b>12 of 21 callouts last week were outside Midtown</b>, up from 3 a week ' +
+        'before August. Nightwell is driving across the city to cover for a responder ' +
+        'who is available and not being asked.</p>' +
+        '<p>This never shows in acceptance rate. A ping taken 40 minutes away counts ' +
+        'exactly the same as one next door.</p>' +
+      '</div>';
+    badge.className = &quot;badge warn&quot;;
+    badge.innerHTML = warn + &quot; Covering elsewhere&quot;;
+    $(&quot;night-away&quot;).innerHTML = '12 <small>/ 21 away</small>';
+  }
+
+  /* ---------- test ping, with a live countdown ---------- */
+  var NAMES = { mite: &quot;Meteor Mite&quot;, gale: &quot;The Gale&quot;, vesper: &quot;Vesper&quot;, night: &quot;Nightwell&quot; };
+  var AREAS = { mite: &quot;Eastgate&quot;, gale: &quot;Eastgate&quot;, vesper: &quot;Old Town&quot;, night: &quot;Midtown&quot; };
+  var pingTimer = null;
+
+  function sendTestPing(who) {
+    clearInterval(pingTimer);
+    state.phone = who;
+    state.ping = { who: who, total: state.timer, left: state.timer, outcome: null };
+    syncPhoneTabs();
+    renderPhone();
+    pingTimer = setInterval(function () {
+      if (!state.ping || state.ping.outcome) { clearInterval(pingTimer); return; }
+      state.ping.left = Math.max(0, state.ping.left - 0.1);
+      if (state.ping.left === 0) {
+        clearInterval(pingTimer);
+        resolvePing(&quot;missed&quot;);
+      } else {
+        paintCountdown();
+      }
+    }, 100);
+  }
+
+  function paintCountdown() {
+    var bar = $(&quot;cd-bar&quot;), num = $(&quot;cd-num&quot;);
+    if (!bar || !state.ping) return;
+    var frac = state.ping.left / state.ping.total;
+    bar.style.width = (frac * 100) + &quot;%&quot;;
+    bar.className = frac < 0.17 ? &quot;crit&quot; : frac < 0.4 ? &quot;low&quot; : &quot;&quot;;
+    num.textContent = Math.ceil(state.ping.left);
+  }
+
+  function resolvePing(outcome) {
+    clearInterval(pingTimer);
+    if (!state.ping) return;
+    state.ping.outcome = outcome;
+    var fixed = state.mode !== &quot;today&quot;;
+    var name = NAMES[state.ping.who];
+    if (outcome === &quot;missed&quot;) {
+      toast(fixed
+        ? name + &quot; missed the test ping — no penalty, a miss is not a refusal&quot;
+        : name + &quot; missed the test ping — standing −0.12, same as a refusal&quot;);
+    } else if (outcome === &quot;taken&quot;) {
+      toast(name + &quot; took the test ping — standing +0.08&quot;);
+    } else {
+      toast(name + &quot; turned the test ping down — standing −0.12&quot;);
+    }
+    renderPhone();
+  }
+
+  function clearPing() {
+    clearInterval(pingTimer);
+    state.ping = null;
+  }
+
+  function renderTestPing() {
+    var body = $(&quot;phone-body&quot;), cap = $(&quot;phone-cap&quot;);
+    var p = state.ping, who = p.who, fixed = state.mode !== &quot;today&quot;;
+    var suppressed = who === &quot;mite&quot; || who === &quot;vesper&quot;;
+
+    if (p.outcome) {
+      var head = { taken: &quot;Taken.&quot;, &quot;turned down&quot;: &quot;Turned down.&quot;, missed: &quot;Missed.&quot; }[p.outcome];
+      var tail = p.outcome === &quot;taken&quot;
+        ? &quot;Standing <b>+0.08</b>.&quot;
+        : p.outcome === &quot;turned down&quot;
+          ? &quot;Standing <b>&amp;minus;0.12</b> &amp;mdash; a decision they made.&quot;
+          : fixed
+            ? &quot;<b>No penalty.</b> A miss is not a refusal.&quot;
+            : &quot;Standing <b>&amp;minus;0.12</b> &amp;mdash; exactly the same as a refusal.&quot;;
+      body.innerHTML =
+        '<div class=&quot;notif&quot;>' +
+          '<div class=&quot;app&quot;><span class=&quot;dot&quot;></span> Test callout &amp;middot; ' + AREAS[who] + '</div>' +
+          '<p><b>' + head + '</b> ' + tail + '</p>' +
+          '<button class=&quot;tap&quot; id=&quot;p-again&quot;>Send another</button>' +
+        '</div>';
+      cap.textContent = p.outcome === &quot;missed&quot; &amp;&amp; !fixed
+        ? &quot;This is the line that emptied four people's phones.&quot;
+        : &quot;Test pings are logged separately and never affect a real callout.&quot;;
+      $(&quot;p-again&quot;).addEventListener(&quot;click&quot;, function () { sendTestPing(who); });
+      return;
+    }
+
+    body.innerHTML =
+      '<div class=&quot;notif&quot;>' +
+        '<div class=&quot;app&quot;><span class=&quot;dot&quot;></span> Test callout &amp;middot; ' + AREAS[who] + '</div>' +
+        '<p><b>Test ping</b> from Kip. Answer it the way you would a real one.</p>' +
+        '<div class=&quot;cd-row&quot;><span>Time to answer</span><b id=&quot;cd-num&quot;>' + p.total + '</b></div>' +
+        '<div class=&quot;countdown&quot;><i id=&quot;cd-bar&quot; style=&quot;width:100%&quot;></i></div>' +
+        '<button class=&quot;tap&quot; id=&quot;p-take&quot; style=&quot;background:rgba(80,200,120,.3);border-color:rgba(80,200,120,.45)&quot;>Take it</button>' +
+        '<button class=&quot;tap&quot; id=&quot;p-no&quot; style=&quot;margin-top:6px&quot;>Can&amp;rsquo;t take this one</button>' +
+      '</div>';
+    cap.textContent = suppressed &amp;&amp; !fixed
+      ? &quot;A test ping bypasses ranking. It is the only way a callout reaches &quot; +
+        NAMES[who] + &quot; today.&quot;
+      : &quot;Letting it run out shows what a missed ping costs.&quot;;
+    paintCountdown();
+    $(&quot;p-take&quot;).addEventListener(&quot;click&quot;, function () { resolvePing(&quot;taken&quot;); });
+    $(&quot;p-no&quot;).addEventListener(&quot;click&quot;, function () { resolvePing(&quot;turned down&quot;); });
+  }
+
+  /* ---------- the phones ---------- */
+  function renderPhone() {
+    $(&quot;phone-who&quot;).textContent = NAMES[state.phone] + &quot;'s phone&quot;;
+    if (state.ping) { renderTestPing(); return; }
+    if (state.phone === &quot;gale&quot;) { renderGalePhone(); return; }
+    if (state.phone === &quot;vesper&quot; || state.phone === &quot;night&quot;) { renderIdlePhone(); return; }
+    renderMitePhone();
+  }
+
+  function renderIdlePhone() {
+    var body = $(&quot;phone-body&quot;), cap = $(&quot;phone-cap&quot;);
+    var quiet = state.phone === &quot;vesper&quot;;
+    body.innerHTML = '<div class=&quot;quiet&quot;>' +
+      (quiet ? &quot;No callouts.<br>Nothing since 4 September.&quot;
+             : &quot;3 callouts waiting.<br>Two of them in Old Town.&quot;) + &quot;</div>&quot;;
+    cap.textContent = quiet
+      ? &quot;Vesper's handler, Aunt Dot, has never filed a ticket about this.&quot;
+      : &quot;Nightwell is busy, and more than half of it is somebody else's area.&quot;;
+  }
+
+  function renderGalePhone() {
+    var body = $(&quot;phone-body&quot;);
+    var cap = $(&quot;phone-cap&quot;);
+    var fixed = state.mode !== &quot;today&quot; &amp;&amp; state.restored;
+
+    body.innerHTML =
+      '<div class=&quot;notif&quot;>' +
+        '<div class=&quot;app&quot;><span class=&quot;dot&quot;></span> Callout &amp;middot; Eastgate</div>' +
+        '<p>A marching band has jammed every radio in the market.</p>' +
+        '<p style=&quot;opacity:.72;font-size:11.5px;margin-top:6px&quot;>' +
+          state.timer + ' seconds to answer' +
+          (fixed ? ' &amp;middot; next: Meteor Mite' : '') +
+        '</p>' +
+        '<button class=&quot;tap&quot; id=&quot;take&quot; style=&quot;background:rgba(80,200,120,.3);border-color:rgba(80,200,120,.45)&quot;>Take it</button>' +
+        '<button class=&quot;tap&quot; id=&quot;decline&quot; style=&quot;margin-top:6px&quot;>Can&amp;rsquo;t take this one</button>' +
+      '</div>';
+
+    cap.textContent = fixed
+      ? &quot;Declining passes the callout on. The Gale can say no again.&quot;
+      : &quot;The Gale is the only name on this callout. Declining ends it.&quot;;
+
+    $(&quot;take&quot;).addEventListener(&quot;click&quot;, function () {
+      body.querySelector(&quot;.notif&quot;).innerHTML =
+        '<div class=&quot;app&quot;><span class=&quot;dot&quot;></span> Callout &amp;middot; Eastgate</div>' +
+        '<p><b>Taken.</b> On your way.</p>';
+      toast(&quot;The Gale took callout 41293&quot;);
+    });
+
+    $(&quot;decline&quot;).addEventListener(&quot;click&quot;, function () {
+      if (fixed) {
+        body.querySelector(&quot;.notif&quot;).innerHTML =
+          '<div class=&quot;app&quot;><span class=&quot;dot&quot;></span> Callout &amp;middot; Eastgate</div>' +
+          '<p><b>Passed to Meteor Mite.</b> Someone else is going.</p>';
+        toast(&quot;Callout 41293 passed to Meteor Mite&quot;);
+      } else {
+        body.querySelector(&quot;.notif&quot;).innerHTML =
+          '<div class=&quot;app&quot;><span class=&quot;dot&quot;></span> Callout &amp;middot; Eastgate</div>' +
+          '<p><b>Nobody came.</b> No other responder was available for this callout.</p>';
+        toast(&quot;Callout 41293 — nobody came. This happened 4 times in three weeks.&quot;);
+      }
+    });
+  }
+
+  function renderMitePhone() {
+    var body = $(&quot;phone-body&quot;);
+    var cap = $(&quot;phone-cap&quot;);
+
+    if (state.mode === &quot;today&quot;) {
+      body.innerHTML = '<div class=&quot;quiet&quot;>No callouts.<br>Nothing since 5 September.</div>';
+      cap.textContent = &quot;Meteor Mite is never told anything. They texted Kip to ask if it was broken.&quot;;
+      return;
+    }
+
+    if (state.restored) {
+      if (state.variant === &quot;B&quot;) {
+        body.innerHTML =
+          '<div class=&quot;notif&quot;>' +
+            '<div class=&quot;app&quot;><span class=&quot;dot&quot;></span> Rook Dispatch</div>' +
+            '<p><b>You&amp;rsquo;ll get at least 3 callouts a week from now on.</b> Your standing ' +
+            'is still low, so taking these is what brings it back up.</p>' +
+          '</div>';
+        cap.textContent = &quot;Honest, but it asks the responder to dig themselves out.&quot;;
+        return;
+      }
+      body.innerHTML =
+        '<div class=&quot;notif&quot;>' +
+          '<div class=&quot;app&quot;><span class=&quot;dot&quot;></span> Rook Dispatch</div>' +
+          '<p><b>You&amp;rsquo;re back in rotation.</b> Your standing has been restored by Kip. ' +
+          'Callouts will start reaching you again from tonight.</p>' +
+        '</div>';
+      cap.textContent = &quot;The responder is told what changed, and by whom.&quot;;
+      return;
+    }
+
+    body.innerHTML =
+      '<div class=&quot;notif&quot;>' +
+        '<div class=&quot;app&quot;><span class=&quot;dot&quot;></span> Rook Dispatch</div>' +
+        '<p>You&amp;rsquo;ve missed <b>3 of your last 5</b> pings. That&amp;rsquo;s moving you down the order ' +
+        'for new callouts. Take the next one and it comes back.</p>' +
+        '<button class=&quot;tap&quot; id=&quot;unavail&quot;>I&amp;rsquo;m not available tonight</button>' +
+      '</div>';
+    cap.textContent = &quot;Sent on day two, while there is still something they can do about it.&quot;;
+    $(&quot;unavail&quot;).addEventListener(&quot;click&quot;, function () {
+      this.textContent = &quot;Marked unavailable until 08:00&quot;;
+      this.disabled = true;
+      toast(&quot;Availability updated — tonight's pings won't count against Meteor Mite&quot;);
+    });
+  }
+
+  /* ---------- drawer ---------- */
+  function openDrawer() {
+    $(&quot;drawer&quot;).classList.add(&quot;open&quot;);
+    $(&quot;drawer&quot;).setAttribute(&quot;aria-hidden&quot;, &quot;false&quot;);
+    $(&quot;scrim&quot;).classList.add(&quot;open&quot;);
+    setTimeout(function () {
+      $(&quot;track-fill&quot;).style.width = state.variant === &quot;A&quot; ? &quot;80%&quot; : &quot;2%&quot;;
+    }, 60);
+  }
+  function closeDrawer() {
+    $(&quot;drawer&quot;).classList.remove(&quot;open&quot;);
+    $(&quot;drawer&quot;).setAttribute(&quot;aria-hidden&quot;, &quot;true&quot;);
+    $(&quot;scrim&quot;).classList.remove(&quot;open&quot;);
+  }
+
+  /* ---------- toast ---------- */
+  var toastTimer;
+  function toast(msg) {
+    $(&quot;toast-text&quot;).textContent = msg;
+    $(&quot;toast&quot;).classList.add(&quot;show&quot;);
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { $(&quot;toast&quot;).classList.remove(&quot;show&quot;); }, 3800);
+  }
+
+  /* ---------- apply a fix: A = restore to 0.80 + floor, B = floor only ---------- */
+  function applyFix(variant) {
+    var A = variant === &quot;A&quot;;
+    state.restored = true;
+    state.variant = variant;
+
+    $(&quot;track-fill&quot;).style.width = A ? &quot;80%&quot; : &quot;2%&quot;;
+    $(&quot;track&quot;).classList.toggle(&quot;ok&quot;, A);
+    $(&quot;track-now&quot;).innerHTML = &quot;Meteor Mite &amp;mdash; &quot; + (A ? &quot;0.80&quot; : &quot;0.00&quot;);
+    $(&quot;drawer-lead&quot;).innerHTML = A
+      ? &quot;Standing restored to <b>0.80</b>, mid-roster. Meteor Mite now ranks against The Gale &quot; +
+        &quot;on proximity, which is what should decide it.&quot;
+      : &quot;Standing left at <b>0.00</b>. Meteor Mite is reachable 3 times a week and ranks last &quot; +
+        &quot;for everything else, so recovery depends entirely on them taking those three.&quot;;
+
+    $(&quot;restore&quot;).textContent = A ? &quot;Restored to 0.80&quot; : &quot;Fix B applied&quot;;
+    $(&quot;restore&quot;).disabled = true;
+    $(&quot;restore-b&quot;).disabled = true;
+    $(&quot;act-note&quot;).innerHTML = A
+      ? &quot;Applied 5 Sept. Floor of 3 offers a week runs to 3 October. Meteor Mite has been notified.&quot;
+      : &quot;Applied 5 Sept. No live record was edited. Break-even is 1.5 taken for every 1 refused; &quot; +
+        &quot;pre-August the four ran 2.4 to 5.4, but since 4.2 they are running about 1.0.&quot;;
+
+    $(&quot;mite-week&quot;).textContent = &quot;3&quot;;
+    $(&quot;mite-avg&quot;).innerHTML = 'guaranteed <small>/ wk</small>';
+    $(&quot;vesper-week&quot;).textContent = &quot;3&quot;;
+    $(&quot;vesper-avg&quot;).innerHTML = 'guaranteed <small>/ wk</small>';
+    $(&quot;gale-week&quot;).textContent = A ? &quot;13&quot; : &quot;18&quot;;
+    $(&quot;gale-taken&quot;).innerHTML = 'projected <small>/ wk</small>';
+    $(&quot;night-week&quot;).textContent = A ? &quot;15&quot; : &quot;20&quot;;
+
+    drawPlot($(&quot;plot-mite&quot;), MITE, MITE_TAKEN, { marker: true, projected: A ? PROJECTED : PROJECTED_B });
+    drawPlot($(&quot;plot-vesper&quot;), VESPER, VESPER_TAKEN, { marker: true, projected: A ? PROJECTED : PROJECTED_B });
+    drawPlot($(&quot;plot-gale&quot;), GALE, GALE_TAKEN, { marker: true, projected: A ? GALE_PROJECTED : GALE_PROJECTED_B });
+    drawPlot($(&quot;plot-night&quot;), NIGHT, NIGHT_TAKEN, { marker: true, away: NIGHT_AWAY, projected: A ? NIGHT_PROJECTED : NIGHT_PROJECTED_B });
+
+    $(&quot;card-mite&quot;).classList.add(&quot;flash&quot;);
+    $(&quot;card-vesper&quot;).classList.add(&quot;flash&quot;);
+    setTimeout(function () {
+      $(&quot;card-mite&quot;).classList.remove(&quot;flash&quot;);
+      $(&quot;card-vesper&quot;).classList.remove(&quot;flash&quot;);
+    }, 950);
+
+    renderMetrics();
+    renderSlot();
+    renderGaleSlot();
+    renderVesperSlot();
+    renderNightSlot();
+    renderPhone();
+    toast(A ? &quot;Fix A — all four restored to 0.80, back in rotation&quot;
+            : &quot;Fix B — floor of 3 a week applied, standing untouched&quot;);
+    setTimeout(closeDrawer, 900);
+  }
+
+  /* ---------- reset, so the walkthrough can be run again ---------- */
+  function resetDemo() {
+    clearPing();
+    state.restored = false;
+    state.variant = null;
+    $(&quot;restore&quot;).innerHTML = &quot;Fix A &amp;mdash; restore standing to 0.80&quot;;
+    $(&quot;restore&quot;).disabled = false;
+    $(&quot;restore-b&quot;).disabled = false;
+    $(&quot;act-note&quot;).innerHTML =
+      &quot;<b>Fix A</b> returns the four to mid-roster &amp;mdash; where the replay says they would &quot; +
+      &quot;have been had misses never been penalised &amp;mdash; and adds a floor of 3 offers a week &quot; +
+      &quot;as a backstop. <b>Fix B</b> adds the floor only and edits no live record, leaving them &quot; +
+      &quot;to climb back on their own.&quot;;
+    $(&quot;track-fill&quot;).style.width = &quot;0%&quot;;
+    $(&quot;track&quot;).classList.remove(&quot;ok&quot;);
+    $(&quot;track-now&quot;).innerHTML = &quot;Meteor Mite &amp;mdash; 0.00&quot;;
+    $(&quot;drawer-lead&quot;).innerHTML =
+      &quot;Every responder carries a score for how often they take the callouts we send. &quot; +
+      &quot;It is one of three things that decide who gets offered a job first. &quot; +
+      &quot;Meteor Mite is at the bottom of the range.&quot;;
+    $(&quot;mite-week&quot;).textContent = &quot;0&quot;;
+    $(&quot;mite-avg&quot;).innerHTML = '1 <small>/ 10 avg</small>';
+    $(&quot;gale-week&quot;).textContent = &quot;21&quot;;
+    $(&quot;gale-taken&quot;).innerHTML = '16 <small>taken</small>';
+    $(&quot;vesper-week&quot;).textContent = &quot;0&quot;;
+    $(&quot;vesper-avg&quot;).innerHTML = '1 <small>/ 14 avg</small>';
+    $(&quot;night-week&quot;).textContent = &quot;21&quot;;
+    $(&quot;night-away&quot;).innerHTML = '12 <small>/ 21 away</small>';
+    drawPlot($(&quot;plot-mite&quot;), MITE, MITE_TAKEN, { marker: true });
+    drawPlot($(&quot;plot-gale&quot;), GALE, GALE_TAKEN, { marker: true });
+    drawPlot($(&quot;plot-vesper&quot;), VESPER, VESPER_TAKEN, { marker: true });
+    drawPlot($(&quot;plot-night&quot;), NIGHT, NIGHT_TAKEN, { marker: true, away: NIGHT_AWAY });
+    closeDrawer();
+    setPhone(&quot;mite&quot;);
+    setTimer(60);
+    setMode(&quot;today&quot;);
+  }
+
+  /* ---------- headline metrics: the two numbers that disagree ---------- */
+  function renderMetrics() {
+    var long = state.timer === 90;
+    var warnIcon = '<svg width=&quot;14&quot; height=&quot;14&quot; viewBox=&quot;0 0 16 16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.8&quot;><path d=&quot;M8 2l6.5 12h-13L8 2zM8 6.5v3.2M8 11.4v1&quot;/></svg>';
+    var okIcon = '<svg width=&quot;14&quot; height=&quot;14&quot; viewBox=&quot;0 0 16 16&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot;><path d=&quot;M3 8.5l3.5 3.5L13 5&quot;/></svg>';
+
+    $(&quot;m-accept&quot;).textContent = long ? &quot;76%&quot; : &quot;64%&quot;;
+    $(&quot;m-accept&quot;).className = &quot;mv &quot; + (long ? &quot;good&quot; : &quot;bad&quot;);
+    $(&quot;m-accept-d&quot;).textContent = long
+      ? &quot;recovered — misses back to 2.3%&quot;
+      : &quot;down from 77% before 4.2 — misses at 18%&quot;;
+
+    var A = state.variant === &quot;A&quot;, B = state.variant === &quot;B&quot;;
+    $(&quot;m-stuck&quot;).textContent = A ? &quot;0&quot; : &quot;4&quot;;
+    $(&quot;m-stuck&quot;).className = &quot;mv &quot; + (A ? &quot;good&quot; : B ? &quot;warn&quot; : &quot;bad&quot;);
+    $(&quot;m-stuck-d&quot;).textContent = A
+      ? &quot;all four back in rotation&quot;
+      : B
+        ? &quot;still at 0.00 — reachable 3× a week, climbing on their own&quot;
+        : &quot;Meteor Mite, Vesper, Farlight, The Undertow&quot;;
+
+    var v = $(&quot;verdict&quot;);
+    if (B) {
+      v.className = &quot;verdict warn&quot;;
+      v.innerHTML = warnIcon + &quot;<span><b>Fix B &amp;mdash; the floor on its own.</b> No live record &quot; +
+        &quot;edited, which avoids an approval path we do not have. But break-even is 1.5 taken for &quot; +
+        &quot;every 1 refused: the four ran 2.4&amp;ndash;5.4 before August and about <b>1.0</b> since. &quot; +
+        &quot;At their old rate this takes <b>roughly 13 weeks</b>; at their current rate Meteor Mite &quot; +
+        &quot;and Farlight never climb out. The Gale and Nightwell keep most of the extra load &quot; +
+        &quot;throughout.&quot; + (long ? &quot;&quot; : &quot; The 60-second wait is still open underneath.&quot;) + &quot;</span>&quot;;
+      return;
+    }
+    if (long &amp;&amp; !state.restored) {
+      v.className = &quot;verdict warn&quot;;
+      v.innerHTML = warnIcon + &quot;<span><b>The metric recovered. The four did not.</b> &quot; +
+        &quot;Restoring the ping wait stops new people falling in. It does nothing for anyone &quot; +
+        &quot;already at the bottom &amp;mdash; they are not being offered the callouts they would &quot; +
+        &quot;now have time to answer. This is what shipping the timer alone looks like.</span>&quot;;
+    } else if (!long &amp;&amp; state.restored) {
+      v.className = &quot;verdict warn&quot;;
+      v.innerHTML = warnIcon + &quot;<span><b>The four are back, but the trap is still open.</b> &quot; +
+        &quot;At 60 seconds misses stay near 18%, so the next responder to have a bad fortnight &quot; +
+        &quot;goes the same way.</span>&quot;;
+    } else if (long &amp;&amp; state.restored) {
+      v.className = &quot;verdict ok&quot;;
+      v.innerHTML = okIcon + &quot;<span><b>Both halves done.</b> Misses back to 2.3%, nobody at &quot; +
+        &quot;the bottom, and the way back exists for whoever needs it next.</span>&quot;;
+    } else {
+      v.className = &quot;verdict bad&quot;;
+      v.innerHTML = warnIcon + &quot;<span><b>Where we are today.</b> Misses are running at 18%, &quot; +
+        &quot;up from 2.3% before 4.2, and four responders are stuck at the bottom with nothing &quot; +
+        &quot;in the code that will ever lift them off it.</span>&quot;;
+    }
+  }
+
+  function setTimer(seconds) {
+    clearPing();
+    state.timer = seconds;
+    $(&quot;t-60&quot;).setAttribute(&quot;aria-pressed&quot;, String(seconds === 60));
+    $(&quot;t-90&quot;).setAttribute(&quot;aria-pressed&quot;, String(seconds === 90));
+    renderMetrics();
+    renderPhone();
+  }
+
+  /* ---------- mode ---------- */
+  function setMode(mode) {
+    clearPing();
+    state.mode = mode;
+    $(&quot;btn-today&quot;).setAttribute(&quot;aria-pressed&quot;, String(mode === &quot;today&quot;));
+    $(&quot;btn-fixed&quot;).setAttribute(&quot;aria-pressed&quot;, String(mode === &quot;fixed&quot;));
+    $(&quot;mode-note&quot;).textContent = mode === &quot;today&quot;
+      ? &quot;Kip's console as it ships today. Both cards, same area, same week.&quot;
+      : &quot;Proposed. The card explains itself, and the responder is told.&quot;;
+    if (mode === &quot;today&quot;) closeDrawer();
+    renderMetrics();
+    renderSlot();
+    renderGaleSlot();
+    renderVesperSlot();
+    renderNightSlot();
+    renderPhone();
+  }
+
+  function syncPhoneTabs() {
+    $(&quot;ph-mite&quot;).setAttribute(&quot;aria-pressed&quot;, String(state.phone === &quot;mite&quot;));
+    $(&quot;ph-gale&quot;).setAttribute(&quot;aria-pressed&quot;, String(state.phone === &quot;gale&quot;));
+  }
+
+  function setPhone(who) {
+    clearPing();
+    state.phone = who;
+    syncPhoneTabs();
+    renderPhone();
+  }
+
+  /* ---------- wire up ---------- */
+  drawPlot($(&quot;plot-mite&quot;), MITE, MITE_TAKEN, { marker: true });
+  drawPlot($(&quot;plot-gale&quot;), GALE, GALE_TAKEN, { marker: true });
+  drawPlot($(&quot;plot-vesper&quot;), VESPER, VESPER_TAKEN, { marker: true });
+  drawPlot($(&quot;plot-night&quot;), NIGHT, NIGHT_TAKEN, { marker: true, away: NIGHT_AWAY });
+  renderMetrics();
+  renderSlot();
+  renderGaleSlot();
+  renderVesperSlot();
+  renderNightSlot();
+  renderPhone();
+
+  $(&quot;btn-today&quot;).addEventListener(&quot;click&quot;, function () { setMode(&quot;today&quot;); });
+  $(&quot;btn-fixed&quot;).addEventListener(&quot;click&quot;, function () { setMode(&quot;fixed&quot;); });
+  $(&quot;t-60&quot;).addEventListener(&quot;click&quot;, function () { setTimer(60); });
+  $(&quot;t-90&quot;).addEventListener(&quot;click&quot;, function () { setTimer(90); });
+  $(&quot;ph-mite&quot;).addEventListener(&quot;click&quot;, function () { setPhone(&quot;mite&quot;); });
+  $(&quot;ph-gale&quot;).addEventListener(&quot;click&quot;, function () { setPhone(&quot;gale&quot;); });
+  Array.prototype.forEach.call(document.querySelectorAll(&quot;.ping-btn&quot;), function (b) {
+    b.addEventListener(&quot;click&quot;, function () { sendTestPing(b.getAttribute(&quot;data-who&quot;)); });
+  });
+  $(&quot;drawer-close&quot;).addEventListener(&quot;click&quot;, closeDrawer);
+  $(&quot;scrim&quot;).addEventListener(&quot;click&quot;, closeDrawer);
+  $(&quot;restore&quot;).addEventListener(&quot;click&quot;, function () { applyFix(&quot;A&quot;); });
+  $(&quot;restore-b&quot;).addEventListener(&quot;click&quot;, function () { applyFix(&quot;B&quot;); });
+  $(&quot;reset&quot;).addEventListener(&quot;click&quot;, resetDemo);
+  document.addEventListener(&quot;keydown&quot;, function (e) { if (e.key === &quot;Escape&quot;) closeDrawer(); });
+
+  $(&quot;theme&quot;).addEventListener(&quot;click&quot;, function () {
+    var root = document.documentElement;
+    root.setAttribute(&quot;data-theme&quot;, root.getAttribute(&quot;data-theme&quot;) === &quot;dark&quot; ? &quot;light&quot; : &quot;dark&quot;);
+  });
+})();
+</script>
+</body>
+</html>
+" title="Rook Dispatch handler console prototype" loading="lazy"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- M6 SKILL -->
+<section id="m6" data-t="M6 The skill">
+  <div class="wrap">
+    <div class="mhead reveal"><span class="mnum">06</span><span class="mname">Sidekicks</span></div>
+    <h2 class="reveal d1">So it doesn't happen again.</h2>
+    <p class="lead reveal d1">4.2 was not a coding mistake. It was a decision that shipped without anyone writing down how
+      we would know it had worked. <code>review-checklist</code> grades every brief against five criteria before it becomes a release.</p>
+    <div class="panel reveal d2" style="margin-top:18px">
+      <div class="tag f"><i></i>First real runs: four wiki briefs + my own</div>
+      <div class="heat" id="heat"></div>
+      <div class="leg"><span><i style="background:rgba(76,195,138,.5)"></i>passes</span><span><i style="background:#ef5f5f"></i>flagged</span></div>
+      <div class="note"><b>Every one of Priya's briefs fails on evidence. Not a single figure between them.</b> Each case rests on one anecdote: &ldquo;Halloran's asked more than once&rdquo;, &ldquo;Aunt Dot asked for&rdquo;. My own Module 5 brief: 1 flag, no owner on the Supply step.</div>
+    </div>
+    <div class="grid g2" style="margin-top:16px">
       <div class="take reveal d3">
         <div class="tag t"><i></i>Takeaway</div>
         <p>Automation earns trust by being checked, not by running. The course-supplied sample output claimed one flag
-        per brief; the real run found nine, and the sample was dated eleven days before this repository's first commit &mdash;
-        for a skill and a folder that did not exist. The skill now tells itself to ignore it. It also graded
-        <b>my own Module 5 brief</b>: 1 flag of 5, no owner named on the Supply step.</p>
+        per brief; the real run found nine, and the sample was dated eleven days before this repository's first commit.</p>
+      </div>
+      <div class="reveal d3">
+        <details class="pr"><summary>The prompt I wrote</summary><div class="promptbox">Imagine it's Monday morning
+review-checklist flagged four gaps overnight, on four briefs in Rook's wiki that nobody in this room has read yet. You don't know yet what they mean. But you already know exactly where to look, without doing any of the digging yourself. What I should write as a prompt to test the skill in this scenario? What should I write as a prompt to test it on the brief created in module 5</div></details>
+        <div class="note">Defined in <code>.claude/skills/review-checklist/SKILL.md</code>, scheduled Monday 09:06. It reads and reports; it never edits a brief.</div>
       </div>
     </div>
   </div>
@@ -579,28 +2303,31 @@ review-checklist flagged four gaps overnight, on four briefs in Rook's wiki that
 <section data-t="What I would do">
   <div class="wrap">
     <div class="kicker reveal">Where it stands</div>
-    <h2 class="reveal d1">One small change, and three things we should have been recording.</h2>
+    <h2 class="reveal d1">One small change, and the things we should have been recording.</h2>
     <div class="grid g2 reveal d2" style="margin-top:8px">
-      <div class="panel">
-        <h3>The ask</h3>
-        <p style="margin:0">Stop counting silence as a refusal. One line. Everything else in the brief follows from it &mdash;
-        and without it, restoring the timer makes the weekly number look healthy while four people stay at zero and
+      <div class="panel ok">
+        <h3 class="green">The ask</h3>
+        <p style="margin:0">Stop counting silence as a refusal. One line. Everything else in the brief follows from it.
+        Without it, restoring the timer makes the weekly number look healthy while four people stay at zero and
         Eastgate keeps dropping incidents.</p>
       </div>
       <div class="panel" style="border-color:rgba(245,181,68,.4)">
         <h3 class="amber">The honest caveat</h3>
         <p style="margin:0">The ping data stops <b>6 September</b> and it is now November. Everything here is two months
-        stale. First action is to ask our analyst for current numbers before anyone acts on it &mdash; which is exactly the
-        criterion my own skill would flag me on.</p>
+        stale. First action: ask our analyst for current numbers before anyone acts on it.</p>
       </div>
     </div>
-    <div class="grid g3 reveal d3" style="margin-top:16px">
-      <div class="stat b"><div class="n">No delivery field</div><div class="l">We cannot tell a phone that never rang from a phone nobody answered</div></div>
-      <div class="stat b"><div class="n">No time-to-accept</div><div class="l">A headline metric we report weekly and cannot reconstruct</div></div>
-      <div class="stat b"><div class="n">No channel to responders</div><div class="l">All 147 tickets came from handlers. The two handlers of the worst-hit filed none</div></div>
+    <div class="panel reveal d3" style="margin-top:16px">
+      <div class="tag b"><i style="background:var(--blue)"></i>The whole instrument: 19 columns across 5 tables, and what's missing</div>
+      <div class="pills">
+        <span class="pill t">pings</span><span class="pill t">callouts</span><span class="pill t">responders</span><span class="pill t">handlers</span><span class="pill t">support_tickets</span>
+        <span class="pill x">&#10007; delivered?</span><span class="pill x">&#10007; time-to-accept</span><span class="pill x">&#10007; travel-time estimate (weight 0.60)</span>
+        <span class="pill x">&#10007; availability history</span><span class="pill x">&#10007; score</span><span class="pill x">&#10007; a channel to responders</span>
+      </div>
+      <div class="note">We can't tell a phone that never rang from a phone nobody answered. All 147 tickets came from handlers, and the two handlers of the worst-hit filed none.</div>
     </div>
     <p class="lead reveal d4" style="margin-top:26px">The responders who were hurt most are the ones we never heard from.
-      That is the part a dashboard was never going to tell us.</p>
+      <span class="amber">That is the part a dashboard was never going to tell us.</span></p>
   </div>
 </section>
 
@@ -611,118 +2338,156 @@ review-checklist flagged four gaps overnight, on four briefs in Rook's wiki that
 
 <script>
 (function(){
-  var secs = Array.prototype.slice.call(document.querySelectorAll('section'));
-  var dots = document.getElementById('dots');
+  var NS='http://www.w3.org/2000/svg';
+  function el(tag,attrs,parent,text){var e=document.createElementNS(NS,tag);for(var k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;if(parent)parent.appendChild(e);return e;}
+
+  // ---------- nav ----------
+  var secs=[].slice.call(document.querySelectorAll('section'));
+  var dots=document.getElementById('dots');
   secs.forEach(function(s,i){
-    s.id = 's'+i;
-    var a = document.createElement('a');
-    a.href = '#s'+i;
-    a.innerHTML = '<span>'+(s.dataset.t||'')+'</span>';
-    dots.appendChild(a);
+    if(!s.id) s.id='s'+i;
+    var a=document.createElement('a');a.href='#'+s.id;a.innerHTML='<span>'+(s.dataset.t||'')+'</span>';dots.appendChild(a);
   });
-  var links = Array.prototype.slice.call(dots.children);
-  var prog = document.getElementById('prog');
-  var hint = document.getElementById('hint');
-
+  var links=[].slice.call(dots.children), prog=document.getElementById('prog'), hint=document.getElementById('hint');
   function onScroll(){
-    var h = document.documentElement;
-    var pct = h.scrollTop / Math.max(1,(h.scrollHeight - h.clientHeight));
-    prog.style.width = (pct*100)+'%';
-    if (h.scrollTop > 80) hint.classList.add('gone');
-    var mid = h.scrollTop + window.innerHeight/2, cur = 0;
-    secs.forEach(function(s,i){ if (s.offsetTop <= mid) cur = i; });
-    links.forEach(function(a,i){ a.classList.toggle('on', i===cur); });
+    var h=document.documentElement, pct=h.scrollTop/Math.max(1,(h.scrollHeight-h.clientHeight));
+    prog.style.width=(pct*100)+'%'; if(h.scrollTop>80) hint.classList.add('gone');
+    var mid=h.scrollTop+window.innerHeight/2,cur=0; secs.forEach(function(s,i){if(s.offsetTop<=mid)cur=i;});
+    links.forEach(function(a,i){a.classList.toggle('on',i===cur);});
   }
-  window.addEventListener('scroll', onScroll, {passive:true});
-  onScroll();
-
-  var io = new IntersectionObserver(function(es){
-    es.forEach(function(e){ if (e.isIntersecting) e.target.classList.add('in'); });
-  }, {threshold:0.12});
-  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
-
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
   function go(dir){
-    var h = document.documentElement, mid = h.scrollTop + 10, cur = 0;
-    secs.forEach(function(s,i){ if (s.offsetTop <= mid) cur = i; });
-    var t = Math.min(secs.length-1, Math.max(0, cur+dir));
-    secs[t].scrollIntoView({behavior:'smooth'});
+    var h=document.documentElement,mid=h.scrollTop+10,cur=0; secs.forEach(function(s,i){if(s.offsetTop<=mid)cur=i;});
+    secs[Math.min(secs.length-1,Math.max(0,cur+dir))].scrollIntoView({behavior:'smooth'});
   }
-  document.addEventListener('keydown', function(e){
-    if (e.target && /input|textarea/i.test(e.target.tagName)) return;
-    if (e.key==='ArrowDown'||e.key==='PageDown'||e.key===' '){ e.preventDefault(); go(1); }
-    if (e.key==='ArrowUp'  ||e.key==='PageUp'){ e.preventDefault(); go(-1); }
-    if (e.key==='Home'){ e.preventDefault(); secs[0].scrollIntoView({behavior:'smooth'}); }
-    if (e.key==='End'){ e.preventDefault(); secs[secs.length-1].scrollIntoView({behavior:'smooth'}); }
+  document.addEventListener('keydown',function(e){
+    if(e.target&&/input|textarea|select|button|summary/i.test(e.target.tagName))return;
+    if(e.key==='ArrowDown'||e.key==='PageDown'||e.key===' '){e.preventDefault();go(1);}
+    if(e.key==='ArrowUp'||e.key==='PageUp'){e.preventDefault();go(-1);}
   });
 
-  // --- score cliff chart ---
-  var X0 = 60, X1 = 860;
-  function px(v){ return X0 + v*(X1-X0); }
-  var others = [0.74,0.78,0.81,0.84,0.86,0.89,0.91,0.93,0.95,0.97,0.99,1.00];
-  var four = [
-    {n:'Vesper',       a:0.00, c:0.84},
-    {n:'Farlight',     a:0.00, c:0.80},
-    {n:'The Undertow', a:0.00, c:0.78},
-    {n:'Meteor Mite',  a:0.00, c:0.76}
+  // ---------- count-up ----------
+  function countUp(node){
+    var to=parseFloat(node.dataset.to), dec=parseInt(node.dataset.dec||'0',10), t0=null, dur=1300;
+    if(to===0){node.textContent=(0).toFixed(dec);return;}
+    function f(ts){if(!t0)t0=ts;var p=Math.min(1,(ts-t0)/dur);p=1-Math.pow(1-p,3);node.textContent=(to*p).toFixed(dec);if(p<1)requestAnimationFrame(f);}
+    requestAnimationFrame(f);
+  }
+
+  // ---------- hero dots ----------
+  var hero=document.getElementById('heroDots');
+  var suppressed={1:'Vesper',6:'Farlight',11:'The Undertow',12:'Meteor Mite'};
+  for(var i=0;i<16;i++){
+    var cx=48+(i%4)*75, cy=40+Math.floor(i/4)*70, s=suppressed[i];
+    if(!s){var r=el('circle',{cx:cx,cy:cy,r:10,'class':'ring'},hero);r.style.animationDelay=((i*0.37)%3.2).toFixed(2)+'s';}
+    el('circle',{cx:cx,cy:cy,r:12,fill:'#4cc38a','class':'hd'+(s?' s':'')},hero);
+    if(s){
+      var g=el('g',{'class':'xmark'},hero);
+      el('path',{d:'M'+(cx-5)+' '+(cy-5)+' L'+(cx+5)+' '+(cy+5)+' M'+(cx+5)+' '+(cy-5)+' L'+(cx-5)+' '+(cy+5),stroke:'#fff','stroke-width':2.2,'stroke-linecap':'round'},g);
+      el('text',{x:cx,y:cy+30,'text-anchor':'middle','class':'axt hname',style:'fill:#ff9c9c'},hero,s);
+    }
+  }
+
+  // ---------- miss threshold strip (M1) ----------
+  var ms=document.getElementById('missStrip');
+  for(var m=0;m<=8;m++){
+    var x=m*50, bad=m>=4;
+    el('rect',{x:x,y:20,width:44,height:44,rx:8,fill:bad?'rgba(239,95,95,.25)':'rgba(76,195,138,.18)',stroke:bad?'#ef5f5f':'#4cc38a','class':'fade',style:'transition-delay:'+(0.08*m)+'s'},ms);
+    el('text',{x:x+22,y:48,'text-anchor':'middle','class':'vl',style:'fill:'+(bad?'#ff9c9c':'#8ff0bd')},ms,m===8?'8+':String(m));
+  }
+  el('text',{x:96,y:84,'text-anchor':'middle','class':'axt',style:'fill:#8ff0bd'},ms,'FINE, NO EXCEPTIONS');
+  el('text',{x:296,y:84,'text-anchor':'middle','class':'axt',style:'fill:#ff9c9c'},ms,'GONE, NO EXCEPTIONS');
+  el('line',{x1:197,y1:12,x2:197,y2:72,stroke:'#f5b544','stroke-width':2,'stroke-dasharray':'3 3'},ms);
+
+  // ---------- waffle (M4) ----------
+  var w=document.getElementById('waffle');
+  for(var k=0;k<97;k++){var sp=document.createElement('span');if(k<82)sp.className='h';sp.style.transitionDelay=(k*8)+'ms';w.appendChild(sp);}
+
+  // ---------- August strip (M5) ----------
+  var aug=document.getElementById('augStrip'), un={20:1,24:1,25:1,31:1};
+  for(var d=1;d<=31;d++){
+    var hit=un[d];
+    el('rect',{x:(d-1)*9.6,y:0,width:8,height:hit?26:14,rx:2,fill:hit?'#ef5f5f':'#2a3347','class':'fade',style:'transition-delay:'+(d*0.03)+'s'},aug);
+    if(hit) el('text',{x:(d-1)*9.6+4,y:42,'text-anchor':'middle','class':'axt',style:'fill:#ff9c9c;font-size:9px'},aug,String(d));
+  }
+
+  // ---------- heatmap (M6) ----------
+  var heat=document.getElementById('heat');
+  var cols=['Owner','Success measure','Scope bounded','Problem first','Evidence'];
+  var rows=[
+    ['Handler Phone App','8 Sep 2026',[0,1,1,0,0]],
+    ['Requisition Approval Chains','14 Jul 2026',[1,1,0,1,0]],
+    ['Routing Override Audit Log','5 Mar 2026',[1,0,1,1,0]],
+    ['Bulk Callout','12 Jan 2026',[0,1,1,1,0]],
+    null,
+    ['My Module 5 brief','Nov 2026',[0,1,1,1,1]]
   ];
-  var gO = document.getElementById('dotsOthers');
-  var gF = document.getElementById('dotsFour');
-  var gL = document.getElementById('fourLabels');
-  var band = document.getElementById('band');
-  var note = document.getElementById('cfNote');
-  var NS = 'http://www.w3.org/2000/svg';
-
-  others.forEach(function(v,i){
-    var c = document.createElementNS(NS,'circle');
-    c.setAttribute('cx', px(v));
-    c.setAttribute('cy', 108 + (i%4)*14);
-    c.setAttribute('r', 6);
-    c.setAttribute('fill', '#4cc38a');
-    c.setAttribute('opacity', '.85');
-    gO.appendChild(c);
+  var hh='<div></div>'; cols.forEach(function(c){hh+='<div class="hh">'+c+'</div>';});
+  var n=0;
+  rows.forEach(function(r){
+    if(!r){hh+='<div class="sep"></div>';return;}
+    var flags=r[2].filter(function(v){return!v;}).length;
+    hh+='<div class="rn">'+r[0]+'<small>'+r[1]+' &middot; '+flags+' flag'+(flags===1?'':'s')+'</small></div>';
+    r[2].forEach(function(v,ci){hh+='<div class="c '+(v?'y':'n'+(ci===4?' ev':''))+'" style="transition-delay:'+(n++*45)+'ms">'+(v?'&#10003;':'&#10007;')+'</div>';});
   });
+  heat.innerHTML=hh;
 
-  var fDots = [], fLabs = [];
-  four.forEach(function(d,i){
-    var c = document.createElementNS(NS,'circle');
-    c.setAttribute('cy', 108 + i*14);
-    c.setAttribute('r', 7);
-    c.setAttribute('fill', '#ef5f5f');
-    c.setAttribute('style','transition:cx .9s cubic-bezier(.3,.8,.3,1), fill .9s ease');
-    gF.appendChild(c); fDots.push(c);
-
-    var t = document.createElementNS(NS,'text');
-    t.setAttribute('class','axt');
-    t.setAttribute('y', 112 + i*14);
-    t.setAttribute('style','transition:x .9s cubic-bezier(.3,.8,.3,1)');
-    t.textContent = d.n;
-    gL.appendChild(t); fLabs.push(t);
-  });
-
-  var bA = document.getElementById('bActual'), bC = document.getElementById('bCf');
-  function render(mode){
-    four.forEach(function(d,i){
-      var v = (mode==='cf') ? d.c : d.a;
-      fDots[i].setAttribute('cx', px(v));
-      fDots[i].setAttribute('fill', mode==='cf' ? '#f5b544' : '#ef5f5f');
-      if (mode==='cf'){
-        fLabs[i].setAttribute('x', px(v) - 12);
-        fLabs[i].setAttribute('text-anchor','end');
-      } else {
-        fLabs[i].setAttribute('x', px(v) + 14);
-        fLabs[i].setAttribute('text-anchor','start');
-      }
+  // ---------- reveal ----------
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting)return;
+      var t=e.target; t.classList.add('in'); io.unobserve(t);
+      t.querySelectorAll('.cu').forEach(countUp);
+      t.querySelectorAll('.donut').forEach(function(c){var C=2*Math.PI*50;c.style.strokeDashoffset=C*(1-parseFloat(c.dataset.p));});
     });
-    band.setAttribute('opacity', mode==='cf' ? '.35' : '1');
-    bA.classList.toggle('on', mode!=='cf');
-    bC.classList.toggle('on', mode==='cf');
-    note.innerHTML = (mode==='cf')
-      ? 'Same month, same pings, one line changed: a miss no longer costs what a refusal costs. <b>Nobody reaches the floor &mdash; 0 of 16.</b> The four sit at 0.76&ndash;0.84, still in rotation, and the cliff disappears.'
-      : 'Four responders sit on the floor. The threshold was exact: <b>four or more misses in the first five days and you are gone; three or fewer and you are fine</b>, no exceptions.';
+  },{threshold:0.15});
+  document.querySelectorAll('.donut').forEach(function(c){var C=2*Math.PI*50;c.style.strokeDasharray=C;c.style.strokeDashoffset=C;c.style.transition='stroke-dashoffset 1.4s cubic-bezier(.3,.7,.3,1) .3s';});
+  document.querySelectorAll('.reveal').forEach(function(x){io.observe(x);});
+
+  // ---------- score cliff ----------
+  var X0=60,X1=860; function px(v){return X0+v*(X1-X0);}
+  var others=[0.74,0.78,0.81,0.84,0.86,0.89,0.91,0.93,0.95,0.97,0.99,1.00];
+  var four=[{n:'Vesper',a:0,c:0.84},{n:'Farlight',a:0,c:0.80},{n:'The Undertow',a:0,c:0.78},{n:'Meteor Mite',a:0,c:0.76}];
+  var gO=document.getElementById('dotsOthers'),gF=document.getElementById('dotsFour'),gL=document.getElementById('fourLabels');
+  var band=document.getElementById('band'),note=document.getElementById('cfNote');
+  others.forEach(function(v,i){el('circle',{cx:px(v),cy:108+(i%4)*14,r:6,fill:'#4cc38a',opacity:.85},gO);});
+  var fD=[],fL=[];
+  four.forEach(function(d,i){
+    fD.push(el('circle',{cy:108+i*14,r:7,fill:'#ef5f5f',style:'transition:cx .9s cubic-bezier(.3,.8,.3,1), fill .9s ease'},gF));
+    fL.push(el('text',{'class':'axt',y:112+i*14,style:'transition:x .9s cubic-bezier(.3,.8,.3,1)'},gL,d.n));
+  });
+  var bA=document.getElementById('bActual'),bC=document.getElementById('bCf');
+  function render(mode){
+    var cf=mode==='cf';
+    four.forEach(function(d,i){
+      var v=cf?d.c:d.a; fD[i].setAttribute('cx',px(v)); fD[i].setAttribute('fill',cf?'#f5b544':'#ef5f5f');
+      fL[i].setAttribute('x',cf?px(v)-12:px(v)+14); fL[i].setAttribute('text-anchor',cf?'end':'start');
+    });
+    band.setAttribute('opacity',cf?'.35':'1'); bA.classList.toggle('on',!cf); bC.classList.toggle('on',cf);
+    note.innerHTML=cf
+      ?'Same month, same pings, one line changed: a miss no longer costs what a refusal costs. <b>Nobody reaches the floor: 0 of 16.</b> The four sit at 0.76&ndash;0.84, still in rotation, and the cliff disappears.'
+      :'Four responders sit on the floor. The threshold was exact: <b>four or more misses in the first five days and you are gone; three or fewer and you are fine</b>, no exceptions.';
   }
-  bA.addEventListener('click', function(){ render('actual'); });
-  bC.addEventListener('click', function(){ render('cf'); });
-  render('actual');
+  bA.addEventListener('click',function(){render('actual');}); bC.addEventListener('click',function(){render('cf');}); render('actual');
+
+  // ---------- prototype ----------
+  var PROTO='05-super-speed/prototype.html';
+  function pop(e){
+    if(e) e.preventDefault();
+    var url=PROTO;
+    try{url=URL.createObjectURL(new Blob([document.getElementById('protoIframe').getAttribute('srcdoc')],{type:'text/html'}));}catch(err){}
+    var wdw=window.open(url,'rookPrototype','width=1320,height=900,resizable=yes,scrollbars=yes');
+    if(!wdw) window.open(url,'_blank');
+  }
+  document.getElementById('popOut').addEventListener('click',pop);
+  document.getElementById('popOut2').addEventListener('click',pop);
+  var ifr=document.getElementById('protoIframe');
+  var protoDoc=ifr.getAttribute('srcdoc');
+  document.getElementById('reloadProto').addEventListener('click',function(){ifr.srcdoc=protoDoc+'<!--'+Date.now()+'-->';});
+  document.getElementById('fsBtn').addEventListener('click',function(){
+    var f=document.getElementById('protoFrame'); if(f.requestFullscreen) f.requestFullscreen();
+  });
+  document.addEventListener('fullscreenchange',function(){ifr.style.height=document.fullscreenElement?'calc(100vh - 50px)':'';});
 })();
 </script>
 </body>
